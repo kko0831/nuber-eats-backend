@@ -1,0 +1,37 @@
+# Nuber Eats
+
+The Backend of Nuber Eats Clone
+
+## 0.6 Backend Setup
+
+터미널에 npm i -g @nestjs/cli 입력하여 nest 설치
+
+터미널에 nest g application 입력
+
+What name would you like to use for the new project?
+-> nuber-eats-backend 입력
+
+nuber-eats-backend 디렉토리로 이동
+
+nest-cli.json package.json README.md src test tsconfig.build.json tsconfig.json 파일 및 디렉토리가 생성됨
+
+package.json 파일을 수정하고 터미널에 npm i 입력 했을 때 ERESOLVE unable to resolve dependency tree 에러 발생
+-> npm i --legacy-peer-deps를 입력하여 해결
+
+터미널에 npm run start:dev 입력
+
+localhost:3000 접속하면 Hello World! 나옴
+
+github.com/new에서 repository name과 description을 작성하고 public으로 repository 생성
+
+터미널에 git init 입력
+
+터미널에 git remote add origin https://github.com/kko0831/nuber-eats-backend.git 입력
+
+CodeZombie의 gitignore extension을 설치
+
+vscode 왼쪽 아래에 있는 톱니바퀴를 클릭하여 comman palette 선택
+
+gitignore를 입력하여 add gitignore를 선택
+
+node를 입력하여 node.gitignore 선택하면.gitignore 파일이 생성됨
