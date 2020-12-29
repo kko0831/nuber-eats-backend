@@ -4,7 +4,7 @@ The Backend of Nuber Eats Clone
 
 ## 0.6 Backend Setup
 
-터미널에 npm i -g @nestjs/cli 입력하여 nest 설치
+터미널에 npm i -g @nestjs/cli@7.0.0 입력하여 nest 설치
 
 터미널에 nest g application 입력
 
@@ -42,3 +42,28 @@ node를 입력하여 node.gitignore 선택하면.gitignore 파일이 생성됨
 
 터미널에 npm run start:dev 입력하면 Apollo Server requires either an existing schema, modules or typeDefs 에러 발생
 -> 뒤에서 해결 예정
+
+## 1.1 Our First Resolver
+
+터미널에 nest g mo restaurants 입력
+
+src\restaurants\restaurants.resolver.ts 수정
+
+```javascript
+@Query(() => Boolean)
+  isPizzaGood(): boolean {
+    return true;
+  }
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000 접속하면 error: Not Found 화면 나옴
+
+localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  isPizzaGood: Boolean!
+}
+```
+
+볼 수 있음
