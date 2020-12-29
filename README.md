@@ -35,3 +35,10 @@ vscode 왼쪽 아래에 있는 톱니바퀴를 클릭하여 comman palette 선�
 gitignore를 입력하여 add gitignore를 선택
 
 node를 입력하여 node.gitignore 선택하면.gitignore 파일이 생성됨
+
+## 1.0 Apollo Server Setup
+
+터미널에 npm i @nestjs/graphql@7.6.0 apollo-server-express@2.17.0 graphql@15.3.0 graphql-tools@6.2.3 --legacy-peer-deps 입력
+
+터미널에 npm run start:dev 입력하면 Apollo Server requires either an existing schema, modules or typeDefs 에러 발생
+-> 뒤에서 해결 예정
