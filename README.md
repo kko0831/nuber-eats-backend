@@ -125,3 +125,49 @@ query {
 ```
 
 나옴
+
+## 1.3 Arguments
+
+src\restaurants\restaurants.resolver.ts 수정
+
+```javascript
+@Query(() => [Restaurant])
+  restaurants(@Args("veganOnly") veganOnly: boolean): Restaurant[] {
+    return [];
+  }
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  restaurants(veganOnly: Boolean!): [Restaurant!]!
+}
+
+type Restaurant {
+  name: String!
+  isGood: Boolean
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+query {
+  restaurants(veganOnly: true) {
+    name
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "restaurants": []
+  }
+```
+
+나옴
