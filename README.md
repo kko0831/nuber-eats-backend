@@ -67,3 +67,61 @@ type Query {
 ```
 
 볼 수 있음
+
+## 1.2 ObjectType
+
+src\restaurants\entities\restaurant.entity.ts 수정
+
+```javascript
+@Field(() => String)
+  name: string;
+
+@Field(() => Boolean, { nullable: true })
+  isGood?: boolean;
+```
+
+src\restaurants\restaurants.resolver.ts 수정
+
+```javascript
+@Query(() => Restaurant)
+  myRestaurant() {
+    return true;
+  }
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  myRestaurant: Restaurant!
+}
+
+type Restaurant {
+  name: String!
+  isGood: Boolean
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+query {
+  myRestaurant {
+    isGood
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "myRestaurant": {
+      "isGood": null
+    }
+  }
+```
+
+나옴
