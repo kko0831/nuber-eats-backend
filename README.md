@@ -171,3 +171,94 @@ query {
 ```
 
 나옴
+
+## 1.4 InputTypes and ArgumentTypes
+
+src\restaurants\dtos\create-restaurant.dto.ts 수정
+
+```javascript
+@Field(() => String)
+name: string;
+@Field(() => Boolean)
+isVegan: boolean;
+@Field(() => String)
+address: string;
+@Field(() => String)
+ownersName: string;
+```
+
+src\restaurants\entities\restaurant.entity.ts 수정
+
+```javascript
+@Field(() => Boolean)
+isVegan: boolean;
+
+@Field(() => String)
+address: string;
+
+@Field(() => String)
+ownersName: string;
+```
+
+src\restaurants\restaurants.resolver.ts 수정
+
+```javascript
+@Mutation(() => Boolean)
+  createRestaurant(@Args() createRestaurantDto: CreateRestaurantDto): boolean {
+    console.log(createRestaurantDto);
+    return true;
+  }
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createRestaurant(
+    name: String!
+    isVegan: Boolean!
+    address: String!
+    ownersName: String!
+  ): Boolean!
+}
+
+type Restaurant {
+  name: String!
+  isVegan: Boolean!
+  address: String!
+  ownersName: String!
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+mutation {
+  createRestaurant(
+    name: ""
+    isVegan: true
+    address: ""
+    ownersName: ""
+  )
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "createRestaurant": true
+  }
+```
+
+나옴
+
+터미널에는
+
+```javascript
+{ name: '', isVegan: true, address: '', ownersName: '' }
+```
+
+나옴
