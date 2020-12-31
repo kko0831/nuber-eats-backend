@@ -10,7 +10,6 @@ export class RestaurantResolver {
   }
   @Mutation(() => Boolean)
   createRestaurant(@Args() createRestaurantDto: CreateRestaurantDto): boolean {
-    console.log(createRestaurantDto);
     return true;
   }
 }

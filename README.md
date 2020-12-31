@@ -262,3 +262,55 @@ mutation {
 ```
 
 나옴
+
+## 1.5 Validating ArgsTypes
+
+터미널에 npm i class-validator@0.12.2 입력
+
+터미널에 npm i class-transformer@0.3.1 입력
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  createRestaurant(
+    name: "5자 미만"
+    isVegan: true
+    address: ""
+    ownersName: ""
+  )
+}
+```
+
+입력하면
+
+```javascript
+"message": [
+              "name must be longer than or equal to 5 characters"
+            ]
+```
+
+나옴
+
+```javascript
+mutation {
+  createRestaurant(
+    name: "10자 초과"
+    isVegan: true
+    address: ""
+    ownersName: ""
+  )
+}
+```
+
+입력하면
+
+```javascript
+"message": [
+              "name must be shorter than or equal to 10 characters"
+            ]
+```
+
+나옴
