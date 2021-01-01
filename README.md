@@ -325,3 +325,9 @@ pgAdmin4 실행 후 server 생성함
 nuber-eats라는 이름의 database를 생성함
 
 Login/Group Roles->postgres->Definition에서 password 변경 가능함
+
+## 2.3 TypeORM Setup
+
+터미널에 npm install --save @nestjs/typeorm@7.1.4 pg@8.3.3 typeorm@0.2.26 입력
+
+터미널에 npm run start:dev 입력하면 백엔드와 DB가 연결됨
