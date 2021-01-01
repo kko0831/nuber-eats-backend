@@ -314,3 +314,14 @@ mutation {
 ```
 
 나옴
+
+## 2.2 Windows Setup
+
+PostgreSQL 다운로드 및 설치
+-> devkuma.com/books/pages/1425
+
+pgAdmin4 실행 후 server 생성함
+
+nuber-eats라는 이름의 database를 생성함
+
+Login/Group Roles->postgres->Definition에서 password 변경 가능함
