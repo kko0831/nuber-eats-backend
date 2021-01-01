@@ -377,3 +377,21 @@ Error: Config validation error: "NODE_ENV" must be [넣은 내용]
 ```javascript
 Error: Config validation error: "DB_PASSWORD" is required
 ```
+
+## 3.0 Our First Entity
+
+src\restaurants\entities\restaurant.entity.ts 수정
+
+```javascript
+@PrimaryGeneratedColumn()
+@Field(() => Number)
+id: number;
+
+@Field(() => String)
+@Column()
+categoryName: string;
+```
+
+터미널에 npm run start:dev 입력하면 DB에 restaurant 테이블 생성됨
+
+pgAdmin에서 restaurant 테이블에 id, name, isVegan, address, ownersName, categoryName Column이 있음
