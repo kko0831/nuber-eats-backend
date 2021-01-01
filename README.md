@@ -343,3 +343,19 @@ Login/Group Roles->postgres->Definition에서 password 변경 가능함
 터미널에 npm i cross-env@7.0.2 입력
 
 .gitignore에 .env.dev 추가
+
+## 2.5 Configuring ConfigService
+
+package.json 수정
+
+.env.dev 작성
+
+```javascript
+DB_HOST = localhost;
+DB_PORT = 5432;
+DB_USERNAME = postgres;
+DB_PASSWORD = DB 비밀번호;
+DB_NAME = nuber - eats;
+```
+
+터미널에 npm run start:dev 입력하여 백엔드 동작 확인
