@@ -359,3 +359,21 @@ DB_NAME = nuber - eats;
 ```
 
 터미널에 npm run start:dev 입력하여 백엔드 동작 확인
+
+## 2.6 Validating ConfigService
+
+터미널에 npm i joi@17.2.1 입력
+
+터미널에 npm run start:dev 입력하여 환경변수의 유효성 확인
+
+src\app.module.ts의 validationSchema에서 NODE_ENV에 "dev"나"prod"가 아닌 것을 넣으면
+
+```javascript
+Error: Config validation error: "NODE_ENV" must be [넣은 내용]
+```
+
+.env.dev의 DB_PASSWORD를 지우면 에러 발생
+
+```javascript
+Error: Config validation error: "DB_PASSWORD" is required
+```
