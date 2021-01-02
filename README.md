@@ -395,3 +395,48 @@ categoryName: string;
 터미널에 npm run start:dev 입력하면 DB에 restaurant 테이블 생성됨
 
 pgAdmin에서 restaurant 테이블에 id, name, isVegan, address, ownersName, categoryName Column이 있음
+
+## 3.2 Injecting The Repository
+
+src\restaurants\entities\restaurant.entity.ts에서 graphql schema의 id type을 Int로 수정
+
+```javascript
+@PrimaryGeneratedColumn()
+@Field(() => Int)
+id: number;
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Restaurant {
+  id: Int!
+  name: String!
+  isVegan: Boolean!
+  address: String!
+  ownersName: String!
+  categoryName: String!
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+query {
+  restaurants {
+    id
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "restaurants": []
+  }
+```
+
+나옴
