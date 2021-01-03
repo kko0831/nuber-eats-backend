@@ -440,3 +440,33 @@ query {
 ```
 
 나옴
+
+## 3.4 Create Restaurant
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  createRestaurant(
+    name: "kko is a"
+    isVegan: false
+    address: "123"
+    ownersName: "123"
+  )
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "createRestaurant": false
+  }
+```
+
+나옴
+
+터미널에 "categoryName" 칼럼의 null 값이 not null 제약조건을 위반했습니다. 에러 발생
+-> 뒤에서 해결 예정
