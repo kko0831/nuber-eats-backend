@@ -518,3 +518,57 @@ createRestaurant을 mutation할때 input field에 isVegan과 address를 안 넣�
 ```
 
 나옴
+
+## 3.7 Update Restaurant part One
+
+src\restaurants\dtos\update-restaurant.dto.ts에서 graphql schema의 id type을 Int로 수정
+
+```javascript
+@Field(() => Int)
+  id: number;
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createRestaurant(input: CreateRestaurantDto!): Boolean!
+  updateRestaurant(input: UpdateRestaurantDto!): Boolean!
+}
+
+input UpdateRestaurantDto {
+  id: Int!
+  data: UpdateRestaurantInputType!
+}
+
+input UpdateRestaurantInputType {
+  name: String
+  isVegan: Boolean
+  address: String = "송파"
+}
+```
+
+볼 수 있음
+
+```javascript
+mutation {
+  updateRestaurant(
+    input: {
+      id: 3
+      data: {
+        name: "Without isVegan"
+      }
+    }
+  )
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "updateRestaurant": true
+  }
+```
+
+나옴
