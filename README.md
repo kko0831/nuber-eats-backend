@@ -470,3 +470,51 @@ mutation {
 
 터미널에 "categoryName" 칼럼의 null 값이 not null 제약조건을 위반했습니다. 에러 발생
 -> 뒤에서 해결 예정
+
+## 3.6 Optional Types and Columns
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createRestaurant(input: CreateRestaurantDto!): Boolean!
+}
+
+input CreateRestaurantDto {
+  name: String!
+  isVegan: Boolean
+  address: String = "송파"
+}
+```
+
+볼 수 있음
+
+```javascript
+mutation {
+  createRestaurant(
+    input: {
+      name: "Without isVegan"
+    }
+  )
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "createRestaurant": true
+  }
+```
+
+나옴
+
+createRestaurant을 mutation할때 input field에 isVegan과 address를 안 넣어도 pgAdmin의 restaurant 테이블에 생성된 record의 isVegan이 true, address가 송파로 됨
+
+터미널에는
+
+```javascript
+[Object: null prototype] { name: 'Without isVegan', address: '송파' }
+```
+
+나옴
