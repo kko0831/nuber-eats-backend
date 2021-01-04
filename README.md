@@ -2,6 +2,24 @@
 
 The Backend of Nuber Eats Clone
 
+## User Model:
+
+- id
+- createdAt
+- updatedAt
+
+- email
+- password
+- role(client|owner|delivery)
+
+## User CRUD:
+
+- Create Account
+- Log In
+- See Profile
+- Edit Profile
+- Verify Email
+
 ## 0.6 Backend Setup
 
 터미널에 npm i -g @nestjs/cli@7.0.0 입력하여 nest 설치
@@ -604,3 +622,15 @@ mutation {
 나옴
 
 updateRestaurant을 mutation할때 restaurant의 id를 선택하고 name과 isVegan 값을 바꾸면 pgAdmin의 restaurant 테이블에 있는 해당 record의 name과 isVegan 값이 바뀜
+
+## 4.1 User Model
+
+터미널에 nest g mo users 입력
+
+터미널에 nest g mo common 입력
+
+터미널에 npm run start:dev 입력하면 DB에 user 테이블 생성됨
+
+pgAdmin에서 user 테이블에 id, createdAt, updatedAt, email, password, role Column이 있음
+
+resolver 작업을 안 해서 GraphQLError [Object]: Query root type must be provided. 에러가 나오는데 뒤에서 해결 예정
