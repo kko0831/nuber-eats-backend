@@ -572,3 +572,35 @@ mutation {
 ```
 
 나옴
+
+## 3.8 Update Restaurant part Two
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  updateRestaurant(
+    input: {
+      id: 3
+      data: {
+        name: "Updated"
+        isVegan: false
+      }
+    }
+  )
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "updateRestaurant": true
+  }
+```
+
+나옴
+
+updateRestaurant을 mutation할때 restaurant의 id를 선택하고 name과 isVegan 값을 바꾸면 pgAdmin의 restaurant 테이블에 있는 해당 record의 name과 isVegan 값이 바뀜
