@@ -634,3 +634,33 @@ updateRestaurant을 mutation할때 restaurant의 id를 선택하고 name과 isVe
 pgAdmin에서 user 테이블에 id, createdAt, updatedAt, email, password, role Column이 있음
 
 resolver 작업을 안 해서 GraphQLError [Object]: Query root type must be provided. 에러가 나오는데 뒤에서 해결 예정
+
+## 4.2 User Resolver and Service
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  hi: Boolean!
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+query {
+  hi
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "hi": true
+  }
+```
+
+나옴
