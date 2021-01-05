@@ -695,3 +695,23 @@ type CreateAccountOutput {
 ```
 
 볼 수 있음
+
+## 4.4 Create Account Mutation part Two
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+input CreateAccountInput {
+  email: String!
+  password: String!
+  role: UserRole!
+}
+
+enum UserRole {
+  Client
+  Owner
+  Delivery
+}
+```
+
+볼 수 있음
