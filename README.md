@@ -664,3 +664,34 @@ query {
 ```
 
 나옴
+
+## 4.3 Create Account Mutation part One
+
+src\common\entities\core.entity.ts에서 graphql schema의 id type을 Int로 수정
+
+```javascript
+@PrimaryGeneratedColumn()
+@Field(() => Int)
+id: number;
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+}
+
+input CreateAccountInput {
+  email: String!
+  password: String!
+  role: String!
+}
+
+type CreateAccountOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
