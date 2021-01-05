@@ -715,3 +715,37 @@ enum UserRole {
 ```
 
 볼 수 있음
+
+## 4.5 Create Account Mutation part Three
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  createAccount(input: {
+    email: "nico@las.com"
+    password: "12345"
+    role: Client
+  }) {
+    ok
+    error
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "createAccount": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성됨
