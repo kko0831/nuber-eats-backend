@@ -749,3 +749,7 @@ mutation {
 나옴
 
 createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성됨
+
+## 4.6 An Alternative Error
+
+error를 처리하는 방식 수정함
