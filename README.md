@@ -753,3 +753,45 @@ createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성됨
 ## 4.6 An Alternative Error
 
 error를 처리하는 방식 수정함
+
+## 4.7 Hashing Passwords
+
+데이터베이스에 비밀번호를 바로 입력하는 것은 나쁜 보안 방법이므로 password를 hash함
+
+pgAdmin의 user 테이블에 있는 record를 삭제함
+
+터미널에 npm i bcrypt@5.0.0 입력
+
+터미널에 npm i @types/bcrypt@3.0.0 --dev-only 입력
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  createAccount(input: {
+    email: "nico@las.com"
+    password: "12345"
+    role: Client
+  }) {
+    ok
+    error
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "createAccount": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성되고 password가 hash됨
