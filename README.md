@@ -838,3 +838,52 @@ mutation {
 입력하면
 
 "Cannot return null for non-nullable field Mutation.login." 에러가 나오는데 뒤에서 해결 예정
+
+## 4.9 Log In part Two
+
+src\users\users.service.ts에 login function을 만듦
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "nico@las.com"
+    password: "12345"
+  }) {
+    ok
+    error
+    token
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": true,
+      "error": null,
+      "token": "lalalalalala"
+    }
+  }
+```
+
+나옴
+
+password를 다르게 입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": false,
+      "error": "Wrong password",
+      "token": null
+    }
+  }
+```
+
+나옴
