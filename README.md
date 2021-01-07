@@ -795,3 +795,46 @@ mutation {
 나옴
 
 createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성되고 password가 hash됨
+
+## 4.8 Log In part One
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+}
+
+input LoginInput {
+  email: String!
+  password: String!
+}
+
+type LoginOutput {
+  error: String
+  ok: Boolean!
+  token: String!
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "nico@las.com"
+    password: "12345"
+  }) {
+    ok
+    error
+    token
+  }
+}
+```
+
+입력하면
+
+"Cannot return null for non-nullable field Mutation.login." 에러가 나오는데 뒤에서 해결 예정
