@@ -354,9 +354,9 @@ Login/Group Roles->postgres->Definition에서 password 변경 가능함
 
 터미널에 npm i --save @nestjs/config@0.5.0 입력
 
-.env.dev 파일 생성
+루트 디렉토리에 .env.dev 파일 생성
 
-.env.test 파일 생성
+루트 디렉토리에 .env.test 파일 생성
 
 터미널에 npm i cross-env@7.0.2 입력
 
@@ -887,3 +887,15 @@ password를 다르게 입력하면
 ```
 
 나옴
+
+## 5.1 Generating JWT
+
+token을 만듦
+
+터미널에 npm i jsonwebtoken@8.5.1 입력
+
+터미널에 npm i @types/jsonwebtoken@8.5.0 --only-dev 입력
+
+.env.dev에 SECRET_KEY 추가
+
+SECRET_KEY=randomkeygen.com 사이트의 CodeIgniter Encryption Keys에 있는 임의의 key를 넣음
