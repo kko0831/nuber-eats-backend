@@ -899,3 +899,44 @@ token을 만듦
 .env.dev에 SECRET_KEY 추가
 
 SECRET_KEY=randomkeygen.com 사이트의 CodeIgniter Encryption Keys에 있는 임의의 key를 넣음
+
+## 5.2 JWT and Modules
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "nico@las.com"
+    password: "12345"
+  }) {
+    ok
+    error
+    token
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": true,
+      "error": null,
+      "token": jwt.sign된 token 값
+    }
+  }
+```
+
+나옴
+
+jwt.io 사이트의 Encoded에 생성된 token을 넣으면 payload(data)를 볼 수 있음
+
+터미널에 nest g mo jwt 입력
+
+static module은 어떠한 설정도 적용되어 있지 않은 module임
+
+dynamic module은 설정이 존재하는 module임
