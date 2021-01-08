@@ -940,3 +940,9 @@ jwt.io 사이트의 Encoded에 생성된 token을 넣으면 payload(data)를 볼
 static module은 어떠한 설정도 적용되어 있지 않은 module임
 
 dynamic module은 설정이 존재하는 module임
+
+## 5.3 JWT Module part One
+
+터미널에 nest g s jwt 입력하고 jwt.service 작성
+
+src\jwt\jwt.service.spec.ts 파일 삭제
