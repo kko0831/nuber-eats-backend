@@ -946,3 +946,9 @@ dynamic module은 설정이 존재하는 module임
 터미널에 nest g s jwt 입력하고 jwt.service 작성
 
 src\jwt\jwt.service.spec.ts 파일 삭제
+
+## 5.4 JWT Module part Two
+
+global jwt module을 만듦
+
+.env.dev에 있는 SECRET_KEY를 PRIVATE_KEY로 바꿈
