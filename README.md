@@ -1029,3 +1029,41 @@ query {
 ## 5.7 JWT Middleware
 
 headers에서 user를 request에 보내는 middleware 구현
+
+## 5.8 GraphQL Context
+
+graphql로 request를 공유함
+
+request를 graphql resolver에 전달함
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "me": {
+      "email": "nico@las.com"
+    }
+  }
+```
+
+나옴
