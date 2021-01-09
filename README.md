@@ -1025,3 +1025,7 @@ query {
 나옴
 
 터미널에서 req.headers 값을 볼 수 있음
+
+## 5.7 JWT Middleware
+
+headers에서 user를 request에 보내는 middleware 구현
