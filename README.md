@@ -989,3 +989,39 @@ mutation {
 나옴
 
 jwt.io 사이트의 Encoded에 생성된 token을 넣으면 payload(data)가 나오지 않음
+
+## 5.6 Middlewares in NestJS
+
+middleware를 사용하는 방식은 bootstrap()에서 사용할 수 있는 방법이 있고 어플리케이션 전체에서 사용 가능함
+
+다른방식으로는 AppModule에서 comsumer를 사용하고 어떤 경로에 middleware를 제외 또는 적용 시켜줄지 정하는 방법이 있음
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"message": "Cannot return null for non-nullable field Query.me.",
+```
+
+나옴
+
+터미널에서 req.headers 값을 볼 수 있음
