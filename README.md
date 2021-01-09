@@ -952,3 +952,40 @@ src\jwt\jwt.service.spec.ts 파일 삭제
 global jwt module을 만듦
 
 .env.dev에 있는 SECRET_KEY를 PRIVATE_KEY로 바꿈
+
+## 5.5 JWT Module part Three
+
+users.service에 있는 jwt.sign을 sign할때 JwtService를 쓰도록 만듦
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "nico@las.com"
+    password: "12345"
+  }) {
+    ok
+    error
+    token
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": true,
+      "error": null,
+      "token": jwt.sign된 token 값
+    }
+  }
+```
+
+나옴
+
+jwt.io 사이트의 Encoded에 생성된 token을 넣으면 payload(data)가 나오지 않음
