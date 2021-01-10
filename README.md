@@ -1123,3 +1123,41 @@ authentication은 누가 자원을 요청하는지 확인하는 과정
 token으로 identity를 확인함
 
 authorization은 user가 어떤 일을 하기 전에 permission을 가지고 있는지 확인하는 과정
+
+## 5.10 AuthUser Decorator
+
+login 되어있지 않다면 request를 멈추게 함
+
+login 되어있다면 request를 진행시킴
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "me": {
+      "email": "nico@las.com"
+    }
+  }
+```
+
+나옴
