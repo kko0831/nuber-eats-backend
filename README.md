@@ -1067,3 +1067,59 @@ query {
 ```
 
 나옴
+
+## 5.9 AuthGuard
+
+터미널에 nest g mo auth 입력
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"message": "Cannot return null for non-nullable field Query.me."
+```
+
+나옴
+
+시크릿 모드에서 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+```javascript
+"message": "Forbidden resource"
+```
+
+나옴
+
+authentication은 누가 자원을 요청하는지 확인하는 과정
+
+token으로 identity를 확인함
+
+authorization은 user가 어떤 일을 하기 전에 permission을 가지고 있는지 확인하는 과정
