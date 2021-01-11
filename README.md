@@ -1312,3 +1312,88 @@ query {
 ```
 
 나옴
+
+## 5.13 updateProfile part One
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+}
+
+input EditProfileInput {
+  email: String
+  password: String
+}
+
+type EditProfileOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "me": {
+      "email": "nico@las.com"
+    }
+  }
+```
+
+나옴
+
+playground에서
+
+```javascript
+mutation {
+  editProfile(input: {
+    email: "nico@nomad.com"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"message": "\"password\" 칼럼의 null 값이 not null 제약조건을 위반했습니다."
+```
+
+나옴
+
+뒤에서 해결 예정
