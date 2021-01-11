@@ -1205,3 +1205,110 @@ guard에 의해 request가 authorize되면 resolver에 decorator가 필요함
 decorator는 graphql context에서 찾은 user와 같은 user를 찾으려고 함
 
 같은 graphql context의 user를 찾고 return 함
+
+## 5.12 userProfile
+
+user의 profile을 볼 수 있는 query를 추가함
+
+src\users\dtos\user-profile.dto.ts에서 graphql schema의 userId type을 Int로 수정
+
+```javascript
+@Field(() => Int)
+userId: number;
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  me: User!
+  userProfile(userId: Int!): UserProfileOutput!
+}
+
+type UserProfileOutput {
+  error: String
+  ok: Boolean!
+  user: User
+}
+
+type User {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  password: String!
+  role: UserRole!
+}
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+query {
+  me {
+    id
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "me": {
+      "id": 2,
+      "email": "nico@las.com"
+    }
+  }
+```
+
+나옴
+
+playground에서
+
+```javascript
+query {
+  userProfile(userId: 2) {
+    ok
+    error
+    user {
+      id
+    }
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "userProfile": {
+      "ok": true,
+      "error": null,
+      "user": {
+        "id": 2
+      }
+    }
+  }
+```
+
+나옴
