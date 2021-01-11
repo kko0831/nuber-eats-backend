@@ -1161,3 +1161,47 @@ query {
 ```
 
 나옴
+
+## 5.11 Recap
+
+authentication이 어떻게 작동하는지 정리함
+
+header에 token을 보냄
+
+header는 http 기술에 쓰임
+
+http 기술을 쓰기 위해서 middleware를 만듦
+
+middleware는 header를 가져다가 jwtService.verify()를 사용함
+
+user id를 찾게 되면 userService를 사용해 해당 id를 가진 user를 찾음
+
+userService는 typeorm의 findOne 함수를 쓰는 findById function을 가지고 있음
+
+db에서 user를 찾으면 그 user를 request object에 붙여서 보냄
+
+app.modlue에서 context를 보면 apollo server의 context나 graphql의 context는 모든 resolver에 정보를 보낼 수 있는 property임
+
+context에서 function을 만들면 그 function이 request object를 줌
+
+request object는 user key를 가진 http에 해당됨
+
+먼저 JwtMiddleware를 거치고 graphql context에 request user를 보냄
+
+users resolver를 보면 guard가 있음 
+
+guard는 canActivate function의 기능을 보충함
+
+canActivate function은 true나 false를 return 해야함
+
+true를 return하면 request를 진행시키고 false를return하면 request를 중지시킴
+
+header에 token을 보내는 걸로 시작해서 token을 decrypt, verify하는 middleware를 거쳐 request object에 user를 추가함
+
+request object가 graphql context 안으로 들어가게 되고 guard가 graphql context를 찾아 user가 있는지 없는지에 따라 true, false를 return 함
+
+guard에 의해 request가 authorize되면 resolver에 decorator가 필요함
+
+decorator는 graphql context에서 찾은 user와 같은 user를 찾으려고 함
+
+같은 graphql context의 user를 찾고 return 함
