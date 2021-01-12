@@ -1509,3 +1509,114 @@ password에 대한 editProfile을 mutation하면 pgAdmin의 user 테이블에 �
 users.service에서 update를 호출하고 있는데 user.entity의 @BeforeUpdate를 부르지 못 함
 
 뒤에서 해결 예정
+
+## 5.15 updateProfile part Three
+
+typeorm이 BeforeUpdate hook을 부르지 못 함
+
+users repository에서 this.users.update()를 쓰고 있음
+
+update()는 엄청 빠르고 효율적으로 query를 update함
+
+entity가 있는지 없는지는 확인하지 않음
+
+그저 db에 query만 보냄
+
+BeforeUpdate는 특정 entity를 update 해야 부를 수 있음
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  editProfile(input: {
+    password: "123123123"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "editProfile": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+password에 대한 editProfile을 mutation하면 pgAdmin의 user 테이블에 바뀐 password가 hash 됨
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "nico@nomad.com"
+    password: "123123123"
+  }) {
+    ok
+    token
+    error
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": true,
+      "token": "jwt.sign된 token 값",
+      "error": null
+    }
+  }
+```
+
+나옴
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "me": {
+      "email": "nico@nomad.com"
+    }
+  }
+```
+
+나옴
