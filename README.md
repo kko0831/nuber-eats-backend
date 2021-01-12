@@ -1397,3 +1397,115 @@ mutation {
 나옴
 
 뒤에서 해결 예정
+
+## 5.14 updateProfile part Two
+
+password column을 null로 만들려 하고 있고 password column은 null이면 안 됨
+
+editProfile을 mutation 했을 때 password column에 null value를 보냄
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  editProfile(input: {
+    email: "nico@nomad.com"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "editProfile": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+playground에서
+
+```javascript
+query {
+  me {
+    email
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "me": {
+      "email": "nico@nomad.com"
+    }
+  }
+```
+
+나옴
+
+playground에서
+
+```javascript
+mutation {
+  editProfile(input: {
+    password: "15151515"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "editProfile": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+password에 대한 editProfile을 mutation하면 pgAdmin의 user 테이블에 바뀐 password가 hash되지 않음
+
+users.service에서 update를 호출하고 있는데 user.entity의 @BeforeUpdate를 부르지 못 함
+
+뒤에서 해결 예정
