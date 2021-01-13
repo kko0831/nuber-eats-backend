@@ -1620,3 +1620,11 @@ query {
 ```
 
 나옴
+
+## 6.0 Verification Entity
+
+터미널에 npm run start:dev 입력하면 DB에 verification 테이블 생성됨
+
+pgAdmin에서 verification 테이블에 id, createdAt, updatedAt, code, userId Column이 있음
+
+user 테이블에 verified Column이 추가되었고 그 값은 false임
