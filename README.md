@@ -1664,3 +1664,49 @@ mutation {
 createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성되고 verified 값이 false가 됨
 
 verification 테이블에 record가 생성되고 userId 값이 3이 됨
+
+## 6.2 Verifying User part One
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+}
+
+input VerifyEmailInput {
+  code: String!
+}
+
+type VerifyEmailOutput {
+  error: String
+  ok: Boolean!
+}
+
+```
+
+볼 수 있음
+
+playground에서
+
+```javascript
+mutation {
+  verifyEmail(input: {
+    code: "createAccount를 mutation 할 때 생성된 code"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+```javascript
+"message": "Cannot return null for non-nullable field Mutation.verifyEmail."
+```
+
+나옴
+
+verifyEmail을 mutation하면 pgAdmin의 user 테이블에서 해당 record의 verified 값이 true가 됨
