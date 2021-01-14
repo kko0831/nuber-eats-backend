@@ -1628,3 +1628,39 @@ query {
 pgAdmin에서 verification 테이블에 id, createdAt, updatedAt, code, userId Column이 있음
 
 user 테이블에 verified Column이 추가되었고 그 값은 false임
+
+## 6.1 Creating Verifications
+
+터미널에 npm install uuid@8.3.1 입력
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  createAccount(input: {
+    email: "new@account.com"
+    password: "121212"
+    role: Client
+  }) {
+    ok
+    error
+  }
+}
+```
+
+```javascript
+"data": {
+    "createAccount": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+createAccount를 mutation하면 pgAdmin의 user 테이블에 record가 생성되고 verified 값이 false가 됨
+
+verification 테이블에 record가 생성되고 userId 값이 3이 됨
