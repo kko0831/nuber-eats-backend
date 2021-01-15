@@ -1831,3 +1831,19 @@ verifyEmail을 mutation하면 pgAdmin의 user 테이블에서 해당 record의 v
 resolver는 input들을 받아다가 그 input들을 service로 전달해줌
 
 service는 그 input들을 다루는 로직이 정의됨
+
+## 6.5 Mailgun Setup
+
+mailgun.com 사이트에 로그인 함
+
+Dashboard 아래쪽 Sending domains에 샌드박스 도메인이 있음
+
+샌드박스 도메인은 이 도메인으로부터 이메일을 보낸다는 것을 의미함
+
+Settings의 API Keys를 클릭하여 Private API key를 확인함
+
+Sending의 Overview를 클릭하여 Authorized Recipients에 이메일 주소 입력함
+
+Mailgun으로부터 온 이메일을 확인하고 I Agree를 클릭함
+
+Confirm 화면에서 Yes를 클릭하면 Success됨
