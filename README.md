@@ -1823,3 +1823,11 @@ mutation {
 나옴
 
 verifyEmail을 mutation하면 pgAdmin의 user 테이블에서 해당 record의 verified 값이 true가 되고 password는 바뀌지 않음
+
+## 6.4 Cleaning the Code
+
+기본적으로 resolver가 할 일은 몇 개의 input을 받아다가 service를 return 하는 일임
+
+resolver는 input들을 받아다가 그 input들을 service로 전달해줌
+
+service는 그 input들을 다루는 로직이 정의됨
