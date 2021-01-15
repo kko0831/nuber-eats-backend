@@ -1650,6 +1650,8 @@ mutation {
 }
 ```
 
+입력하면
+
 ```javascript
 "data": {
     "createAccount": {
@@ -1703,6 +1705,8 @@ mutation {
 }
 ```
 
+입력하면
+
 ```javascript
 "message": "Cannot return null for non-nullable field Mutation.verifyEmail."
 ```
@@ -1710,3 +1714,112 @@ mutation {
 나옴
 
 verifyEmail을 mutation하면 pgAdmin의 user 테이블에서 해당 record의 verified 값이 true가 됨
+
+## 6.3 Verifying User part Two
+
+account를 verify하면 의도치 않게 password의 hash 또한 바뀌고 있음
+
+password를 verify하면 hash된 것에 또 hash를 하고 있음
+
+그래서 로그인을 시도해보면 false가 나옴
+
+해당 account는 잠겨버림
+
+pgAdmin의 user 테이블에서 verification이 있다는 이유로 해당 record를 지울 수 없음
+
+verification은 user에 의존함
+
+verification은 user를 갖고 있어야 함
+
+그래서 user를 삭제할 수 없음
+
+user.entity.ts와 verification.entity.ts를 수정하고 pgAdmin의 user 테이블에서 해당 record를 지우면 그 user에 해당하는 verification 테이블에서의 record도 삭제됨
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  createAccount(input: {
+    email: "new@account.com"
+    password: "121212"
+    role: Client
+  }) {
+    ok
+    error
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "createAccount": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+users.service.ts를 수정하고
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "new@account.com"
+    password: "121212"
+  }) {
+    ok
+    error
+    token
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": true,
+      "error": null,
+      "token": "login을 mutation 했을 때 생성되는 token"
+    }
+  }
+```
+
+나옴
+
+playground에서
+
+```javascript
+mutation {
+  verifyEmail(input: {
+    code: "createAccount를 mutation 할 때 생성된 code"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "verifyEmail": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+verifyEmail을 mutation하면 pgAdmin의 user 테이블에서 해당 record의 verified 값이 true가 되고 password는 바뀌지 않음
