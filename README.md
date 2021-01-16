@@ -1847,3 +1847,11 @@ Sending의 Overview를 클릭하여 Authorized Recipients에 이메일 주소 �
 Mailgun으로부터 온 이메일을 확인하고 I Agree를 클릭함
 
 Confirm 화면에서 Yes를 클릭하면 Success됨
+
+## 6.6 Mail Module Setup
+
+이메일 모듈을 만듦
+
+터미널에 nest g mo mail 입력
+
+.env.dev에 MAILGUN_API_KEY, MAILGUN_DOMAIN_NAME, MAILGUN_FROM_EMAIL 추가
