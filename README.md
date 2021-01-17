@@ -1855,3 +1855,17 @@ Confirm 화면에서 Yes를 클릭하면 Success됨
 터미널에 nest g mo mail 입력
 
 .env.dev에 MAILGUN_API_KEY, MAILGUN_DOMAIN_NAME, MAILGUN_FROM_EMAIL 추가
+
+## 6.7 Mailgun API
+
+메일 서비스를 만듦
+
+이메일을 보내는 함수를 만듦
+
+인증 메일을 보내는 서비스로 확장시킴
+
+터미널에 npm i got@11.7.0 입력
+
+터미널에 npm i form-data@3.0.0 입력
+
+터미널에 npm run start:dev 입력하고 이메일이 온 것을 확인함
