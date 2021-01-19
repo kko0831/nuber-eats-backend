@@ -1895,3 +1895,76 @@ Thanks for choosing 문구를 Thanks for choosing Nuber Eats로 수정(text 바�
 Unsubscribe from these alerts 문구 삭제(text 지움)
 
 터미널에 npm run start:dev 입력하고 이메일이 온 것을 확인함
+
+## 6.9 Refactor
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+playground에서
+
+```javascript
+mutation {
+  login(input: {
+    email: "new@account.com"
+    password: "121212"
+  }) {
+    ok
+    error
+    token
+  }
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "login": {
+      "ok": true,
+      "error": null,
+      "token": "login을 mutation 했을 때 생성되는 token"
+    }
+  }
+```
+
+나옴
+
+pgAdmin의 verification 테이블에 있는 record를 삭제함
+
+playground에서
+
+```javascript
+mutation {
+  editProfile(input: {
+    email: "lilili@lololo.com"
+  }) {
+    ok
+    error
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "login mutation 했을 때 생성된 token 값"
+}
+```
+
+입력하면
+
+```javascript
+"data": {
+    "editProfile": {
+      "ok": true,
+      "error": null
+    }
+  }
+```
+
+나옴
+
+이메일이 온 것을 확인함
+
+Click Here To Confirm 버튼을 클릭하면 확인코드가 나옴
