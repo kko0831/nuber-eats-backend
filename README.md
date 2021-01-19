@@ -1869,3 +1869,29 @@ Confirm 화면에서 Yes를 클릭하면 Success됨
 터미널에 npm i form-data@3.0.0 입력
 
 터미널에 npm run start:dev 입력하고 이메일이 온 것을 확인함
+
+## 6.8 Beautiful Emails
+
+mailgun 사이트의 Dashboard 아래쪽 Sending의 Templates에서 원하는 메세지 템플릿을 만들 수 있음
+
+Create Message Template를 클릭하여 Alert template를 선택함
+
+Editor에서 Warnig 문구를 Please Confirm your email로 수정(text 바꿈)
+
+title text를 Confirm Nuber Eats Account로 수정함
+
+Name에 verify-email을 입력함
+
+Editor에서 You have 문구를 Hello {{username}}!으로 수정(text 바꿈)
+
+Add your 문구를 Please confirm your account!로 수정(text 바꿈)
+
+Upgrade my account 문구를 Click Here To Confirm으로 수정(text 바꿈)
+
+Thanks for choosing 문구를 Thanks for choosing Nuber Eats로 수정(text 바꿈)
+
+77번째 줄에서 a 태그의 ref를 "http://localhost:3000/confirm?code={{code}}"로 수정
+
+Unsubscribe from these alerts 문구 삭제(text 지움)
+
+터미널에 npm run start:dev 입력하고 이메일이 온 것을 확인함
