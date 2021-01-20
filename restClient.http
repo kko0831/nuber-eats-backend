@@ -1,0 +1,46 @@
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  editProfile(input: {
+    email: "hahaha@lololo.com"
+  }) {
+    ok
+    error
+  }
+}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "aaa@las.com"
+    password: "12345"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+###
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  createAccount(input: {
+    email: "aaa@las.com"
+    password: "12345"
+    role: Client
+  }) {
+    ok
+    error
+  }
+}

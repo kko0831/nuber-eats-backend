@@ -1968,3 +1968,33 @@ mutation {
 이메일이 온 것을 확인함
 
 Click Here To Confirm 버튼을 클릭하면 확인코드가 나옴
+
+## 7.0 Setting Up Tests
+
+REST Client extension을 설치함
+ 
+Send Request를 클릭하면 mutation이 되고 response를 볼 수 있도록 restClient.http 파일을 작성함 
+
+유저 서비스에는 많은 로직이 있기 때문에 테스트 해야 함
+
+모든 기능에 대해서 Unit Test(UT)를 해야 함
+
+resolver에 대해서도 테스트를 함
+
+package.json의 jest의 testRegex에서 spec.ts를 찾기 때문에 파일명에 spec.ts가 있어야 함
+
+NestJS에 새로운 모듈이나 서비스, 클래스를 만들 때마다 자동적으로 spec 파일을 제공함
+
+유저 서비스의 첫 테스트를 만듦
+
+테스트 할 많은 todo들을 만들었고 테스트 모듈을 만듦
+
+NestJS는 테스트 패키지를 가지고 있음
+
+테스트 패키지는 유저 서비스만을 가진 독립된 모듈을 제공해 줌
+
+유닛 테스트의 포인트는 가능한 한 테스트들을 독립시키는 것
+
+모든 테스트는 독립적으로 시행해야 함
+
+터미널에 npm run test:watch 입력하면 Cannot find module 'src/common/entities/core.entity' from 'users/entities/user.entity.ts' 에러가 나오는데 뒤에서 해결 예정
