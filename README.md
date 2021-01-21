@@ -1998,3 +1998,17 @@ NestJS는 테스트 패키지를 가지고 있음
 모든 테스트는 독립적으로 시행해야 함
 
 터미널에 npm run test:watch 입력하면 Cannot find module 'src/common/entities/core.entity' from 'users/entities/user.entity.ts' 에러가 나오는데 뒤에서 해결 예정
+
+## 7.1 Mocking
+
+에러는 경로 문제임
+
+jest가 코드의 경로를 찾지 못 함
+
+Mock은 가짜 함수임
+
+유저 서비스를 단독으로 테스트하기 위해 Mock을 이용함
+
+fn은 mock 함수를 만듦
+
+터미널에 npm run test:watch 입력하고 a를 누름
