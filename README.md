@@ -2012,3 +2012,15 @@ Mock은 가짜 함수임
 fn은 mock 함수를 만듦
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 7.2 Mocking part Two
+
+서비스 메서드의 createAccount 함수를 테스트 함
+
+createAccount 함수를 분리해서 테스트 함
+
+함수의 출력물이 아니라 함수의 모든 부분을 테스트 함
+
+유닛 테스트에서 하고 싶은건 코드의 각 줄에 문제가 없나 하는 것
+
+src\users\users.service.spec.ts에서 type MockRepository는 Repository의 모든 함수를 말하는데 이 함수들의 type이 jest.Mock 함수임
