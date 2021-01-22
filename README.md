@@ -2024,3 +2024,13 @@ createAccount 함수를 분리해서 테스트 함
 유닛 테스트에서 하고 싶은건 코드의 각 줄에 문제가 없나 하는 것
 
 src\users\users.service.spec.ts에서 type MockRepository는 Repository의 모든 함수를 말하는데 이 함수들의 type이 jest.Mock 함수임
+
+## 7.3 Writing Our First Test
+
+첫 테스트를 만듦
+
+mock은 함수의 반환값을 속일 수 있음
+
+유저가 존재한다고 속임
+
+터미널에 npm run test:watch 입력하고 a를 누름
