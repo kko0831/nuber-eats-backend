@@ -2042,3 +2042,13 @@ mock은 함수의 반환값을 속일 수 있음
 가짜 변수로 코드 자체를 테스트 함
 
 테스트 중인 실제 코드로 들어가서 값을 바꿈
+
+## 7.5 createAccount Test part One
+
+createAccount를 테스트 함
+
+터미널에 npm run test:cov를 입력하면 모든 코드의 테스트가 어디까지 커버되고 있는지 보여줌
+
+터미널에 npm run test:watch 입력하고 a를 누름
+
+터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
