@@ -2052,3 +2052,13 @@ createAccount를 테스트 함
 터미널에 npm run test:watch 입력하고 a를 누름
 
 터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
+
+## 7.6 createAccount Test part Two
+
+모든 return value를 다 mock 했음
+
+value를 다 mock 했으면 service를 호출하고 expect하기 시작함
+
+arguments와 함께 create가 1번 호출되는 것을 expect 함
+
+터미널에 npm run test:watch 입력하고 a를 누름
