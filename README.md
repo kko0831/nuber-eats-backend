@@ -2062,3 +2062,25 @@ value를 다 mock 했으면 service를 호출하고 expect하기 시작함
 arguments와 함께 create가 1번 호출되는 것을 expect 함
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 7.7 login Test part One
+
+mocking 덕분에 function의 value를 명시할 수 있고, function의 행동도 명시할 수 있음
+
+userRepository.findOne이 fail할거라고 명시함
+
+일부러 fail하게 test 할 수 있음
+
+login test에서 findOne은 user를 찾지 못 하면 fail 함
+
+password가 정확하지 않으면 fail 함
+
+findOne의 return value를 false로 mock 함
+
+mock 먼저 하고 그 후 expect를 함
+
+toHaveBeenCalledWith는 두 개의 object와 함께 call 되어야 함
+
+findOne function과 code 부분을 함께 test 함
+
+터미널에 npm run test:watch 입력하면 findOne의 Expected number of calls가 1이었으나 Received number of calls가 4라는 에러가 발생하는데 뒤에서 해결 예정
