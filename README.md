@@ -2110,3 +2110,15 @@ expect를 써서 jwtService를 숫자와 함께 call 함
 터미널에 npm run test:watch 입력하고 a를 누름
 
 터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
+
+## 7.9 findById Test
+
+findById를 describe 함
+
+만약 찾으면 user를 return할거고, 못 찾으면 error가 나옴
+
+findOneOrFail의 return value를 mock 함
+
+exception에 test도 만듦
+
+터미널에 npm run test:watch 입력하고 a를 누름
