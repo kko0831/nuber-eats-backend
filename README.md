@@ -2084,3 +2084,29 @@ toHaveBeenCalledWith는 두 개의 object와 함께 call 되어야 함
 findOne function과 code 부분을 함께 test 함
 
 터미널에 npm run test:watch 입력하면 findOne의 Expected number of calls가 1이었으나 Received number of calls가 4라는 에러가 발생하는데 뒤에서 해결 예정
+
+## 7.8 login Test part Two
+
+모든 테스트에서 기본적으로 동일한 mocks를 공유하고 있기 때문임
+
+function을 4번 call하면서 jest의 메모리에 들어감
+
+jest는 총 4번 call한 것을 기억함
+
+findOne의 return value를 mock 함
+
+return value 안에는 checkPassword function도 있어야 함
+
+users.findOne의 return value를 mock 함
+
+users.findOne은 id와 checkPassword function이 포함되어 있는 user object를 return 함
+
+checkPassword function은 boolean을 return 함
+
+return value가 아니라 return value에 대한 코드의 반응을 test 함
+
+expect를 써서 jwtService를 숫자와 함께 call 함
+
+터미널에 npm run test:watch 입력하고 a를 누름
+
+터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
