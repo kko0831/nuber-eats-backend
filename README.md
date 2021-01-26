@@ -2146,3 +2146,25 @@ verificationsRepository.save는 newVerification과 함께 call 해야함
 verificationsRepository.create는 object와 함께 call 해야함
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 7.11 editProfile Test part Two
+
+change password를 함
+
+findOne의 return value를 mock 함
+
+old password의 resolved value를 먼저 mock 함
+
+usersRepository.save는 new password와 함께 call 됨
+
+findOne이 처음에 password: old를 return 함
+
+코드 상에서 password가 변할 때 어떻게 되는지를 체크할 수 있음
+
+mocking을 쓰는 이유는 코드의 return value에 영향을 주고 싶어서임
+
+한 행이 어떻게 바뀌는지, 코드가 어떻게 반응하는지 보고 싶어서임
+
+findOne에 error를 raise 함
+
+터미널에 npm run test:watch 입력하고 a를 누름
