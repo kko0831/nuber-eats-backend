@@ -2122,3 +2122,27 @@ findOneOrFail의 return value를 mock 함
 exception에 test도 만듦
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 7.10 editProfile Test part One
+
+new email을 써서 editProfile을 call 함
+
+editProfile을 call할 때 userId를 같이 보내야함
+
+result를 먼저 mock 해야함
+
+findOne은 userId와 call 되어야 하지만 oldUser를 return 해야함
+
+create의 return value부터 mock 함
+
+return value와 resolved value의 차이는 create가 promise를 return하지 않음
+
+mailService는 new email과 code로 call 됨
+
+sendVerificationEmail이 new email과 code로 함께 call 되어야 한다는 것을 expect 해야함
+
+verificationsRepository.save는 newVerification과 함께 call 해야함
+
+verificationsRepository.create는 object와 함께 call 해야함
+
+터미널에 npm run test:watch 입력하고 a를 누름
