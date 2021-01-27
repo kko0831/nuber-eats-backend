@@ -2168,3 +2168,7 @@ mocking을 쓰는 이유는 코드의 return value에 영향을 주고 싶어서
 findOne에 error를 raise 함
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 7.12 verifyEmail Test
+
+터미널에 npm run test:watch 입력하고 a를 누름
