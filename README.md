@@ -2180,3 +2180,11 @@ findOne에 error를 raise 함
 user service를 100퍼센트 test 함
 
 코드의 조건 하나하나를 체크하기 위해서 mock 함
+
+## 8.0 JWT Service Test Setup
+
+dependency는 기본적으로 어떤 서비스가 동작하기 위해 무언가에 의존해야 한다는 뜻임
+
+CONFIG_OPTIONS는 privateKey: string의 형태여야 함
+
+터미널에 npm run test:watch 입력하고 a를 누름
