@@ -2172,3 +2172,11 @@ findOne에 error를 raise 함
 ## 7.12 verifyEmail Test
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 7.13 Conclusions
+
+터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
+
+user service를 100퍼센트 test 함
+
+코드의 조건 하나하나를 체크하기 위해서 mock 함
