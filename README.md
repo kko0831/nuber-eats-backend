@@ -2206,3 +2206,25 @@ jwt.sign은 id: user id를 가진 object, 그리고 options로 보낸 privateKey
 private key로 제공한 TEST_KEY가 jwt sign에서 사용되는지를 테스트 함
 
 service.sign의 반환값을 체크함
+
+## 8.2 JWT Verify Test
+
+mock verify가 필요함
+
+verify는 payload를 return 함
+
+decode된 token을 return 해야함
+
+jest가 자동으로 로드하기 때문에 describe나 beforeEach를 import할 필요가 없음
+
+got를 mock 해야됨
+
+form data의 mock도 필요함
+
+mail service setup을 완료함
+
+jwt test도 했음
+
+터미널에 npm run test:watch 입력하고 a를 누름
+
+터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
