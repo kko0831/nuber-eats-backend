@@ -2188,3 +2188,21 @@ dependency는 기본적으로 어떤 서비스가 동작하기 위해 무언가�
 CONFIG_OPTIONS는 privateKey: string의 형태여야 함
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 8.1 JWT Sign Test
+
+sign 테스트를 구현함
+
+JWT는 Json web token npm package의 약자임
+
+sign은 user ID를 필요로 함
+
+Json web token을 mock 함
+
+jwt를 실제 JWT package로부터 사용하지 않음
+
+jwt.sign은 id: user id를 가진 object, 그리고 options로 보낸 privateKey와 함께 불러야 함
+
+private key로 제공한 TEST_KEY가 jwt sign에서 사용되는지를 테스트 함
+
+service.sign의 반환값을 체크함
