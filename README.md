@@ -2228,3 +2228,35 @@ jwt test도 했음
 터미널에 npm run test:watch 입력하고 a를 누름
 
 터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
+
+## 8.3 sendVerificationEmail Test
+
+sendVerificationEmail은 sendEmail을 불러야 함
+
+sendEmail이 한번 호출된 것을 테스트하고 sendVerificationEmail이 아무것도 반환하지 않았음을 테스트 함
+
+sendEmail이 문자열, 문자열, 오브젝트의 배열로 호출되었는지를 확인함
+
+인자의 type을 체크하고 싶은건지, 인자의 값을 체크하고 싶은건지를 생각해야 함
+
+인자의 값을 체크함
+
+private인 상태에서는 test 할 수 없으니까 private을 없앰
+
+jest는 함수를 mock function으로 만들지 않으면 그 함수를 spying 할 수 없음
+
+users testing 전에 repositories를 mock으로 만들었음
+
+sendEmail에 spying을 함
+
+함수를 mock 할 수 없을 때 spy를 씀
+
+sendEmail이 호출됐을 때, 그 콜을 가로채서 구현(implementation)을 추가할 수 있음
+
+service.sendVerificationEmail()을 호출하면 service.sendVerificationEmail()이 sendEmail()을 호출함
+
+sendEmail은 spyOn하고 있었던 함수임
+
+spy를 가지게 되었으니, spy로부터 expect하는 것도 가능해짐
+
+터미널에 npm run test:watch 입력하고 a를 누름
