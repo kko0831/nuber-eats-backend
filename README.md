@@ -2260,3 +2260,21 @@ sendEmail은 spyOn하고 있었던 함수임
 spy를 가지게 되었으니, spy로부터 expect하는 것도 가능해짐
 
 터미널에 npm run test:watch 입력하고 a를 누름
+
+## 8.4 sendEmail Test
+
+got 자체를 mock 함
+
+got랑 formData는 mock 함수임
+
+form.append가 호출되고 있는지 확인해야 함
+
+got가 string과 object를 가지고 실행되는지 확인해야 함
+
+jest에서 post의 implementation을 mock 할 수 있음
+
+sendEmail을 호출하고 sendEmail이 got.post를 호출할 때, implementation을 mock하게 되고 error를 throw하게 됨
+
+터미널에 npm run test:watch 입력하고 a를 누름
+
+터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
