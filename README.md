@@ -2278,3 +2278,57 @@ sendEmail을 호출하고 sendEmail이 got.post를 호출할 때, implementation
 터미널에 npm run test:watch 입력하고 a를 누름
 
 터미널에 npm run test:cov를 입력하여 얼마만큼 테스트로 커버했는지 봄
+
+## 9.0 Setup part One + 9.1 Setup part Two
+
+User 모듈의 end-to-end test를 함
+
+end-to-end test를 하기 위해서 기본적으로 Resolver를 테스트 함
+
+Resolver를 전부 호출하고 결과를 예측함
+
+기본적으로 전체 application을 load해서, Resolver를 테스트할 수 있기를 원함
+
+package.json 내부에 있는 jest configuration은 unit test를 위한 jest 환경 설정임
+
+jest-e2e.json에서 e2e test의 설정을 구성함
+
+e2e test가 src로 시작하는 경로를 보면 rootDir로 가서, 그 다음 rootDir을 빠져나가서 src 내부로 가게 됨
+
+test 명령으로 실행을 하게 되면 NODE_ENV는 test가 됨
+
+.env.dev 파일의 내용을 .env.test로 복사함
+
+.env.test의 DB_NAME을 nuber-eats-test로 변경
+
+실제로 user를 생성해서 테스트를 함
+
+database에 실제로 relationship을 만듦
+
+실제 TypeORM SQL 코드를 실행시킴
+
+.env.test의 PRIVATE_KEY를 변경함
+
+더 많은 오류를 보기 위해 beforeEach를 beforeAll로 바꿈
+
+각각의 test 전에 module을 load하지 않고, 모든 test 전에 module을 load하고 싶음
+
+pgAdmin4 실행 후 nuber-eats-test라는 이름의 database를 생성함
+
+터미널에 npm run test:cov를 입력하면 coverage 폴더가 생성되는데 coverage를 포함한 결과를 보여주는 HTML page임
+
+coverage/lcov-report/index.html을 실행하면 coverage를 인터페이스로 제공해줌
+
+Jest did not exit one second after the test run has completed는 뭔가가 종료되지 않은 상태에서 jest가 종료되었기 때문에 뜨는 경고임
+
+application을 종료하는 코드를 넣어줘야 함
+
+test가 다 끝나면, database를 싹 비움
+
+test database를 제대로 생성하고, 나중에 그 database를 드랍해야 함
+
+test가 전부 끝난 후에 database를 drop함
+
+인증을 할 때 진짜 database와 진짜 server에서 test하게 됨
+
+터미널에 npm run test:e2e 입력
