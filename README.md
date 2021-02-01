@@ -2332,3 +2332,27 @@ test가 전부 끝난 후에 database를 drop함
 인증을 할 때 진짜 database와 진짜 server에서 test하게 됨
 
 터미널에 npm run test:e2e 입력
+
+## 9.2 Testing createAccount part One
+
+createAccount resolver를 테스트 함
+
+supertest를 이용해서 request를 보냄
+
+post request를 GRAPHQL_ENDPOINT로 보냄
+
+query를 넣어 data를 보냄
+
+user table을 생성한 뒤에, table이 사라짐
+
+database를 만들고, user를 만들고, 다 만든 다음에 유저를 만든 후에 table이 사라지고 싹 비워짐
+
+expect를 들여다보면 expect는 callback을 받고, callback은 error나 response를 넘겨줌
+
+터미널에 npm run start:dev 입력하고 localhost:3000/graphql 접속하여 playground 실행
+
+개발자 도구의 Network 탭에서 query를 보내면 Headers 탭에서 graphql로 보낸 request를 볼 수 있음
+
+Request Payload에서 query 부분을 볼 수 있음
+
+터미널에 npm run test:e2e 입력
