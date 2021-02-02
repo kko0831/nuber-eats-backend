@@ -2362,3 +2362,21 @@ Request Payload에서 query 부분을 볼 수 있음
 먼저 account를 만들고 그 다음에 다시 생성 시도를 해야 함
 
 터미널에 npm run test:e2e 입력
+
+## 9.4 Testing login
+
+먼저 로그인 된 상태에서 profile을 볼 수 있게 해야 함
+
+email이랑 password를 기억해야 함
+
+email과 password를 바깥에 전역으로 빼둠
+
+token을 가지고 authenticate하는 작업이 필요함
+
+token을 test에서 가지고 나옴
+
+다른 곳에서도 공유해서 쓸 수 있게 함
+
+token을 바깥에 놓고, 바깥 변수를 업데이트 하는 식으로 씀
+
+터미널에 npm run test:e2e 입력
