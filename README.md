@@ -2356,3 +2356,9 @@ expect를 들여다보면 expect는 callback을 받고, callback은 error나 res
 Request Payload에서 query 부분을 볼 수 있음
 
 터미널에 npm run test:e2e 입력
+
+## 9.3 Testing createAccount part Two
+
+먼저 account를 만들고 그 다음에 다시 생성 시도를 해야 함
+
+터미널에 npm run test:e2e 입력
