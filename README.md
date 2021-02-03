@@ -2380,3 +2380,23 @@ token을 test에서 가지고 나옴
 token을 바깥에 놓고, 바깥 변수를 업데이트 하는 식으로 씀
 
 터미널에 npm run test:e2e 입력
+
+## 9.5 Testing userProfile
+
+userProfile은 로그인만 되어있다면 어떤 user의 프로필이든 볼 수 있게 해줌
+
+ID만 있다면 어떤 유저의 프로필이든 볼 수 있음
+
+found와 nonfound 여부부터 체크해야 함
+
+user를 만들고 database를 drop하고, 첫 유저는 항상 ID가 1임
+
+database를 싹 다 지운 후 재생성함
+
+usersRepository를 가져올 수 있으니, userProfile을 하기 전에 일단 database에 접근할 수 있음
+
+GraphQL로부터 받은 ID가 query를 부르는데 사용한 것과 동일해야 함
+
+header를 post 뒤에다 set 해야함
+
+터미널에 npm run test:e2e 입력
