@@ -2400,3 +2400,17 @@ GraphQL로부터 받은 ID가 query를 부르는데 사용한 것과 동일해�
 header를 post 뒤에다 set 해야함
 
 터미널에 npm run test:e2e 입력
+
+## 9.6 Testing me
+
+me를 test함
+
+service를 수정했는데, JWT가 service에 의존하고 있었음
+
+authUser를 jwt middleware에서 가져옴
+
+jwt middleware는 findById를 호출함
+
+findById는 ok와 user를 반환함
+
+터미널에 npm run test:e2e 입력
