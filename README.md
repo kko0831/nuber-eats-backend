@@ -2414,3 +2414,21 @@ jwt middleware는 findById를 호출함
 findById는 ok와 user를 반환함
 
 터미널에 npm run test:e2e 입력
+
+## 9.7 Testing editProfile
+
+editProfile 보안이 약함
+
+원하는 email로 마구 수정할 수 있고, 이미 사용 중인 이메일로의 수정은 막아야 함
+
+email을 수정하기 전에, 해당 email을 가지고 있는 유저가 있는지를 확인해야 함
+
+password랑 email정도만 수정할 수 있게 함
+
+새 verification을 만들기 전에 user의 id가 user.id를 갖는 모든 verification들을 삭제함
+
+unit testing 때는 database가 없었음
+
+한 user가 한 verification만 가질 수 있고, 한 verification당 한 user만 받을 수 있음
+
+터미널에 npm run test:e2e 입력
