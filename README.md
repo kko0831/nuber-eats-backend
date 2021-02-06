@@ -2432,3 +2432,21 @@ unit testing 때는 database가 없었음
 한 user가 한 verification만 가질 수 있고, 한 verification당 한 user만 받을 수 있음
 
 터미널에 npm run test:e2e 입력
+
+## 9.8 Testing verifyEmail
+
+verifyEmail은 email에 접근할 수 있는 권한을 요구함
+
+새 database를 만들면 verification이 하나 생기고, 그 verification을 삭제 해야함
+
+email을 변경하기 위해서 다른 verification을 만듦
+
+그 다음 verification의 id는 자연스럽게 2가 됨
+
+verification 하나를 만들고, email을 변경할 때는 삭제한 다음에 새로 하나를 만듦
+
+verify하기 위해서 로그인 해야할 필요는 없음
+
+response 안에는 body가 있고, body 안에는 data가 있고, data 안에는 verifyEmail이 있음
+
+터미널에 npm run test:e2e 입력
