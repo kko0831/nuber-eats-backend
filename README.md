@@ -2450,3 +2450,13 @@ verify하기 위해서 로그인 해야할 필요는 없음
 response 안에는 body가 있고, body 안에는 data가 있고, data 안에는 verifyEmail이 있음
 
 터미널에 npm run test:e2e 입력
+
+## 9.9 Conclusions
+
+baseTest는 기본적으로 모든 test의 기본이 되는 것들을 반환함
+
+publicTest는 query string을 받아서, baseTest의 모든 것에 send query를 추가함
+
+privateTest는 baseTest의 모든 것을 받아서, token을 set하고 string으로 된 query를 받아서 전송함
+
+터미널에 npm run test:e2e 입력
