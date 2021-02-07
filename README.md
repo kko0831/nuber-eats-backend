@@ -20,6 +20,13 @@ The Backend of Nuber Eats Clone
 - Edit Profile
 - Verify Email
 
+## Restaurant Model
+
+- name
+- category
+- address
+- coverImage
+
 ## 0.6 Backend Setup
 
 터미널에 npm i -g @nestjs/cli@7.0.0 입력하여 nest 설치
@@ -2460,3 +2467,37 @@ publicTest는 query string을 받아서, baseTest의 모든 것에 send query를
 privateTest는 baseTest의 모든 것을 받아서, token을 set하고 string으로 된 query를 받아서 전송함
 
 터미널에 npm run test:e2e 입력
+
+## 10.0 Restaurant Models
+
+restaurant model을 만듦
+
+cover image가 필요함
+
+카테고리를 하나만 가질 수도 있고, 여러 개를 가질 수도 있음
+
+category는 이미지를 가져야 하고, 이 이미지는 관리자에 의해 추가되어야 함
+
+category는 1:N relationship을 가지게 됨
+
+하나의 category가 여러 restaurant들을 가질 수 있음
+
+restaurant은 오직 하나의 category만 가질 수 있음
+
+category는 많은 restaurant들을 가질 수 있기 때문에, category 쪽에서 one-to-many가 필요함
+
+많은 category들이 하나의 restaurant을 가리킬 수 있음
+
+restaurant category가 있고 그 안에 field type으로 category가 있음
+
+category entity가 있는데 field type으로 restaurant array가 있음
+
+app.module에 가서 entity를 추가해야 함
+
+우버이츠에서 테스팅할 때 생긴 restaurant table이 보임
+
+pgAdmin에서 (오래된)restaurant table을 삭제함
+
+터미널에 npm run start:dev 입력하고, pgAdmin에서 restaurant table과 category table이 생성된 것을 확인
+
+category가 지워졌을 때 실행되는 코드를 고쳐야 함
