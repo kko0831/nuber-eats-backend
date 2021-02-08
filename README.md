@@ -2501,3 +2501,114 @@ pgAdmin에서 (오래된)restaurant table을 삭제함
 터미널에 npm run start:dev 입력하고, pgAdmin에서 restaurant table과 category table이 생성된 것을 확인
 
 category가 지워졌을 때 실행되는 코드를 고쳐야 함
+
+## 10.1 Relationships and InputTypes
+
+category를 지울 때 restaurant은 지우면 안 된다는 점을 고려해야 함
+
+graphql의 category field를 nullable: true라고 정의함
+
+category를 지울 때 restaurant을 지우면 안 되기 때문임
+
+restaurant는 category를 가질 수 있고 만약에 category가 지워지면 restaurant는 category를 가지지 않게 됨
+
+category가 없는 restaurant를 생성하는 것도 가능함
+
+owner를 nullable로 설정하지 않음
+
+모든 restaurant에는 owner가 있기 때문임
+
+owner를 지우면 restaurant도 같이 지워져야 함
+
+restaurant에 category가 있을 수도 없을 수도 있음
+
+restaurant은 항상 user(owner)가 있어야 함
+
+owner는 restaurant을 여러 개 가질 수도 있음
+
+schema에 있는건 모두 unique 해야함
+
+모든 type은 딱 한 번 정의되어 있음
+
+object type인 category type을 만들고 있음
+
+input type도 만들고 있음
+
+restaurant에도 다른 category field가 있기 때문에 문제가 생김
+
+InputType은 name과 options를 받을 수 있음
+
+entities에 name을 가지도록 만듦
+
+abstract 타입이기 때문에 schema에 보여지지는 않음
+
+컴퓨터가 다르게 인식함
+
+에러가 난건 ObjectType과 InputType이 같은 name을 사용하고 있었기 때문임
+
+데이터베이스를 위한 category와 InputType의 category가 다름
+
+input type에서 restaurants 필드를 제거함(필요하지 않기 때문)
+
+category를 만들 때, 아무도 category를 만들지 않을 수도 있고 운영자만 만들 수도 있음
+
+graphql과 데이터베이스 모두가 인식할 수 있는 user가 됨
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Category {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  coverImg: String!
+  restaurants: [Restaurant!]
+}
+
+input CategoryInputType {
+  name: String!
+  coverImg: String!
+  restaurants: [RestaurantInputType!]
+}
+
+type Restaurant {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  coverImg: String!
+  address: String!
+  category: Category
+  owner: User!
+}
+
+input RestaurantInputType {
+  name: String!
+  coverImg: String!
+  address: String = "송파"
+  category: CategoryInputType
+  owner: UserInputType!
+}
+
+type User {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  password: String!
+  role: UserRole!
+  verified: Boolean!
+  restaurants: [Restaurant!]!
+}
+
+input UserInputType {
+  email: String!
+  password: String!
+  role: UserRole!
+  verified: Boolean!
+  restaurants: [RestaurantInputType!]!
+}
+```
+
+볼 수 있음
