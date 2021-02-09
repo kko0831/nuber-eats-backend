@@ -2612,3 +2612,54 @@ input UserInputType {
 ```
 
 볼 수 있음
+
+## 10.2 createRestaurant part One
+
+category가 있는 restaurant을 못 만들게 해야함
+
+문제는 user를 가지고 있는 restaurant을 생성할 수 있다는 점임
+
+user를 createRestaurantInput에서 제외시켜야 함
+
+restaurant의 owner를 설정할 수 없게 하고 싶기 때문임
+
+restaurant의 owner를 로그인한 유저한테서 받음
+
+restaurant의 owner는 로그인한 유저가 됨
+
+User인 owner가 restaurant service를 만들 때 필요함
+
+graphql을 이용해서 owner가 있는 restaurant을 만들게 하고 싶지 않음
+
+owner는 authorization 모듈에서 가져옴
+
+user를 포함하는 restaurant을 생성할거고 category 이름이나 category id를 보내서 사용할 수 있어야 함
+
+category를 get하고, create하고, update할 수 있어야 함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+}
+
+input CreateRestaurantInput {
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  coverImg: String!
+  address: String = "송파"
+}
+
+type CreateRestaurantOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
