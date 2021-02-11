@@ -2663,3 +2663,39 @@ type CreateRestaurantOutput {
 ```
 
 볼 수 있음
+
+## 10.3 createRestaurant part Two
+
+newRestaurant에서 .create를 부르면 restaurant의 instance를 생성하지만 데이터베이스에는 저장하지 않음
+
+restaurant은 category를 항상 가져야함
+
+category가 존재하지 않으면 그 category를 새로 만들고 싶고, 존재한다면 그 category를 get하고 싶음
+
+category를 찾을 때 어떻게 찾을건지에 대한 기준이 필요함
+
+restaurant owner가 자신의 category를 만들 수 있거나 리스트에서 하나를 고를 수 있음
+
+categoryName에 slug를 만들어주고 싶음
+
+name과 slug를 format함
+
+get하는 name들이 소문자로 변환됐고 앞뒤에 빈 칸이 없음
+
+category를 찾거나 category를 만듦
+
+category repository를 만듦
+
+category model에서 slug를 추가함
+
+user가 category를 만들 때 이미지를 안 넣을 수도 있음
+
+이미지는 admin이랑 관련됨
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 restaurant owner 계정을 만들고 token으로 로그인 함(restClient.http 파일에서 진행함)
+
+restClient.http 파일에서 createRestaurant을 mutation하면 category record와 restaurant record가 생성됨
+
+route, resolver에 보안이 안 되어 있어, 모든 사람이 restaurant을 만들 수 있음
+
+delivery man이나 일반 user는 restaurant을 생성할 수 없어야 함
