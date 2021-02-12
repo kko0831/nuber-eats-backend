@@ -2699,3 +2699,27 @@ restClient.http 파일에서 createRestaurant을 mutation하면 category record�
 route, resolver에 보안이 안 되어 있어, 모든 사람이 restaurant을 만들 수 있음
 
 delivery man이나 일반 user는 restaurant을 생성할 수 없어야 함
+
+## 10.4 Roles part One
+
+role based authentication을 만듦
+
+createRestaurant에서 user가 owner일 경우에만 restaurant을 생성할 수 있고, user가 owner이거나 배달원일때만 order를 확인할 수 있음
+
+배달원은 주문 내역만 보면 됨
+
+resolver가 guard에 의해 보호 받고 있지 않음
+
+@SetMetaData라는 decorator를 사용함
+
+class 혹은 function에 넣은 key를 이용해 metadata를 assign하는 decorator임
+
+metadata가 Reflector class를 이용해 반영될 수 있음
+
+metadata에 접근할 수 있음
+
+metadata를 설정함
+
+터미널에 npm run start:dev 입력
+
+pgAdmin에서 user record를 삭제하면 restaurant record도 삭제됨
