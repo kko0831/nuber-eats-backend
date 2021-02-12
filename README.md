@@ -2723,3 +2723,71 @@ metadata를 설정함
 터미널에 npm run start:dev 입력
 
 pgAdmin에서 user record를 삭제하면 restaurant record도 삭제됨
+
+## 10.5 Roles part Two
+
+auth guard는 execution context를 가져올 뿐만 아니라 metadata도 가져옴
+
+auth.module에서 APP_GUARD라는걸 제공함
+
+APP_GUARD는 이미 nestjs에서 제공된 constant임
+
+guard를 앱 모든 곳에서 사용하고 싶다면 APP_GUARD를 provide하면 됨
+
+graphql context에서 user를 찾지 못 하면 false를 리턴함
+
+로그인 되어 있지 않기 때문에 user를 만들 수 없음
+
+auth guard가 어디에서든, 모든 request에 잘 작동함
+
+authorization guard가 모든 곳에서 작동하도록 만듦
+
+nest는 모든 resolver를 실행하기 전에 authGuard를 실행함
+
+authorization guard를 살펴봐야 함
+
+metadata가 설정되어 있으면, user의 role을 확인해야 함(authentication을 고려함)
+
+metadata가 설정되어 있지 않으면, user authentication을 신경쓰지 않는다는 뜻임(role을 고려하지 않음)
+
+user의 로그인 여부에 대해서 관심이 없음
+
+resolver가 login이나 createAccount처럼 public이라는 뜻임(모든 사람이 사용 가능함)
+
+모든 user는 자신의 profile을 볼 수 있음
+
+userProfile에서도 자신의 프로필을 접근할 수 있음
+
+user가 authenticated 되기를 원하고 그 후에 user의 role을 확인 해야함
+
+createAccount는 public이고 login은 public이고 me는 anybody여야 하고 profile은 anybody여야 함
+
+see profile은 아무나 자신의 프로필을 볼 수 있어야 하고, edit profile은 아무나 자신의 프로필을 수정할 수 있음
+
+verifyEmail은 public임
+
+createRestaurant은 owner들만이 restaurant을 만들 수 있음
+
+authorization guard에 metadata를 넣어야함
+
+metadata를 get하기 위해서 reflector class를 get 해야함
+
+role이 undefined이면 resolver에 어떤 metadata도 설정하지 않았기 때문임
+
+roles가 undefined라는건 public endpoint라는 것임
+
+resolver에 metadata가 없으면 resolver가 public resolver라는 뜻임
+
+auth guard가 true를 리턴하면 request는 진행이 허용되고, false를 리턴하면 진행될 수 없음
+
+resolver에 metadata가 없으면 true를 리턴할거고, metadata가 resolver에 있으면 graphql의 ExecutionContext에서 user를 확인함
+
+resolver에 metadata가 설정되어 있는데 user가 없으면 false를 리턴함
+
+resolver에 metadata를 설정했다는건 user가 있기를 원함
+
+role은 client, owner, delivery 중 하나임
+
+metadata가 있으면 user가 있음
+
+resolver는 어떤 user든 진행할 수 있도록 허용함
