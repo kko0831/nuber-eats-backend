@@ -1,3 +1,96 @@
+### 10.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "BBQ House"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+query {
+  userProfile(userId: 10) {
+    ok
+    error
+    user {
+      email
+    }
+  }
+}
+
+### 10.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+query {
+  me {
+    id
+    email
+  }
+}
+
+### 10.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+### 10.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  verifyEmail(input: {
+    code: "createAccount를 mutation 할 때 생성된 code"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  createAccount(input: {
+    email: "admin@admin.com"
+    password: "123"
+    role: Owner
+  }) {
+    ok
+    error
+  }
+}
+
 ### 10.3
 POST http://localhost:3000/graphql
 Content-Type: application/json

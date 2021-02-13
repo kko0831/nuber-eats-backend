@@ -2791,3 +2791,75 @@ role은 client, owner, delivery 중 하나임
 metadata가 있으면 user가 있음
 
 resolver는 어떤 user든 진행할 수 있도록 허용함
+
+## 10.6 Roles Recap
+
+guard가 작동하는지 확인함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 createAccount를 mutation하고 login을 mutation함(restClient.http 파일에서 진행함)
+
+로그인 되어있지 않으면 me를 볼 수 없음
+
+me를 query함
+
+role과 상관없이 자신의 profile을 확인할 수 있음
+
+userProfile을 query함
+
+createRestaurant을 mutation함
+
+pgAdmin에서 restaurant record가 생성된 것을 확인함
+
+pgAdmin에서 생성된 user record의 role을 client로 변경함
+
+createRestaurant을 mutation하면 Forbidden resource 에러가 나옴
+
+pgAdmin에서 생성된 user record의 role을 owner로 다시 변경함
+
+role based authentication과 authorization이 작동함
+
+metadata와 global guard를 이용함
+
+guard들은 APP_GUARD nestjs가 전체적으로 적용시킴
+
+guard는 reflector를 사용함
+
+reflector는 metadata를 get함
+
+role decorator는 metadata를 설정함
+
+metadata는 resolver의 extra data임
+
+몇몇 resolver는 metadata를 가질거고 이 중 몇 개는 role이라는 key에 있음
+
+decorator를 리턴하는 decorator를 만듦
+
+role을 전달할 수 있도록 허용해줌
+
+roles 배열이 roles metadata key에 저장됨
+
+resolver에 metadata나 role이 없으면 public이니까 canActivate는 true임
+
+me의 경우에는 role이 있으니 public이 아님
+
+userProfile도 role이 있으니 public이 아님
+
+role에 option은 client, owner, delivery, any임
+
+UserRole은 enum임
+
+metadata를 key, value로 저장함
+
+브라우저, 자바스크립트의 localStorage도 key, value로 저장함
+
+key, value로 metadata를 set하고 metadata를 key와 함께 가져옴
+
+metadata를 가질 경우 계속해서 user를 graphqlContext에서 가져옴
+
+resolver에 metadata가 있다면 유저가 로그인했다는 것임
+
+graphqlContext에 유저가 없다면 유저에게 valid token이 없거나 token을 아예 보내지도 않았다는 것임
+
+metadata도 있고 로그인된 유저도 있고 roles에 any도 있으면 모든 사람이 접근 가능함
+
+resolver에 metadata가 있지만 유저가 로그인 되어있지 않으면 canActivate는 false임
