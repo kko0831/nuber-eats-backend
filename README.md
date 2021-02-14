@@ -27,6 +27,18 @@ The Backend of Nuber Eats Clone
 - address
 - coverImage
 
+- See Categories
+- See Restaurants by Category (pagination)
+- See Restaurants (pagination)
+- See Restaurant
+
+- Edit Restaurant
+- Delete Restaurant
+
+- Create Dish
+- Edit Dish
+- Delete Dish
+
 ## 0.6 Backend Setup
 
 터미널에 npm i -g @nestjs/cli@7.0.0 입력하여 nest 설치
@@ -2863,3 +2875,60 @@ graphqlContext에 유저가 없다면 유저에게 valid token이 없거나 toke
 metadata도 있고 로그인된 유저도 있고 roles에 any도 있으면 모든 사람이 접근 가능함
 
 resolver에 metadata가 있지만 유저가 로그인 되어있지 않으면 canActivate는 false임
+
+## 10.7 Edit Restaurant part One
+
+category를 클릭하면 category의 restaurant을 볼 수 있을거고 pagination과 함께 볼 수 있음
+
+모든 restaurant을 front page에서 볼 수 있음
+
+클릭하면 한 restaurant을 볼 수 있음
+
+owner는 restaurant을 수정, 삭제할 수 있음
+
+role based authentication을 이용함
+
+owner가 dish를 만들고, 수정하고, 지울 수 있음
+
+dish는 가격, 이미지, 세부사항, 용량이 있음
+
+restaurant은 owner를 제외하고 모든 걸 수정할 수 있음
+
+partial type은 class의 모든 property를 가져와서 optional 취급하고 그 다음에 pickType이 됨
+
+pickType으로 원하는 class property를 가져옴
+
+owner만이 restaurant을 수정할 수 있음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  editRestaurant(input: EditRestaurantInput!): EditRestaurantOutput!
+}
+
+input EditRestaurantInput {
+  name: String
+  coverImg: String
+  address: String = "송파"
+  categoryName: String
+}
+
+type EditRestaurantOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
+
+editRestaurantInput은 createRestaurantInput과 같지만 required가 아님
+
+partialType을 사용하고 있기 때문에 property들을 optional로 해줌
+
+editRestaurant도 category를 바꿀 수 있음
