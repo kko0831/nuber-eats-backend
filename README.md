@@ -27,13 +27,13 @@ The Backend of Nuber Eats Clone
 - address
 - coverImage
 
-- See Categories
-- See Restaurants by Category (pagination)
-- See Restaurants (pagination)
-- See Restaurant
-
 - Edit Restaurant
 - Delete Restaurant
+
+* See Categories
+* See Restaurants by Category (pagination)
+* See Restaurants (pagination)
+* See Restaurant
 
 - Create Dish
 - Edit Dish
@@ -2932,3 +2932,46 @@ editRestaurantInput은 createRestaurantInput과 같지만 required가 아님
 partialType을 사용하고 있기 때문에 property들을 optional로 해줌
 
 editRestaurant도 category를 바꿀 수 있음
+
+## 10.8 Edit Restaurant part Two
+
+어떤 restaurant를 edit할지 모름
+
+모든게 optional이고 restaurant id가 없음
+
+edit-restaurant.dto.ts에서 graphql schema의 restaurantId type을 Int로 수정
+
+```javascript
+@Field(() => Int)
+restaurantId: number;
+```
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+input EditRestaurantInput {
+  name: String
+  coverImg: String
+  address: String = "송파"
+  categoryName: String
+  restaurantId: Int!
+}
+```
+
+볼 수 있음
+
+레스토랑을 수정하고 싶어하는 사람이 owner인지 확인해야함
+
+레스토랑을 찾고 수정해야함
+
+레스토랑 owner와 레스토랑의 owner id가 같아야함
+
+owner가 authorized된 사람인지 확인해야함
+
+레스토랑 entity는 owner를 default로 가지고 있지 않음
+
+RelationId는 entity를 받음
+
+처음에 에러를 핸들해주고 이후에 하고 싶은 걸 하는게 defensive programming임
+
+editRestaurantInput이 partial type이기 때문에 category가 없을 수도 있음
