@@ -2975,3 +2975,39 @@ RelationId는 entity를 받음
 처음에 에러를 핸들해주고 이후에 하고 싶은 걸 하는게 defensive programming임
 
 editRestaurantInput이 partial type이기 때문에 category가 없을 수도 있음
+
+## 10.9 Edit Restaurant part Three
+
+name을 이용해서 category를 get하거나 create함
+
+custom repository를 하는 것에는 repository class를 extend하는 방법, abstract repository class를 extend하는 방법, entity repository를 만들고 constructor 등등을 가지는 방법이 있음
+
+repository는 모든 method를 접근 가능하게 해줌
+
+abstract repository는 public method를 원하는지 아닌지에 달렸음
+
+repository를 entity에서 가져오지 말고 custom repository를 가져오고 싶음
+
+repository를 생성할때마다 service의 type을 바꿔줘야하고, inject될 수 있게 repository를 로드해줘야함
+
+editRestaurantInput에 category name이 있는지 확인함
+
+editrestaurantinput.categoryname이 존재하면 category를 가져와야함
+
+this.restaurants.create는 entity instance를 생성해줌
+
+save의 definition을 보면 entity배열을 가지기 때문에 업데이트하고 싶을 때는 배열을 넣어줘야함
+
+editRestuarantInput는 entity가 가지지 않은 것도 가지고 있음
+
+object를 저장하려고 하는데 오브젝트의 column이 없음
+
+editRestuarantInput를 categoryName없이 보내면 카테고리를 업데이트하고 싶지 않다는 뜻임
+
+category를 object에 optional하게 넣어줌
+
+category가 존재하면 category가 category인 object를 리턴함
+
+점 3개를 추가해주면 {}가 지워짐
+
+category가 null일 수도 있으니까 null이면 오브젝트에 포함하고 싶지 않음(null로 restaurant을 업데이트하고 싶지 않기 때문임)
