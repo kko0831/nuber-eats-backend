@@ -3011,3 +3011,33 @@ category가 존재하면 category가 category인 object를 리턴함
 점 3개를 추가해주면 {}가 지워짐
 
 category가 null일 수도 있으니까 null이면 오브젝트에 포함하고 싶지 않음(null로 restaurant을 업데이트하고 싶지 않기 때문임)
+
+## 10.10 Edit Restaurant Testing
+
+테스트를 하기 위해서 로그인 함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 login을 mutation함(restClient.http 파일에서 진행함)
+
+login을 하지 않은 상태로 editRestaurant mutation을 테스트 해봄
+
+forbidden resource가 나옴
+
+token을 넣고 pgAdmin에서 user record의 owner를 client로 수정하고 editRestaurant mutation을 테스트 해봄
+
+forbidden resource가 나옴
+
+pgAdmin의 user record의 role을 다시 owner로 수정하고 editRestaurant mutation을 테스트 해봄
+
+pgAdmin의 restaurant record가 어떻게 바뀌었는지 확인함
+
+category record가 생성됨
+
+save에서 id를 보내지 않는 경우 새로운 entity를 생성함
+
+id를 보내줘야 typeorm이 해당 entity를 찾아 update해줌
+
+categoryName을 없애고 editRestaurant mutation을 해봄
+
+name을 mexican house로 수정하고 editRestaurant mutation을 테스트 해봄
+
+restaurant record가 어떻게 바뀌었는지 확인함

@@ -1,3 +1,68 @@
+### 10.10
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: X-JWT: login하고 생성된 token
+
+mutation {
+  editRestaurant(input: {
+    restaurantId: 3
+    name: "The Mexican House"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.10
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: X-JWT: login하고 생성된 token
+
+mutation {
+  editRestaurant(input: {
+    restaurantId: 3
+    name: "The BBQ House"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.10
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: X-JWT: login하고 생성된 token
+
+mutation {
+  editRestaurant(input: {
+    restaurantId: 3
+    name: "The BBQ House"
+    categoryName: "Mexican Food"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.10
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 10.6
 POST http://localhost:3000/graphql
 Content-Type: application/json
