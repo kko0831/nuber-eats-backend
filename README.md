@@ -3041,3 +3041,24 @@ categoryName을 없애고 editRestaurant mutation을 해봄
 name을 mexican house로 수정하고 editRestaurant mutation을 테스트 해봄
 
 restaurant record가 어떻게 바뀌었는지 확인함
+
+## 10.11 Delete Restaurant
+
+delete restaurant을 해봄
+
+delete-restaurant.dto.ts에서 graphql schema의 restaurantId type을 Int로 수정
+
+```javascript
+@Field(() => Int)
+restaurantId: number;
+```
+
+deleteRestaurantInput.restaurantId로 restaurant을 찾고 있음
+
+restaurant이 존재하지 않는다면 'Restaurant not found'를 보여줌
+
+owner의 id가 restaurant의 ownerId와 같지 않다면 해당 레스토랑을 delete할 수 없다고 보여줌
+
+조건들 모두 해당하지 않는다면 restaurant을 delete함
+
+object에서 property가 없는 경우 undefined 값을 가져오는 경우가 있음
