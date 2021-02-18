@@ -30,14 +30,14 @@ The Backend of Nuber Eats Clone
 - Edit Restaurant
 - Delete Restaurant
 
-* See Categories
-* See Restaurants by Category (pagination)
-* See Restaurants (pagination)
-* See Restaurant
+- See Categories
+- See Restaurants by Category (pagination)
+- See Restaurants (pagination)
+- See Restaurant
 
-- Create Dish
-- Edit Dish
-- Delete Dish
+* Create Dish
+* Edit Dish
+* Delete Dish
 
 ## 0.6 Backend Setup
 
@@ -3062,3 +3062,70 @@ owner의 id가 restaurant의 ownerId와 같지 않다면 해당 레스토랑을 
 조건들 모두 해당하지 않는다면 restaurant을 delete함
 
 object에서 property가 없는 경우 undefined 값을 가져오는 경우가 있음
+
+## 10.12 Categories part One
+
+2개의 resolver를 만들건데 하나는 모든 category들을 보는거고, 다른 하나는 slug를 가지고 검색하여 category에 해당하는 restaurant들을 봄
+
+output의 type은 ObjectType이어야함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  me: User!
+  userProfile(userId: Int!): UserProfileOutput!
+  allCategories: AllCategoriesOutput!
+}
+
+type AllCategoriesOutput {
+  error: String
+  ok: Boolean!
+  categories: [Category!]
+}
+
+type Category {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  coverImg: String
+  slug: String!
+  restaurants: [Restaurant!]
+  restaurantCount: Int!
+}
+```
+
+볼 수 있음
+
+allCategories를 query함(restClient.http 파일에서 진행함)
+
+dynamic field는 db에 실제로 저장되지 않는 field임
+
+request가 있을 때마다 계산해서(computed) 보여주는 field임
+
+보통 computed field, dynamic field는 로그인된 사용자의 상태에 따라 계산되는 field임
+
+category에 해당하는 restaurant이 몇 개인지 보여주는 field를 만듦
+
+restaurantCount를 했을 때 해당 정보를 볼 수 있도록 만듦
+
+해당 category가 가진 restaurant의 개수를 보여줌
+
+dynamic field는 db와 entity에 존재하지 않음
+
+entity에 restaurantCount를 선언하지 않고 request를 보낼 때마다 직접 계산해서 보여줌
+
+ResolveField는 매 request마다 계산된 field를 만듦
+
+restaurantCount는 function이고 number를 return함
+
+restaurantCount라는 dynamic field를 만들었고 number인 80을 return함
+
+allCategories를 query하여 결과를 확인함
+
+type Category에 restaurantCount가 있고, 응답을 받을 때 계산되서 받음
+
+request를 보내면서 field를 만듦
+
+db, entity에 저장되는 field가 아니고, resolver에서 계산되는 field니까 유연성이 좋음

@@ -1,3 +1,36 @@
+### 10.12
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  allCategories {
+    ok
+    error
+    categories {
+      slug
+      name
+      restaurantCount
+    }
+  }
+}
+
+### 10.12
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  allCategories {
+    ok
+    error
+    categories {
+      slug
+      name
+    }
+  }
+}
+
 ### 10.10
 POST http://localhost:3000/graphql
 Content-Type: application/json
