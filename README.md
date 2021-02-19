@@ -3129,3 +3129,23 @@ type Category에 restaurantCount가 있고, 응답을 받을 때 계산되서 �
 request를 보내면서 field를 만듦
 
 db, entity에 저장되는 field가 아니고, resolver에서 계산되는 field니까 유연성이 좋음
+
+## 10.13 Categories part Two
+
+restaurantCount는 field이고 restaurantCount의 parent는 Category임
+
+service가 db를 감시하고 필요한 repository를 가지고 있음
+
+coutRestaurant으로 보낸 category에 해당하는 restaurant을 셈
+
+await를 쓰지 않았는데 promise를 return 하면 브라우저가 알아서 결과가 나올 때까지 기다림
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 allCategories를 query함(restClient.http 파일에서 진행함)
+
+korean bbq를 category 이름으로 해서 restaurant을 만듦(createRestaurant을 mutation함)
+
+allCategories를 query하여 restaurantCount의 결과를 확인함
+
+parent에 접근할 수 있고, 개수를 셀 수 있음
+
+유저가 홈화면에 들어오면 몇 개의 category가 있고, category에 해당하는 restaurant이 몇 개인지도 보여줄 수 있음
