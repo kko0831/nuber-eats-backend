@@ -3149,3 +3149,19 @@ allCategories를 query하여 restaurantCount의 결과를 확인함
 parent에 접근할 수 있고, 개수를 셀 수 있음
 
 유저가 홈화면에 들어오면 몇 개의 category가 있고, category에 해당하는 restaurant이 몇 개인지도 보여줄 수 있음
+
+## 10.14 Category
+
+category에 해당하는 restaurant들을 찾음
+
+CoreOutput에는 항상 그렇듯이 ok와 error가 있음
+
+ArgsType이 있고 아니면 InputType으로 만들어도 됨
+
+categoryInput은 slug 하나만 가지고 있음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 category를 query함(restClient.http 파일에서 진행함)
+
+db에서 어떤걸 load할 때 같이 load 하고싶은 relation도 명시해줘야함
+
+category를 query하여 restaurants의 결과를 확인함

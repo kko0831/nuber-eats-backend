@@ -1,3 +1,69 @@
+### 10.14
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  category(slug: "mexican-food") {
+    ok
+    error
+    category {
+      id
+      name
+      slug
+      restaurantCount
+      restaurants {
+        id
+        name
+      }
+    }
+  }
+}
+
+### 10.14
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  category(slug: "mexican-bbq") {
+    ok
+    error
+    category {
+      id
+      name
+      slug
+      restaurantCount
+      restaurants {
+        id
+        name
+      }
+    }
+  }
+}
+
+### 10.14
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  category(slug: "korean-bbq") {
+    ok
+    error
+    category {
+      id
+      name
+      slug
+      restaurantCount
+      restaurants {
+        id
+        name
+      }
+    }
+  }
+}
+
 ### 10.13
 POST http://localhost:3000/graphql
 Content-Type: application/json
