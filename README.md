@@ -3165,3 +3165,70 @@ categoryInput은 slug 하나만 가지고 있음
 db에서 어떤걸 load할 때 같이 load 하고싶은 relation도 명시해줘야함
 
 category를 query하여 restaurants의 결과를 확인함
+
+## 10.15 Pagination
+
+pagination을 구현함
+
+api에 page 1, 2.. 등을 요청하면 해당 page를 결과로 받음
+
+CoreOutput으로 extends하면 ok, error, totalPages, category를 쓸 수 있음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  me: User!
+  userProfile(userId: Int!): UserProfileOutput!
+  allCategories: AllCategoriesOutput!
+  category(input: CategoryInput!): CategoryOutput!
+}
+
+input CategoryInput {
+  page: Int = 1
+  slug: String!
+}
+
+type CategoryOutput {
+  error: String
+  ok: Boolean!
+  totalPages: Int
+  category: Category
+}
+```
+
+볼 수 있음
+
+어떤 코드가 무슨 기능을 하는지 기억이 안 날 때는 그 부분을 지워보고 뭐가 작동되지 않는지 확인을 해서 쉽게 알아낼 수 있음
+
+CategoryOutput에 error, ok, totalPages, category 모두 있음
+
+category에는 retaurants, restaurantCount가 있음
+
+CategoryInput에는 page에 default값이 있고 slug도 있음
+
+category를 query함(restClient.http 파일에서 진행함)
+
+service에서의 문제는 relations에서 restaurants를 load한다는 것임
+
+pagination을 써서 retaurants를 부분적으로 load함
+
+25개의 restaurants을 받아오면 웹사이트를 들어갔을 때 25개의 restaurants를 보여줌
+
+page 2인 경우에는 다음으로 나올 25개의 restaurants를 보여줌
+
+처음에 나온 25개의 restaurants는 건너뛰어야 된다는 것임
+
+26~50번 restaurants을 받음
+
+알아서 pagination을 만들어주는 package도 있음
+
+category를 query한 totalPages 결과를 확인함
+
+totalPages는 totalResults를 25로 나눈 값임
+
+Math.ceil()을 사용해서 totalPages를 정수로 만들어줌
+
+pagination을 다루는 nestjs package가 있음
+
+package를 설치해서 쓰는 것보다 대부분 직접 구현함
