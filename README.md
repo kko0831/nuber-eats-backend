@@ -36,9 +36,14 @@ The Backend of Nuber Eats Clone
 - See Restaurant
 - Search Restaurant
 
-* Create Dish
-* Edit Dish
-* Delete Dish
+- Create Dish
+- Edit Dish
+- Delete Dish
+
+- Orders CRUD
+- Orders Subscription (Owner, Customer, Delivery)
+
+- Payments (CRON)
 
 ## 0.6 Backend Setup
 
@@ -3352,3 +3357,33 @@ _를 써서 LIKE '_00%'라 하면 두번째, 세번째 자리에 '0'이 들어�
 '%2'는 '2'로 끝나는 값을 찾아줌
 
 '2___3'는 2로 시작하고 3으로 끝나는 다섯자리 숫자를 찾아줌
+
+## 10.18 Search part Two
+
+pagination을 적용함
+
+name으로 restaurant을 검색함
+
+findAndCount를 하면서 skip, take를 씀
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 searchRestaurant을 query함(restClient.http 파일에서 진행함)
+
+"bbq"를 검색해도 나오지 않는 이유는 소문자인 "bbq"가 없기 때문임
+
+"BBQ"처럼 대문자로 하면 잘 작동함
+
+ILike에서 I는 'Insensitive'를 뜻하고, 대문자라든지 소문자라든지 case에 상관하지 않음
+
+typeorm git repository에서 pull request를 보면 ILike를 사용할 수는 있는데, 아직 npm package로 나오지 않은 것 같음
+
+모든 orm은 sql을 이용해서 db에 직접 접근할 수 있게 해줌
+
+sql을 이용해서 name을 직접 검색해봄
+
+typeorm에는 Raw() 라는게 있고, 이게 raw query를 실행할 수 있도록 해줌
+
+Raw() 설명을 보면 value를 argument로 주면 된다고 나와 있음
+
+ILIKE는 대문자, 소문자 상관 없이 검색함
+
+orm을 이용하지 않고도 sql로 직접 db에 접근할 수 있음

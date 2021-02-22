@@ -1,3 +1,79 @@
+### 10.18
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  searchRestaurant(input: {
+    query: "BbQ"
+  }) {
+    ok
+    error
+    totalPages
+    totalResults
+    restaurants {
+      name
+    }
+  }
+}
+
+### 10.18
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  searchRestaurant(input: {
+    query: "BBQ"
+  }) {
+    ok
+    error
+    totalPages
+    totalResults
+    restaurants {
+      name
+    }
+  }
+}
+
+### 10.18
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  searchRestaurant(input: {
+    query: "bbq"
+  }) {
+    ok
+    error
+    totalPages
+    totalResults
+    restaurants {
+      name
+    }
+  }
+}
+
+### 10.18
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  searchRestaurant(input: {
+    query: "bb"
+  }) {
+    ok
+    error
+    totalPages
+    totalResults
+    restaurants {
+      name
+    }
+  }
+}
+
 ### 10.17
 POST http://localhost:3000/graphql
 Content-Type: application/json
