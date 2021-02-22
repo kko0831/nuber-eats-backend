@@ -1,3 +1,39 @@
+### 10.17
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  restaurant(input: {
+    restaurantId: 666
+  }) {
+    ok
+    error
+    restaurant {
+      id
+      name
+    }
+  }
+}
+
+### 10.17
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  restaurant(input: {
+    restaurantId: 9
+  }) {
+    ok
+    error
+    restaurant {
+      id
+      name
+    }
+  }
+}
+
 ### 10.16
 POST http://localhost:3000/graphql
 Content-Type: application/json

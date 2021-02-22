@@ -3293,3 +3293,62 @@ type RestaurantsOutput {
 createRestaurant을 mutation하고 category를 query함(restClient.http 파일에서 진행함)
 
 restaurants를 query한 results를 확인함
+
+## 10.17 Restaurant and Search
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  me: User!
+  userProfile(userId: Int!): UserProfileOutput!
+  restaurants(input: RestaurantsInput!): RestaurantsOutput!
+  restaurant(input: RestaurantInput!): RestaurantOutput!
+  searchRestaurant(input: SearchRestaurantInput!): SearchRestaurantOutput!
+  allCategories: AllCategoriesOutput!
+  category(input: CategoryInput!): CategoryOutput!
+}
+
+input RestaurantInput {
+  restaurantId: Int!
+}
+
+type RestaurantOutput {
+  error: String
+  ok: Boolean!
+  restaurant: Restaurant
+}
+
+input SearchRestaurantInput {
+  page: Int = 1
+  query: String!
+}
+
+type SearchRestaurantOutput {
+  error: String
+  ok: Boolean!
+  totalPages: Int
+  totalResults: Int
+  restaurants: [Restaurant!]
+}
+```
+
+볼 수 있음
+
+restaurant을 query함(restClient.http 파일에서 진행함)
+
+restaurant을 검색했을 때 여러 개의 restaurant이 나올 수도 있음
+
+restaurant을 search할 때 findAndCount를 사용함
+
+LIKE는 다음에 나오는 value를 찾아줌
+
+LIKE '200%'라 하면 '200'으로 시작하는 값을 찾아줌
+
+LIKE '%200%'라 하면 어떤 곳에라도 '200'이 포함된 값을 찾아줌
+
+_를 써서 LIKE '_00%'라 하면 두번째, 세번째 자리에 '0'이 들어간 값을 찾아줌
+
+'%2'는 '2'로 끝나는 값을 찾아줌
+
+'2___3'는 2로 시작하고 3으로 끝나는 다섯자리 숫자를 찾아줌
