@@ -34,6 +34,7 @@ The Backend of Nuber Eats Clone
 - See Restaurants by Category (pagination)
 - See Restaurants (pagination)
 - See Restaurant
+- Search Restaurant
 
 * Create Dish
 * Edit Dish
@@ -3232,3 +3233,63 @@ Math.ceil()을 사용해서 totalPages를 정수로 만들어줌
 pagination을 다루는 nestjs package가 있음
 
 package를 설치해서 쓰는 것보다 대부분 직접 구현함
+
+## 10.16 Restaurants
+
+see restaurants(여러 개의 restaurant) resolver를 작업함
+
+query에 error, totalPages, category, restaurants가 있음
+
+restaurants는 category 밖으로 옮김
+
+한 page의 크기는 25로 함
+
+findAndCount는 array를 return함
+
+find를 하고 count까지 return해줌
+
+Restaurant의 array와 number를 return 받음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Query {
+  me: User!
+  userProfile(userId: Int!): UserProfileOutput!
+  restaurants(input: RestaurantsInput!): RestaurantsOutput!
+  allCategories: AllCategoriesOutput!
+  category(input: CategoryInput!): CategoryOutput!
+}
+
+input CategoryInput {
+  page: Int = 1
+  slug: String!
+}
+
+type CategoryOutput {
+  error: String
+  ok: Boolean!
+  totalPages: Int
+  totalResults: Int
+  restaurants: [Restaurant!]
+  category: Category
+}
+
+input RestaurantsInput {
+  page: Int = 1
+}
+
+type RestaurantsOutput {
+  error: String
+  ok: Boolean!
+  totalPages: Int
+  totalResults: Int
+  results: [Restaurant!]
+}
+```
+
+볼 수 있음
+
+createRestaurant을 mutation하고 category를 query함(restClient.http 파일에서 진행함)
+
+restaurants를 query한 results를 확인함

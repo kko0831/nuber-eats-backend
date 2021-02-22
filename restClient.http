@@ -1,3 +1,169 @@
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  restaurants(input: {}) {
+    ok
+    error
+    totalPages
+    totalResults
+    results {
+      id
+      name
+    }
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  category(input: {
+    slug: "korean-bbq",
+    page: 1
+  }) {
+    ok
+    error
+    totalPages
+    category {
+      name
+      restaurantCount
+    }
+    restaurants {
+      id
+      name
+    }
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "BBQui"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "Super BBQ"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "The BBQ Place"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "Our BBQ House"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "The BBQ House"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "My BBQ House"
+    coverImg: "https:///"
+    address: "123 Altavista"
+    categoryName: "Korean BBq"
+  }) {
+    ok
+    error
+  }
+}
+
+### 10.16
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 10.15
 POST http://localhost:3000/graphql
 Content-Type: application/json
