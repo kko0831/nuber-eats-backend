@@ -3387,3 +3387,27 @@ Raw() 설명을 보면 value를 argument로 주면 된다고 나와 있음
 ILIKE는 대문자, 소문자 상관 없이 검색함
 
 orm을 이용하지 않고도 sql로 직접 db에 접근할 수 있음
+
+## 11.0 Dish Entity
+
+dish entity를 만듦
+
+Restaurant은 많은 Dish를 가지게 될 거고, Dish는 한 개의 Restaurant을 가지게 됨
+
+식당에 음식이 반드시 있어야 하니까 null을 허용하지 않음
+
+Restaurant이 삭제가 된다면 거기에 있는 Dish들도 전부 삭제되어야함
+
+Restaurant은 많은 Dish를 갖고, Dish는 하나의 Restaurant을 가짐
+
+Restaurant는 menu를 가지고, menu는 Dish의 배열임
+
+Dish는 restaurant field를 가지고 있고, restaurant은 Restaurant type임
+
+터미널에 npm run start:dev 입력하고, dish table이 생성된 것을 확인
+
+dish table은 id, createdAt, updatedAt, name, price, photo, description, restaurantID column을 가짐
+
+Dish의 restaurant을 dish.restaurant 에서 찾을 수 있음
+
+Dish에서는 dishes를 restaurant.menu에서 찾을 수 있음
