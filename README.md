@@ -3411,3 +3411,93 @@ dish table은 id, createdAt, updatedAt, name, price, photo, description, restaur
 Dish의 restaurant을 dish.restaurant 에서 찾을 수 있음
 
 Dish에서는 dishes를 restaurant.menu에서 찾을 수 있음
+
+## 11.1 Create Dish part One
+
+json type은 기본적으로 json data를 저장함
+
+json type을 사용하는 이유는 Dish option을 entity에 넣고 싶지 않기 때문임
+
+dish는 많은 option을 가질 수 있고, option은 한 개의 dish를 가질 수 있음
+
+구조화된 데이터를 저장하거나, 특정 형태를 가진 데이터를 저장해야 할 때 json type을 사용함
+
+json은 MySQL, PostgreSQL에서 지원하는 data type임
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Dish {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  price: Int!
+  photo: String
+  description: String!
+  restaurant: Restaurant!
+  options: [DishOption!]
+}
+
+type DishOption {
+  name: String!
+  choices: [String!]
+  extra: Int!
+}
+
+input DishOptionInputType {
+  name: String!
+  choices: [String!]
+  extra: Int!
+}
+
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  editRestaurant(input: EditRestaurantInput!): EditRestaurantOutput!
+  deleteRestaurant(input: DeleteRestaurantInput!): DeleteRestaurantOutput!
+  createDish(input: CreateDishInput!): CreateDishOutput!
+}
+
+input CreateDishInput {
+  name: String!
+  price: Int!
+  description: String!
+  options: [DishOptionInputType!]
+  restaurantId: Int!
+}
+
+type CreateDishOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
+
+restaurant 없이는 dish를 만들 수 없음
+
+restaurants를 get하는 방식을 수정함
+
+restaurant을 id로 찾을 때 restaurant의 dish를 load해줘야함
+
+restaurant에 가서 세부사항을 볼 때, menu를 불러올 수 있음
+
+모든 dishes를 불러올 수 있음
+
+dish를 추가하려고 하면, 어떤 restaurant에 추가할지 알아야함
+
+CreateDishInput을 PickType으로 extends 하고 restaurantId를 가지고 있음
+
+PickType으로 Dish에서 property를 고름
+
+어떤 restaurant에 dish를 추가하는지 모르면 dish를 추가할 수 없음
+
+소유하지 않은 restaurant에는 dish를 추가할 수 없음
+
+오직 owner만 createDish Resolver에 접근할 수 있음
+
+createDish는 owner가 필요함
