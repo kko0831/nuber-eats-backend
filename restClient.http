@@ -1,3 +1,73 @@
+### 11.2
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  restaurant(input: {
+    restaurantId: 10
+  }) {
+    ok
+    error
+    restaurant {
+      name
+      menu {
+        name
+        price
+        description
+        options {
+          name
+          extra
+          choices
+        }
+      }
+    }
+  }
+}
+
+### 11.2
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createDish(input: {
+    restaurantId: 10
+    name: "Mexican Chicken"
+    price: 12
+    description: "Delicious"
+    options: [
+      {
+        name: "Spice Level"
+        choices: [
+          "Little bit",
+          "Kill me"
+        ]
+      }
+    ]
+  }) {
+    ok
+    error
+  }
+}
+
+### 11.2
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 10.18
 POST http://localhost:3000/graphql
 Content-Type: application/json

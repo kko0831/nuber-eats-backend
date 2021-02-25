@@ -3501,3 +3501,27 @@ PickType으로 Dish에서 property를 고름
 오직 owner만 createDish Resolver에 접근할 수 있음
 
 createDish는 owner가 필요함
+
+## 11.2 Create Dish part Two
+
+create dish service안에 createDish의 method를 만듦
+
+첫번째로 restaurant을 찾아야함
+
+그 다음 owner와 restaurant의 owner가 같은지 확인해야함
+
+그 다음 dish를 생성하고 restaurant에 dish를 추가해줌
+
+createDishInput은 name, price, description, options로 이루어져 있음
+
+createDishInput은 restaurantId가 포함되어있음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 createDish를 mutation함(restClient.http 파일에서 진행함)
+
+pgAdmin에서 dish record가 생성된 것을 확인함
+
+restaurant은 Resolver에 있는 restaurantId를 통해서 찾음
+
+restaurant을 query함
+
+object를 create하고, save해야함
