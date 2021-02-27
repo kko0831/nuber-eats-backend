@@ -3525,3 +3525,39 @@ restaurant은 Resolver에 있는 restaurantId를 통해서 찾음
 restaurant을 query함
 
 object를 create하고, save해야함
+
+## 11.3 Edit and Delete Dish
+
+Dish를 delete하고 edit하는걸 만듦
+
+PartialType(Dish) object를 쓰고, 모든 Dish의 property가 선택적임
+
+Onwer만 Dish를 수정할 수 있음
+
+dish를 delete 요청한 사람이 그 restaurant의 owner인지 확인해줘야함
+
+dish.restaurant.ownerId와 owner.id가 같지 않은 경우를 찾으면 됨
+
+restaurant.ownerId를 가져와야 하기 때문에 relations이 필요함
+
+relations restaurant을 load시켜줘야함
+
+dishId에 해당하는 dish를 지움
+
+catch는 발견하는 모든 error를 잡아줌
+
+checkDish function은 dish가 존재하는지 검사하고, owner가 restaurant의 owner와 같은지를 검사함
+
+dishId없이는 dish를 수정할 수 없음
+
+save는 id를 넘겨주면 entity를 update 해줌
+
+object를 구성하기만 하면 save가 update를 해줌
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 deleteDish를 mutation함(restClient.http 파일에서 진행함)
+
+createDish를 mutation하여 pgAdmin에서 dish record가 생성된 것을 확인함
+
+choices가 주문의 값을 변경할 수도 있음
+
+editDish를 mutation하여 pgAdmin에서 dish record가 변경된 것을 확인함
