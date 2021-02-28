@@ -3561,3 +3561,108 @@ createDish를 mutation하여 pgAdmin에서 dish record가 생성된 것을 확�
 choices가 주문의 값을 변경할 수도 있음
 
 editDish를 mutation하여 pgAdmin에서 dish record가 변경된 것을 확인함
+
+## 11.4 Order Entity
+
+터미널에 nest g mo orders 입력
+
+nest generate module orders라는 의미임
+
+app module에 자동으로 추가를 해줌
+
+order는 relationship이 있건 없건 restaurant을 가지고 있음
+
+주문을 하면, 주문은 Pending(대기) 상태임
+
+주문을 받으면 Cooking(조리)를 시작함
+
+그 다음 음식이 PickedUp(픽업) 될거고, 음식이 Delivered(배달완료) 됨
+
+주문을 하면, 그 주문은 배정된 driver가 없음
+
+주문을 했을 때 바로 배달해 주는 사람이 존재하지 않음
+
+한 명의 유저는 많은 주문을 가질 수 있음
+
+많은 order는 한 명의 user를 가짐
+
+user를 지운다고 해도, order를 지우지 않음
+
+driver가 받은 orders를 찾는 대신, 구분하기 위해서 rides라고 함
+
+고객이 주문을 하면 order는 user.orders에 보임
+
+driver가 주문을 픽업하면 그 order는 user.rides에 나타남
+
+customer를 삭제한다고 해도 order는 안 지워짐
+
+driver를 지워도 order가 지워지지 않음
+
+한 개의 restaurant은 여러 개의 orders를 가짐
+
+많은 사람들이 같은 음식을 주문할 수 있으니까 하나의 dish는 여러 order를 가질 수 있음
+
+order는 여러 dish를 가질 수 있고, dish도 여러 order를 가질 수 있음
+
+many to many의 의미는 "A는 B의 여러 인스턴스를 포함하며, B는 A의 여러 인스턴스를 포함한다."임
+
+JoinTable은 소유(owning)하고 있는 쪽의 relation에 추가해주면 됨
+
+dish가 어떤 order에 포함되는지 알 수 없음
+
+order는 어떤 dish를 고객이 선택했는지 알 수 있음
+
+dish가 얼마나 많은 order를 받았는지 알 필요가 없음
+
+order로부터 몇 개의 dish를 주문했는지는 알아야함(음식을 여러 개 주문할 수 있기 때문임)
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Order {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  customer: User
+  driver: User
+  restaurant: Restaurant!
+  dishes: [Dish!]!
+  total: Float!
+  status: OrderStatus!
+}
+
+enum OrderStatus {
+  Pending
+  Cooking
+  PickedUp
+  Delivered
+}
+
+type Restaurant {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  name: String!
+  coverImg: String!
+  address: String!
+  category: Category
+  owner: User!
+  orders: [Order!]!
+  menu: [Dish!]!
+}
+
+type User {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  email: String!
+  password: String!
+  role: UserRole!
+  verified: Boolean!
+  restaurants: [Restaurant!]!
+  orders: [Order!]!
+  rides: [Order!]!
+}
+```
+
+볼 수 있음
