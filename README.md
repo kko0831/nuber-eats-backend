@@ -3727,3 +3727,97 @@ type CreateOrderOutput {
 ```
 
 볼 수 있음
+
+## 11.6 Order Items
+
+실제로 저장해야할 것은 Dish array가 아님
+
+user가 원하는 dish랑, user가 choice한 property를 저장해야함
+
+OrderItem은 Dish가 있어야 하고, 선택된 options도 있어야함
+
+options는 entity가 아니고 json임
+
+음식을 주문할 때 이 음식의 옵션은 단순히 text여야함
+
+owner가 옵션을 수정할 수도 있기 때문에 customer는 옵션을 관리 할 수 없음
+
+options는 order가 생성되고 완료 될 때 한번 저장됨
+
+나중에 owner가 음식의 옵션을 수정해도 문제 없음
+
+OrderItem은 1개의 dish를 가짐
+
+dish는 여러 item을 가짐
+
+order entity에서는 Restaurant에서 orders를 어떻게 가져올지 신경써야함
+
+Dish에서 어떻게 OrderItem을 가져올지 신경쓰지 않아도 됨
+
+주문한 식당이 있고, 그 식당에서 주문에 접근하길 원함
+
+Dish쪽에서 OrderItem에 접근하기를 원하지 않음
+
+OrderItem에서 Dish로 접근하기만을 원함
+
+Order는 많은 OrderItem을 가지게 됨
+
+OrderItem은 dish와 options를 가지고 있음
+
+PickType은 model에서 property를 고름
+
+Order를 만들때 Dish의 id랑 options만 전송하고 싶음
+
+음식의 이름이나 가격은 신경쓰고 싶지 않음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  editRestaurant(input: EditRestaurantInput!): EditRestaurantOutput!
+  deleteRestaurant(input: DeleteRestaurantInput!): DeleteRestaurantOutput!
+  createDish(input: CreateDishInput!): CreateDishOutput!
+  editDish(input: EditDishInput!): EditDishOutput!
+  deleteDish(input: DeleteDishInput!): DeleteDishOutput!
+  createOrder(input: CreateOrderInput!): CreateOrderOutput!
+}
+
+input CreateOrderInput {
+  items: [OrderItemInputType!]!
+  restaurantId: Int!
+}
+
+input OrderItemInputType {
+  dish: DishInputType!
+  options: [DishOptionInputType!]
+}
+
+input DishInputType {
+  name: String!
+  price: Int!
+  photo: String
+  description: String!
+  restaurant: RestaurantInputType!
+  options: [DishOptionInputType!]
+}
+
+type OrderItem {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  dish: Dish!
+  options: [DishOption!]
+}
+
+type CreateOrderOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
