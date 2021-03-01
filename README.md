@@ -3666,3 +3666,64 @@ type User {
 ```
 
 볼 수 있음
+
+## 11.5 Create Order part One
+
+entity를 InjectRepository해주고, type을 추가해줌
+
+Order는 customer가 필요한데, token에서 받아올거라 필요없고 driver도 필요없음
+
+Order는 restaurant의 id를 받으면되고, dishes 배열도 필요함
+
+total은 처음에는 필요 없음
+
+status는 직접 default 값을 지정함
+
+customer가 누구인지 알아야 하니까 AuthUser가 필요함
+
+dishes의 모든 것을 다 가져올 필요가 없음
+
+order를 만들 때 dishes의 name과 price만 필요하고 다른 정보는 필요 없음
+
+order를 만들어주는 resolver를 셋업함
+
+Client만 order를 만들 수 있음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  editRestaurant(input: EditRestaurantInput!): EditRestaurantOutput!
+  deleteRestaurant(input: DeleteRestaurantInput!): DeleteRestaurantOutput!
+  createDish(input: CreateDishInput!): CreateDishOutput!
+  editDish(input: EditDishInput!): EditDishOutput!
+  deleteDish(input: DeleteDishInput!): DeleteDishOutput!
+  createOrder(input: CreateOrderInput!): CreateOrderOutput!
+}
+
+input CreateOrderInput {
+  dishes: [DishInputType!]!
+  restaurantId: Int!
+}
+
+input DishInputType {
+  name: String!
+  price: Int!
+  photo: String
+  description: String!
+  restaurant: RestaurantInputType!
+  options: [DishOptionInputType!]
+}
+
+type CreateOrderOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
