@@ -3821,3 +3821,23 @@ type CreateOrderOutput {
 ```
 
 볼 수 있음
+
+## 11.7 Create Order part Two
+
+order를 만들 때, restaurant ID를 보내주기 원함
+
+어떤 식당에 주문했는지와 주문한 음식이 뭔지를 알 수 있음
+
+dish의 id만 얻고 싶음
+
+orderItem에 options가 없을 수도 있음
+
+OrderItem 전체를 input으로 하기 싫음(Dish에는 신경 쓸 필요 없는 것들이 많기 때문임)
+
+OrderItemInput은 dishId가 있고, 유저가 선택한 맛 같은 것이 있는 options도 가지고 있음
+
+options에는 name, choices, extra가 있음
+
+user가 로그인을 했고, customer인 것을 알 수 있음
+
+restaurant ID로 restaurant을 찾아야함
