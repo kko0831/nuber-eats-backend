@@ -3841,3 +3841,86 @@ options에는 name, choices, extra가 있음
 user가 로그인을 했고, customer인 것을 알 수 있음
 
 restaurant ID로 restaurant을 찾아야함
+
+## 11.8 Create Order part Three
+
+order를 먼저 만들고 item을 추가함
+
+default는 Orderstatus.Pending으로 함
+
+order에 customer를 넣어서 만들어줘야함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 createAccount를 mutation함(restClient.http 파일에서 진행함)
+
+두 user가 있는데, 하나는 owner이고, 하나는 customer임
+
+createOrder를 mutation하여 pgAdmin에서 order record가 생성된 것을 확인함
+
+customer의 token으로 order를 만들 수 있음
+
+order entity로 가보면 restaurant이 있고 이 restaurant은 null이 가능함
+
+nullable이기 때문에 order를 만들 때 restaurant이 없어도 db 에러가 생기지 않음
+
+items는 dishId와 options의 배열임
+
+query restaurant을 하여 options를 확인함
+
+options들은 단순히 json임
+
+만약 options에서 실수를 하게 되어도, 그냥 json이라 relationship, null, delete, cascade를 걱정하지 않고 json을 자유롭게 생성할 수 있음
+
+OrderItemOption은 user가 고른 한가지 선택만 갖게 됨
+
+dish는 user가 고른 options도 필요하다는 것을 알게 됨
+
+OrderItem을 만들어 options를 저장함
+
+schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  editRestaurant(input: EditRestaurantInput!): EditRestaurantOutput!
+  deleteRestaurant(input: DeleteRestaurantInput!): DeleteRestaurantOutput!
+  createDish(input: CreateDishInput!): CreateDishOutput!
+  editDish(input: EditDishInput!): EditDishOutput!
+  deleteDish(input: DeleteDishInput!): DeleteDishOutput!
+  createOrder(input: CreateOrderInput!): CreateOrderOutput!
+}
+
+input CreateOrderInput {
+  restaurantId: Int!
+  items: [CreateOrderItemInput!]!
+}
+
+input CreateOrderItemInput {
+  dishId: Int!
+  options: [OrderItemOptionInputType!]
+}
+
+input OrderItemOptionInputType {
+  name: String!
+  choice: String
+  extra: Int
+}
+
+type CreateOrderOutput {
+  error: String
+  ok: Boolean!
+}
+```
+
+볼 수 있음
+
+option은 name과 choices를 가짐
+
+choice도 extra를 가질 수 있고, options도 extra를 가질 수 있음
+
+input에 ID가 10인 restaurant에 주문하려는 items을 생성함
+
+dish Id가 2라는 의미는 우리가 Super Mexican Taco Chicken을 주문했다는 거고, Super Mexican Taco Chicken이 가지고 있는 option은 Spice Level이고 choice는 kill me임
