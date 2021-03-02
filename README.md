@@ -3924,3 +3924,27 @@ choice도 extra를 가질 수 있고, options도 extra를 가질 수 있음
 input에 ID가 10인 restaurant에 주문하려는 items을 생성함
 
 dish Id가 2라는 의미는 우리가 Super Mexican Taco Chicken을 주문했다는 거고, Super Mexican Taco Chicken이 가지고 있는 option은 Spice Level이고 choice는 kill me임
+
+## 11.9 Create Order part Four
+
+choice가 가지면 안되는 한 가지는 extra임
+
+user에게 얼마 낼지 물어보는 것을 원하지 않기 때문임
+
+얼마를 내야 하는지는 항상 back-end에서 계산하면 됨
+
+DishOption에 name이랑 extra가 필요하지 않음
+
+react와 GraphQL을 이용해서, request를 날리면 back-end에서는 extra가 얼마인지 찾아봄
+
+json으로 작업했기 때문에 SQL과 TypeOrm이 체크해주지 않음
+
+CreateOrderInput으로 받은 각 item을 OrderItem으로 만듦
+
+OrderItem을 보면 dish가 필요하고, options가 필요함
+
+dish를 못 찾으면, orderItem을 만드는 작업을 전부 취소해야함
+
+input 내부의 items에 대해 dish를 찾음
+
+db에서 가져온 dish와 options를 이용해서 orderItem을 생성함
