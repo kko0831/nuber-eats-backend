@@ -3948,3 +3948,37 @@ dish를 못 찾으면, orderItem을 만드는 작업을 전부 취소해야함
 input 내부의 items에 대해 dish를 찾음
 
 db에서 가져온 dish와 options를 이용해서 orderItem을 생성함
+
+## 11.10 Create Order part Five
+
+forEach에서는 return 할 수 없음
+
+items.forEach 대신에 for of 를 사용함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 createOrder를 mutation함(restClient.http 파일에서 진행함)
+
+유저가 지불해야 하는 금액을 계산 해야함
+
+item에는 options가 있고, dish에도 options가 있음
+
+item의 options를 하나하나 살펴봄
+
+item을 dish DB에서 찾고 싶음
+
+options를 loop로 돌아서 name과 choice를 찾음
+
+option과 choice에 extra 요금이 있는지 없는지 확인함
+
+다음 option에서도 name을 찾고 choice가 없으니 extra를 추가함
+
+dish.options는 DishOption의 배열이고 item.options는 OrderItemOption의 배열임
+
+dish에서 property를 가져옴
+
+db에서 가져온 dish에서 dish options를 찾아야함
+
+백엔드에서 돈을 계산하고 싶음
+
+itemOption에 extra가 필요없음
+
+dishOption에 extra가 없으면, dishOption의 choices를 봐야함
