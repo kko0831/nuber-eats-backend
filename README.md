@@ -3982,3 +3982,43 @@ db에서 가져온 dish에서 dish options를 찾아야함
 itemOption에 extra가 필요없음
 
 dishOption에 extra가 없으면, dishOption의 choices를 봐야함
+
+## 11.11 Create Order part Six
+
+찾은 모든 extra 가격들을 dish.price에 추가함
+
+dishFinalPrice의 초기값은 dish.price임
+
+extra를 찾을 때마다 dishFinalPrice에 추가함
+
+orderFinalPrice가 모든 dish의 총 합계임
+
+item의 옵션 계산이 끝나면, orderFinalPrice에 dishFinalPrice를 더함
+
+json은 원하는 모든 것을 보내고 db에 저장할 수 있어서 자유롭지만, 세부 작업을 직접 처리해줘야 할 필요가 있음
+
+relationship을 썼다면 옵션을 찾는 작업을 할 필요가 없음
+
+주문은 옵션이 있음
+
+orderItem이 order에 들어가기 때문에 orderItem을 만들 때마다, orderItem을 저장해야함
+
+orderItems type은 OrderItem array임
+
+orderItem을 만들 때마다, orderItem을 push함
+
+dish와 option으로 모든 orderItem을 만들고, 만들어진 orderItem을 orderItem Array로 push함
+
+orderItem을 보면 order ID와 orderItem이 있음
+
+through table이라 부르는데 in between table임
+
+ManyToMany 관계에서 씀
+
+pgAdmin에서 order record를 지움
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 createOrder를 mutation함(restClient.http 파일에서 진행함)
+
+pgAdmin에서 order record가 생성된 것을 확인함
+
+주문 생성하는 것을 완료함
