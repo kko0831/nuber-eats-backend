@@ -1,3 +1,83 @@
+### 11.13
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: client로 login하고 생성된 token
+
+query {
+  me {
+    email
+    role
+  }
+  getOrder(input: {
+    id: 2
+  }) {
+    ok
+    order {
+      id
+      status
+    }
+    error
+  }
+}
+
+### 11.13
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+query {
+  me {
+    email
+    role
+  }
+  getOrder(input: {
+    id: 2
+  }) {
+    ok
+    order {
+      id
+      status
+    }
+    error
+  }
+}
+
+### 11.13
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: Any Role로 login하고 생성된 token
+
+query {
+  getOrders(input: {
+    status: Pending
+  }) {
+    ok
+    orders {
+      id
+    }
+    error
+  }
+}
+
+### 11.13
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 11.12
 POST http://localhost:3000/graphql
 Content-Type: application/json

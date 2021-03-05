@@ -4100,3 +4100,55 @@ flat은 모든 하위 Array 요소와 함께 새 Array를 return함
 내부 Array의 모든 요소를 ​외부로 가져옴
 
 flat을 하면, depth는 default로 1이고 이건 1단계를 의미함
+
+## 11.13 getOrders and getOrder
+
+status에 따라 order를 filtering 해봄
+
+두 명의 유저가 있는데 한 명은 customer이고 다른 한 명은 admin임
+
+cutomer는 자기가 customer이고 input으로 준 status에 해당하는 restaurant을 받음
+
+status가 undefined일 때 status를 보내면 안 됨
+
+status를 보내지 않으면 TypeORM은 아무것도 보여주지 않음
+
+object에 조건부로 property를 추가할 수 있음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 getOrders를 query함(restClient.http 파일에서 진행함)
+
+어떠한 status도 보내지 않으면, 모든 order을 볼 수 있음
+
+status가 있는 경우에 orders를 filtering 해야함
+
+map은 새로운 배열을 생성하고, filter는 조건을 충족시키지 못하는 요소를 제거함
+
+PickType으로 Order에서 필요한 id를 가져옴
+
+order를 찾을 경우 Order를 return 해야함
+
+getOrderInput은 기본적으로 id를 가지고 있음
+
+orderId로 order를 찾음
+
+order를 볼 수 있는 사람은 driver, customer, restaurant의 owner임
+
+order.customer.id 가 user.id 와 같지 않고, order.driver.id 가 user.id 와 같지 않고, order.restaurant.ownerId 가 user.id 와 같지 않다면 ok : false, error:"you can't see that"를 return함
+
+3개의 relation을 load 해야함
+
+restaurant relation은 무조건 load 해야함(order의 restaurant owner를 꼭 알아야하기 때문임)
+
+customer와 driver는 굳이 load 안 해도 됨
+
+relation을 load하지 않고 id를 확인하고 싶다면 RelationId 컬럼을 만들기만 하면 됨
+
+restaurant에 있는 owner가 필요하니까 restaurant은 load 해야함(restaurantId는 필요없음)
+
+getOrder를 query함
+
+pgAdmin에서 user의 role을 client에서 delivery로 변경함
+
+user.role이 UserRole.Client 와 같으면서 order.customerId 가 user.id 와 같지 않으면, ok = false라고 함
+
+pgAdmin에서 user의 role을 delivery에서 client로 다시 변경함
