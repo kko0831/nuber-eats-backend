@@ -1,3 +1,36 @@
+### 11.12
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: Any Role로 login하고 생성된 token
+
+query {
+  getOrders(input: {
+  }) {
+    ok
+    orders {
+      id
+    }
+    error
+  }
+}
+
+### 11.12
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 11.11
 POST http://localhost:3000/graphql
 Content-Type: application/json

@@ -4022,3 +4022,81 @@ pgAdmin에서 order record를 지움
 pgAdmin에서 order record가 생성된 것을 확인함
 
 주문 생성하는 것을 완료함
+
+## 11.12 getOrders part One
+
+주문 읽는 것을 함
+
+기본적으로 ID로 주문을 찾아야함 
+
+주문 목록을 받고 ID로 주문을 찾음
+
+getOrders와 getOrder를 만듦
+
+음식점 주인은 모든 주문을 보고 싶어함
+
+고객은 자신이 주문한 것을 보고 싶어함
+
+배달원은 자신이 배달한 모든 주문을 보고 싶어함
+
+이 세 사람 모두 orders를 read 할 수 있고 order도 read 할 수 있어야함
+
+모든 주문을 보거나 일부 주문만 볼 수도 있음
+
+아무나, 누구든, 로그인 되어있는 누구나 getOrders에 접근할 수 있음
+
+누가 요청 했는지 알아야함(만약 배달원이 요청하면 다른걸 검색해서 다른 종류의 주문을 보여줄거기 때문임)
+
+유저, 그러니까 배고픈 사람이 getOrders를 하면, 그가 만든 모든 주문을 보여줘야함
+
+customer 주문을 찾아봐야함
+
+만약 배달원이 주문을 검색하면, 그가 배달원으로 등록된 주문을 검색하고 싶다는 뜻임
+
+유저의 role을 가져와야함
+
+user.role이 UserRole.Client와 같은 경우, user.role === UserRole.Delivery 일 때, user.role === UserRole.Owner 일 때에 뭘 할지 안에 작성함
+
+status는 delivered가 될 수도 있고 status는 뭐든 될 수 있음
+
+status를 기준으로 검색해야함
+
+유저가 고객이면 주문을 찾아야하는데, where에 옵션으로 customer가 user인 경우를 찾으면 됨
+
+restaurant에는 owner가 있고, owner는 많은 restaurant을 가질 수 있게 했음
+
+owner가 user인 모든 Restaurants 을 찾고, relations을 load함(restaurant에 orders가 있기 때문임)
+
+restaurant을 load하고 싶지 않고 orders만 load하면 됨
+
+owner가 user인 모든 음식점을 찾고, orders를 select함
+
+orders만 select해서 list의 형태로 받음
+
+유저가 3개의 식당을 가지고 있고 각 식당이 2개의 order를 가지고 있다면, 3개의 요소를 가진 array를 받음
+
+요소들은 그 안에 또 다른 array를 가짐
+
+orders는 nullable로 해야함(종종 우리는 주문을 찾고. 그렇지 않은 경우도 있기 때문임)
+
+restaurant들은 orders가 load되는데, 이 order들을 하나씩 꺼내서 리스트로 만들어줘야함
+
+flat이 하는 일은 Array 내부에서 Array를 바깥으로 빼내는 것임
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 getOrders를 query함(restClient.http 파일에서 진행함)
+
+owner가 user인 모든 restaurant을 load하고 orders relation도 load함
+
+order를 원하는거고 order가 들어있는 array를 원하는게 아님
+
+map을 써서 각 restaurant에서 orders를 가져옴
+
+map은 restaurant.orders array를 하나씩 꺼내줌
+
+모든 restaurant에 order가 있지는 않음
+
+flat은 모든 하위 Array 요소와 함께 새 Array를 return함
+
+내부 Array의 모든 요소를 ​외부로 가져옴
+
+flat을 하면, depth는 default로 1이고 이건 1단계를 의미함
