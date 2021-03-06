@@ -4152,3 +4152,59 @@ pgAdmin에서 user의 role을 client에서 delivery로 변경함
 user.role이 UserRole.Client 와 같으면서 order.customerId 가 user.id 와 같지 않으면, ok = false라고 함
 
 pgAdmin에서 user의 role을 delivery에서 client로 다시 변경함
+
+## 11.14 Edit Order
+
+음식점 주인이나, 배달원이나, 배고픈 사람 그 누구도 주문을 삭제 할 수 없음
+
+아무도 주문을 삭제할 수 없지만 그들은 주문을 업데이트 할 수는 있음
+
+ID를 가지고 order를 찾고, 업데이트할 status도 보내야함
+
+Order로부터 Order의 id와 status를 가져옴
+
+둘 다 꼭 필요한 input임
+
+status가 주문에서 수정할 수 있는 유일한 것임
+
+유저가 배달원인지 ,식당의 주인인지, 고객인지 체크해야함
+
+restaurant relation을 load하고 주문을 볼 수 있는지 확인하는 function을 만듦
+
+order는 restaurant relation이 필요함
+
+Delivery와 Owner만 order을 edit 할 수 있음
+
+order는 Pending으로 client가 생성함
+
+retaurant이 order를 받으면 order entity의 status가 Cooking이 됨
+
+추가로 Cooked라는 status가 더 필요함
+
+주문이 픽업을 기다리고 있는 상태임
+
+Cooking과 Cooked는 음식점이 변경 할 수 있음
+
+PickedUp과 Delivered는 배달원이 바꿀 수 있음
+
+user.role이 UserRole.Owner인 경우를 체크함
+
+role을 체크한 다음에 status를 체크함
+
+order를 업데이트함
+
+user의 role이 Owner이고 status가 Cooking이나 Cooked가 아니라면, status를 업데이트 하지 않음
+
+user.role이 delivery이고 status가 pickedUp 혹은 delivered가 아니면, status를 업데이트 하지 않음
+
+Delivery와 Owner만 주문을 수정할 수 있음
+
+user.role === UserRole.Client라면 주문을 수정하지 못 하게 함
+
+save는 entity를 save 해줌
+
+유저가 Client면 수정 할 수 없음
+
+유저가 Owner인데 status가 Cooking, Cooked가 아니면, 수정 할 수 없음
+
+유저가 Delivery인데 status가 PickedUp, Delivered가 아니면, 수정 할 수 없음
