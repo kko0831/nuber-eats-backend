@@ -4208,3 +4208,65 @@ save는 entity를 save 해줌
 유저가 Owner인데 status가 Cooking, Cooked가 아니면, 수정 할 수 없음
 
 유저가 Delivery인데 status가 PickedUp, Delivered가 아니면, 수정 할 수 없음
+
+## 12.0 Subscriptions part One
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 editOrder를 mutation함(restClient.http 파일에서 진행함)
+
+Owner은 Cooking이나 Cooked로만 바꿀 수 있음
+
+pgAdmin에서 user의 role을 owner에서 delivery로 변경함
+
+pgAdmin에서 user의 role을 delivery에서 owner로 다시 변경함
+
+driver는 주문 들어오는걸 기다리다가, 새로운 주문이 들어오면 driver가 주문을 받겠다고 함
+
+드라이버가 주문을 받으면 주문에 드라이버를 포함시킴
+
+운전자는 주문을 업데이트할 수 있음
+
+드라이버는 주문을 픽업하는 사람이 됨
+
+subscriptions는 resolver에서 변경 사항이나 업데이트를 수신 할 수 있게 해줌
+
+Subscription은 asyncIterator라는 것을 return함
+
+graphQL Subscription을 위해 사용할 패키지의 이름은 graphql-subscriptions임
+
+graphQL에서 subscriptions를 쓸 수 있게 만들어줌
+
+real time 처리를 할 수 있게 만들어줌
+
+터미널에 npm i graphql-subscriptions@1.1.0 입력
+
+PubSub은 publish and subscribe를 말함 
+
+app 내부에서 메시지를 교환할 수 있음
+
+PubSub engine 인스턴스를 생성함
+
+triggers는 기다리는 이벤트를 말함
+
+hotPotatos를 subscription함
+
+서버는 HTTP 프로토콜에서 실행되고 있음
+
+WS도 프로토콜이고 Real Time을 처리하는 Web Socket임
+
+Web Socket을 활성화 해야함
+
+HTTP와 WS 모두 서버가 돌아갈 수 있어야함
+
+Mutation과 Query는 HTTP 가 필요하고, Subscription은 Web Socket이 필요함
+
+app module에 InstallSubscriptionHandlers: true라고 적으면 서버가 웹 소켓을 기능을 가지게 됨
+
+subscription을 연결하는 방법이 API를 연결하는 방법과 다름
+
+Subscription에 연결하려는 순간, HTTP route를 거치지 않고 Web Socket route를 거치고 있음
+
+웹 소켓에는 request가 없음
+
+웹 소켓에 연결할 때는 쿠키를 보내고 받는 것이 없음
+
+연결되면 연결 상태를 유지함

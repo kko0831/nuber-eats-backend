@@ -1,3 +1,120 @@
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+query {
+  me {
+    email
+  }
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+subscription {
+  hotPotatos 
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+mutation {
+  editOrder(input: {
+    id: 2
+    status: Cooked
+  }) {
+    ok
+    error
+  }
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+mutation {
+  editOrder(input: {
+    id: 2
+    status: PickedUp
+  }) {
+    ok
+    error
+  }
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+mutation {
+  editOrder(input: {
+    id: 2
+    status: Cooking
+  }) {
+    ok
+    error
+  }
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: client로 login하고 생성된 token
+
+mutation {
+  editOrder(input: {
+    id: 2
+    status: Cooked
+  }) {
+    ok
+    error
+  }
+}
+
+### 12.0
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "nico@customer.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 11.13
 POST http://localhost:3000/graphql
 Content-Type: application/json
