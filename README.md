@@ -4270,3 +4270,73 @@ Subscription에 연결하려는 순간, HTTP route를 거치지 않고 Web Socke
 웹 소켓에 연결할 때는 쿠키를 보내고 받는 것이 없음
 
 연결되면 연결 상태를 유지함
+
+## 12.0 Subscriptions part Two
+
+HTTP 요청은 잘 작동하고 있음
+
+웹 소켓을 통해 연결하려고 하는 순간 에러가 발생함
+
+user는 정의되지 않은 것으로 읽을 수 없음
+
+웹 소켓을 쓰려고 하면, HTTP 프로토콜이 아닌 웹 소켓 프로토콜이 필요함
+
+HTTP에는 request라는 것이 있음
+
+웹 소켓에는 request가 없고, 대신에 connection이라는 것이 있음
+
+Connection에는 query가 있고, variables도 있고, operationName 그리고 context가 있음
+
+웹 소켓에 연결할 때에는 Request가 없고 Connection만 있음
+
+웹 소켓은 HTTP와 연결 방법이 다름
+
+HTTP에서는 매번 request할 때마다 토큰을 보냄
+
+모든 Request때마다 같이 보냄
+
+웹 소켓은, 딱 한 번만 토큰을 보냄 
+
+연결을 시작할 때 토큰을 보내는데 연결이 끝나지는 않음
+
+많은 이벤트를 받고 보낼 수 있으며, 토큰을 다시 보낼 필요가 없음
+
+누가 subscription을 listening하는지 인증하고 알아야함
+
+특정 사람들만 주문의 업데이트를 listening 할 수 있게 함
+
+connection은 context와 같이 옴
+
+request에 x-jwt context는 없음
+
+request는 x-jwt header가 있음
+
+potatoReady는 asyncIterator(hotPotatos)를 발생시키는 작업을 해야함
+
+potatoReady에서 pubsub.publish()를 함
+
+이벤트에 트리거를 publish함
+
+hotPotatos를 publish함
+
+payload는 object여야함
+
+트리거 이름은 pubsub.publish()과 pubsub.asyncIterator()에서 같으면 됨
+
+트리거의 이름은 같아야만 함
+
+publish의 payload에는 object의 key로 method function을 넣으면 됨
+
+트리거의 이름과 publish하는 이름은 같아야함
+
+hotPotatos 두 개는 트리거고, publish의 payload는 객체여야함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription하고, potatoReady를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+어떤 유저가 listening하는지 알아야하니까 user가 필요함
+
+주문 업데이트를 listening하길 원함
+
+누군가 주문을 업데이트했을 때, 주문 업데이트를 publish함
+
+지금은 아무나 listening 할 수 있음
