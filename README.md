@@ -4271,7 +4271,7 @@ Subscription에 연결하려는 순간, HTTP route를 거치지 않고 Web Socke
 
 연결되면 연결 상태를 유지함
 
-## 12.0 Subscriptions part Two
+## 12.1 Subscriptions part Two
 
 HTTP 요청은 잘 작동하고 있음
 
@@ -4340,3 +4340,107 @@ hotPotatos 두 개는 트리거고, publish의 payload는 객체여야함
 누군가 주문을 업데이트했을 때, 주문 업데이트를 publish함
 
 지금은 아무나 listening 할 수 있음
+
+## 12.2 Subscription Authentication part One
+
+resolver를 보호하기 위해 Role decorator를 씀
+
+Role decorator에서 메타 데이터를 설정하면, Authorization guard가 입력된 role에 맞게 처리를 함
+
+@AuthUser() user: User라 하면, 현재 로그인한 유저를 알려줌
+
+토큰은 HTTP header에서 옴
+
+웹 소켓은 HTTP가 아님
+
+인증은 jwt middleware에 의해 처리됨
+
+jwt middleware는 request, response, next를 처리함
+
+토큰을 찾고, 디코딩하고, 유저를 찾아서 request에 user를 넣음
+
+jwt middleware가 웹 소켓과 관련된 일은 처리하지 않음
+
+웹 소켓에는 req, res, next 모두 없음
+
+누가 subscription을 listening하는지 알아야함
+
+더 이상 쓸 수 없는 jwt middleware를 삭제함
+
+jwt token 을 없앰
+
+guard가 resolver에 접근 할 수 없다고 알려줌
+
+guard가 웹 소켓과 HTTP를 위해서 호출됨
+
+guard는 HTTP이든 웹 소켓이든 모든 graphQL resolver에 대해 호출됨
+
+guard는 auth.guard에 있음
+
+guard에는 context가 있음
+
+헤더에는 x-jwt가 있음
+
+x-jwt를 Authorization으로 변경할 수 있음
+
+HTTP를 통해 웹사이트로 request가 왔는데, 가장 먼저 찾은 것은 jwt middleware였음
+
+jwt middleware는 헤더에서 토큰을 가져와서 유저를 찾음
+
+jwt middleware는 찾은 유저를 req에 넣었음
+
+graphQL context function이 request 내부에서 유저를 가져와, context.user에 넣어줌
+
+jwt middleware가 없기 때문에 첫번째 방어선으로 올라감
+
+GraphQLModule.forRoot 안에 있는 context가 guard에 context를 제공함
+
+connection이 있을 때, context에 아무 것도 보내지 않고 있음
+
+Connection은 웹 소켓이 클라이언트와 서버 간의 연결을 설정하려고 할 때 발생함
+
+context에 토큰이 있음
+
+request가 존재하면 guard에 request를 보냄
+
+connection.context는 토큰을 가지고 있음
+
+connection.context는 HTTP의 req.headers와 같음
+
+request와 connection은 동시에 작동하는게 아님
+
+request는 HTTP이고 connection은 웹 소켓임
+
+HTTP가 더 많은 정보를 가지고 있음
+
+스텝 1은 jwt middleware를 제거함
+
+스텝 2에서는 guard에 필요한 정보를 보냄
+
+guard는 토큰을 추출하고, decode하고, 유저를 찾는 모든 일을 함
+
+auth.guard에서는 token을 가져올 수 있음
+
+토큰이 양쪽 request에 모두 있음
+
+request가 존재하면 req.headers를 주고, 존재하지 않으면 connection을 줌
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription하고, me를 query 했을 때의 console 결과를 확인함(subscription은 웹 소켓 기반이라 playground, query는 http 기반이라 restClient.http 파일에서 진행함)
+
+토큰이 양쪽에 다 있음
+
+guard는 jwt가 하던 일을 해야함
+
+HTTP resolver와 웹 소켓 resolver를 인증할 수 있음
+
+app.module.ts의 내용 변경함
+
+```javascript
+context: ({ req, connection }) => {
+  const TOKEN_KEY1 = "x-jwt";
+  const TOKEN_KEY2 = "X-JWT";
+  return {
+    token: req ? req.headers[TOKEN_KEY1] : connection.context[TOKEN_KEY2],
+  };
+}
+```
