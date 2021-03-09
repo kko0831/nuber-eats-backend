@@ -4444,3 +4444,45 @@ context: ({ req, connection }) => {
   };
 }
 ```
+
+## 12.3 Subscription Authentication part Two
+
+jwtService를 constructor 에 넣음 
+
+토큰을 decode함
+
+user만 받음
+
+userService가 필요함
+
+roles가 없으면 guard가 지나가라고 말함
+
+roles가 없으면 보호가 필요하지 않기 때문임
+
+roles가 없으면 누구나 쓸 수 있는 resolver임
+
+context는 토큰을 줌
+
+context에 토큰이 있으면, 토큰을 decode함
+
+user를 찾음
+
+user가 없다면 false를 return하고, roles에 Any가 있다면 true라고 함
+
+usersModule을 import 해야함
+
+userModule이 userService를 export 해서 repository 등등 모든걸 가져올 수 있음
+
+guard를 provide했고, 모듈을 import 했고, 따라서 guard는 작동함
+
+authUser는 graphQL context에서 user를 가져옴
+
+guard가 Decorator보다 먼저 호출됨
+
+guard가 user를 graphQL context에 추가하고, decorator가 호출되면 decorator가 graphQL context 내부에서 user를 찾음
+
+누가 subscription을 요청하는지 알 수 있고, 누가 HTTP resolver를 호출하는지 알 수 있음
+
+웹 소켓과 http에 대한 인증을 얻음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription 했을 때의 console 결과를 확인함(subscription은 웹 소켓 기반이라 playground에서 진행함)
