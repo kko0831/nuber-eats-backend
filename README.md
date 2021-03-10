@@ -4486,3 +4486,83 @@ guard가 user를 graphQL context에 추가하고, decorator가 호출되면 deco
 웹 소켓과 http에 대한 인증을 얻음
 
 터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription 했을 때의 console 결과를 확인함(subscription은 웹 소켓 기반이라 playground에서 진행함)
+
+## 12.4 PUB_SUB
+
+orders resolver를 보면 PubSub, asyncIterator, publish를 사용하고 있음
+
+resolver 제일 위에 PubSub이 생성되어 있는데 문제가 됨
+
+PubSub이 전체 어플리케이션에서 하나여야함
+
+user resolver에 다른 PubSub을 만들 수 없음
+
+2개의 PubSub이 작동하고 서로를 찾지 못 하기 때문임
+
+다른 PubSub에서 메세지도 보낼 수 없고, 아무 것도 publish 할 수 없음
+
+결국은 PubSub은 하나여야함
+
+사용자, 레스토랑, 주문 모듈에서 모두 동일한 PubSub을 호출하고 싶음
+
+common module을 Global로 만듦
+
+common 모듈에서 전체 어플리케이션을 위한 PubSub을 provide함
+
+모듈이 생성되면 useValue로 new PubSub을 사용해서 app 전체에 provide함
+
+common 모듈이 생성되면 PubSub도 생성됨
+
+어디서든지 PUB_SUB을 import 할 수 있음
+
+orders resolver의 Constructor나 PubSub을 사용하고 싶은 모든 곳에서, @Inject()를 해주면 됨
+
+app의 모든 곳에서 중복 없이 PubSub 인스턴스를 쓸 수 있음
+
+PUB_SUB을 가진 모듈이 import 되지 않았음
+
+provide를 하고는 있지만 export하지 않음
+
+PUB_SUB을 export함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription하고, potatoReady를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+PubSub이 잘 작동함
+
+인증도 잘 작동함
+
+dependency injection을 쓰면 어플리케이션에 원하는 것을 provide 할 수 있음
+
+PubSub은 데모용임
+
+서버에 단일 인스턴스로 있고 여러 개의 연결로 확장하지 않는 경우에만 작동함
+
+Heroku나 AWS lightsail에 서버를 올리는 경우에 충분함
+
+동시에 많은 서버를 가지고 있는 경우, PubSub으로 구현하려 하면 안 됨
+
+PubSub은 분리된 별도의 서버에서 작동하기 때문임
+
+동시에 10개의 서버가 있는 경우 다른 별도의 PubSub 인스턴스가 필요함
+
+모든 서버가 동일한 PubSub 인스턴스로 통신 할 수 있음
+
+동시에 10개의 서버가 있는 경우 한 서버가 트리거를 listening하는 서버가 되고, 다른 서버가 트리거에 publish 하는 서버면 동일한 PubSub이 아닌 경우, 작동하지 않음
+
+PubSub을 다른 분리된 서버에 저장함
+
+redis로 작업할 때는 graphql-redis-subscriptions를 설치함
+
+RedisPubSub을 사용함
+
+redis client에서는 host, port를 제공해줌
+
+RedisPubSub을 만들고 publisher, subscriber는 비슷함
+
+Cluster를 쓰면 많은 Node를 사용할 수도 있음
+
+대부분은 클러스터가 필요하지 않음
+
+redis DB에 요금을 내면 받는 domain name이랑 port에 연결하기만 하면 됨
+
+대부분은 한 서버만 씀

@@ -1,3 +1,28 @@
+### 12.4
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  potatoReady 
+}
+
+### 12.4
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 12.3
 POST http://localhost:3000/graphql
 Content-Type: application/json
