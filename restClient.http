@@ -1,3 +1,64 @@
+### 12.5
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  potatoReady(potatoId: 888) 
+}
+
+### 12.5
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  potatoReady(potatoId: 1) 
+}
+
+### 12.5
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  potatoReady(potatoId: 99) 
+}
+
+### 12.5
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  potatoReady(potatoId: 33) 
+}
+
+### 12.5
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  potatoReady(potatoId: 8) 
+}
+
+### 12.5
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 12.4
 POST http://localhost:3000/graphql
 Content-Type: application/json

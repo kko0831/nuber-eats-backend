@@ -4566,3 +4566,101 @@ Cluster를 쓰면 많은 Node를 사용할 수도 있음
 redis DB에 요금을 내면 받는 domain name이랑 port에 연결하기만 하면 됨
 
 대부분은 한 서버만 씀
+
+## 12.5 Subscription Filter
+
+filtering이라는걸 해봄
+
+filtering을 해야하는 이유는 모든 update를 listen할 필요가 없기 때문임
+
+모든 update를 알 필요는 없음
+
+필요한 update만 볼 수 있으면 됨
+
+filtering을 하지 않는다면 subscription은 의미가 없음
+
+readyPotato는 mutation임
+
+mutation에 potatoId라는 argument를 가지도록 만듦
+
+potatoId argument는 number여야함
+
+publish는 promise를 return함
+
+potatoReady, readyPotato 모두 potatoId라는 argument를 가짐
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription하고, potatoReady를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+subscription인 readyPotato로, potatoId가 1인 potato의 update를 listening함
+
+subscription이 등록되고 update되는걸 listening함
+
+potatoReady에 potatoId가 8이라 함
+
+potatoId가 1인 potato를 update하는걸 listening함
+
+potatoId 8과 33을 ready됐다고 update하면, readyPotato subscription에 좋지 않은 결과가 보임
+
+potatoId가 1인 potato를 update할 때만 알림을 받고 싶음
+
+potato 33, 8이 ready됐다는 update는 상관없음
+
+potatoId가 1인 경우에만 신경쓰고 싶음
+
+id만 신경쓰면 됨
+
+우리의 order를 제외하고는, 어떤 order의 update도 보고 싶지 않음
+
+다른 restaurant에 들어오는 order를 보고 싶지 않음
+
+내 restaurant에 들어오는 order만 보고 싶음
+
+potatoId가 1인 potato가 update되는 걸 listening하고, potatoId가 1인 경우만 보이도록 만듦
+
+filtering이 구현해줌
+
+subscription decorator를 보면 option들이 있는데 그 중 하나가 filter임
+
+filter에는 payload, variables, context를 주고 true, false를 return하도록 만들어야함
+
+filter function이 false로 되어있음
+
+potatoId 1을 기다리고 있는데, potatoId 33을 update해도 알림을 받고 있음
+
+filter는 payload, variables, context를 가지는 function임
+
+context는 이미 export되어 쓸 수 있는 상태임
+
+context는 우리가 만든 graphql context임
+
+return true를 함
+
+update를 감지하고 있고 potato 99를 update하면, potato 99가 출력되는걸 볼 수 있음
+
+payload는 readyPotato: Your potato 99 is ready를 가진 object임
+
+variables는 listening을 시작하기 전에 subscription에 준 variables를 가진 object임
+
+filter function이 무슨 variables를 보냈는지 알 수 있음
+
+context에는 token, undefined인 request, user 등 모든게 다 있음
+
+payload, variables를 기반으로 filter를 할 수 있고 나중에는 context.User로도 할 수 있음
+
+context.User는 guard에 의해서 추가됨
+
+readyPotato를 potatoId라 함
+
+readyPotato를 가진 payload가 potatoId인 variable과 같은지 체크해봄
+
+readyPotato에는 potatoId가 있음
+
+potatoId는 listening을 시작하기 전 subscription에 준 variable에서 옴
+
+readyPotato === potatoId를 return함
+
+true라면 사용자가 update 알림을 받게 됨
+
+payload에는 99가 있고 variables에는 1이 있음
+
+원하는 event만 publish됨
