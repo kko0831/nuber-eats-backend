@@ -41,7 +41,11 @@ The Backend of Nuber Eats Clone
 - Delete Dish
 
 - Orders CRUD
-- Orders Subscription (Owner, Customer, Delivery)
+- Orders Subscription:
+
+  - Pending Orders (Owner) (T: createOrder)
+  - Order Status (Customer, Delivery, Owner) (T: editOrder)
+  - Pending Pickup Order (Delivery)  
 
 - Payments (CRON)
 
@@ -4664,3 +4668,127 @@ true라면 사용자가 update 알림을 받게 됨
 payload에는 99가 있고 variables에는 1이 있음
 
 원하는 event만 publish됨
+
+## 12.6 Subscription Resolve
+
+filter function은 현재 listening하는 사용자가 update 알림을 받아야하는지 말아야하는지 결정함
+
+첫번째 argument는 payload임
+
+두번째 argument는 resolver의 variables임
+
+세번째는 context임
+
+context에서는 User를 사용할 수 있음
+
+filter에서 조건을 만족하면 true를 return함
+
+resolve는 사용자가 받는 update 알림의 형태를 바꿔줌
+
+type을 보면 resolve가 payload, args, context, info를 받고 있음
+
+readyPotato를 payload로 줌
+
+Your potato with the id ${readyPotato} is ready!를 return함
+
+order를 update하면 order 내용 전체를 보낼 필요 없고 바뀐 부분만 보내면 됨
+
+resolve를 이용해서 전체 말고 바뀐 부분만 보내면 됨
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 readyPotato를 subscription하고, potatoReady를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+readyPotato로 listening을 시작하고, potatoReady로 88을 보냄
+
+아무 일도 일어나지 않음
+
+pubSub은 db에서만 쓸 수 있는게 아님
+
+driver가 실시간 위치를 보고할 때가 있는데, mutation이 db에 접근하지 않음
+
+message를 보내더라도 db를 거치지 않음
+
+driver가 위치를 보고하면 db에 저장하지 않고 pubSub에 push하도록 만들 수 있음
+
+driver의 위치를 db에 저장할 필요는 없음
+
+filter는 true나 false를 return함
+
+resolve는 subscription이 알려야하는걸 return하면 됨
+
+resolve는 output을 변형시켜줌
+
+resolver가 최종적으로 return하는 값은 asyncIterator가 됨
+
+subscription function에서 variables를 가지고 asyncIterator를 return함
+
+유저가 update알림을 받을지 말지는 filter가 결정함
+
+resolve는 subscription의 output 모습을 바꿔줌
+
+restaurant owner는 dashboard에서 새로 들어오는 order들을 보게 됨(pending orders)
+
+owner를 위해 dashboard에서 보여지는 order임
+
+실시간으로 새 order들을 보여줌
+
+유저가 order를 만들면 화면에서 customer(고객)을 위한 order status를 볼 수 있음
+
+order가 cooked(조리완료)되면 driver에게 픽업할 order가 있다고 알림을 줌(delivery person을 위한 pending pickup order)
+
+언제 알림을 publish하고, 누가 subscription을 만들지 알아야함
+
+유저가 order를 만들면, newOrder event를 trigger함
+
+pending orders resolver가 newOrder event에 listening해야됨
+
+createOrder라는 resolver로 trigger됨
+
+createOrder(newOrder)가 trigger함
+
+pending orders는 newOrder trigger를 listening하도록 함
+
+order status는 orderUpdate라는 trigger를 listening하도록 함
+
+editOrder라는 resolver로 trigger되도록 만듦
+
+editOrder가 order status를 update할 때마다 orderUpdate를 trigger함
+
+pending pickup order는 orderUpdate를 listening함
+
+editOrder(orderUpdate)에 의해 trigger됨
+
+유저가 order를 만들 때 createOrder라는 resolver를 사용함
+
+resolver는 이미 만들어져 있음
+
+newOrder라는 event를 trigger함
+
+restaurant owner가 newOreder event를 listening하고 있다가 유저가 order를 만들면, restaurant owner가 본인 restaurant에 새로 들어오는 order를 listening함
+
+owner가 order를 승인하고 hungry사람(order를 만든 유저)의 order가 승인되면, 화면에서 order status를 보여줌
+
+order가 cooking중인걸 보게 됨
+
+owner가 editOrder resolver를 사용해서 음식이 cooked되었다고 알리면, orderUpdate event를 trigger함
+
+orderUpdate event는 customer와 owner가 listening을 하고 있음
+
+그런데 orderUpdate event가 생기고 order status가 cooked이면, pickup guy도 이 event를 listening함
+
+해당 order에 driver가 등록될거고 모두가 order status를 볼 수 있음
+
+customer는 order가 승인되고, 픽업되고, 요리되고, 배달되는 모든 과정을 볼 수 있음
+
+cooking person(owner)은 order가 픽업되고, 배달되는걸 봄
+
+delivery driver는 pending pickup order부터 할 일이 생김
+
+delivery driver는 order를 픽업해서 유저에게 갖다주고 completed 버튼을 누름
+
+resolver 3개를 만들어야함
+
+하나는 owner가 restaurant에 들어오는 order를 listen함
+
+다른 하나는 customer, delivery, owner가 특정 id의 order가 update되는걸 봄
+
+또 다른 하나는 delivery guy를 위한 pending pickup order resolver임
