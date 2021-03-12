@@ -44,8 +44,8 @@ The Backend of Nuber Eats Clone
 - Orders Subscription:
 
   - Pending Orders (Owner) (T: createOrder)
-  - Order Status (Customer, Delivery, Owner) (T: editOrder)
-  - Pending Pickup Order (Delivery)  
+  - Pending Pickup Order (Delivery)
+  - Order Status (Customer, Delivery, Owner) (T: editOrder)  
 
 - Payments (CRON)
 
@@ -4911,3 +4911,100 @@ context에 token과 user가 있음
 누가 subscription을 listening하고 있는지 알 수 있음
 
 그래야 유저한테 restaurant을 보여줄지 말지 결정할 수 있음
+
+## 12.8 pendingOrders Subscription part Two
+
+payload에서 봤듯이 owner id가 포함되어 있지 않음
+
+listening 중에 다시 order를 만들면, payload에 restaurant의 owner id가 없다는걸 알 수 있음
+
+filter function에서 restaurant을 search해야 할 수도 있음
+
+object가 order뿐만이 아니라 ownerId도 가지도록 함
+
+ownerId가 payload에 들어있지 않기 때문임
+
+누가 customer인지 알 수 있고, restaurant이 어딘지 알 수 있음
+
+restaurant의 owner는 알 수 없음
+
+filter function에 ownerId를 보냄
+
+restaurant은 ownerId를 가지고 있음
+
+trigger는 restaurant에 보여줄 order와 유저에게 보여줄지말지 결정해주는 ownerId를 받음
+
+payload를 보면 ownerId가 포함됨
+
+customer, restaurant, items 등을 가진 order와 ownerId를 가지고 있음
+
+context에는 token과 user가 있음
+
+payload 안에 ownerId가 있고 context에 user가 있으니까, ownerId === user.id 를 return함
+
+true라면 subscription을 listening하고 있는 유저가 order를 보게 됨
+
+pendingOrders: { ownerId }로 해야함
+
+listening을 시작하고 order를 만들면 작동은 하지만 에러가 나옴
+
+data를 받긴 했는데 에러가 나왔옴
+
+payload를 바꿨기 때문임
+
+payload에는 order, ownerId가 있음
+
+payload는 order였는데 지금은 order를 가진 object가 됨
+
+resolve function을 추가함
+
+resolve function에는 payload가 필요함
+
+args, context, info는 신경쓰지 않음
+
+payload만 필요함
+
+payload를 return 해야함
+
+payload는 pendingOrders이고 그 안에는 order object를 가지고 있음
+
+order를 payload로 return함
+
+전에는 pendingOrders가 order 그 자체였기 때문에 바꿀 필요가 없었음
+
+지금은 publish()의 payload를 바꿨기 때문에 resolve의 payload도 바꿔줘야함
+
+subscription이 order를 return 한다하고 실제로는 order와 ownerId를 return 했음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 pendingOrders를 subscription하고, createOrder를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+```javascript
+subscription {
+  pendingOrders {
+    id
+    items {
+      dish {
+        name
+      }
+      options {
+        name
+        choice
+      }
+    }
+  }
+}
+```
+
+ownerId가 user.id와 같고 user.id는 subscription을 listening하고 있음
+
+args를 쓰는대신 _를 써서 variables는 신경쓰지 않는다는걸 나타냄
+
+user.id가 1이라 하고 order를 받지 않게 함
+
+order를 받지 않아야함
+
+listening을 시작한 뒤 order를 만들면 아무 것도 받지 않고 있음
+
+ownerId와 user.id가 다르기 때문임
+
+pending pickup order는 owner가 음식 준비를 완료하고 픽업할 준비가 되면 trigger되는 subscription임
