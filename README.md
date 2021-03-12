@@ -4792,3 +4792,122 @@ resolver 3개를 만들어야함
 다른 하나는 customer, delivery, owner가 특정 id의 order가 update되는걸 봄
 
 또 다른 하나는 delivery guy를 위한 pending pickup order resolver임
+
+## 12.7 pendingOrders Subscription part One
+
+pending orders subscription resolver를 만듦
+
+resolver가 새로운 order를 return함
+
+새로운 order가 들어오면 해당 order를 return함
+
+Role을 사용해서 Owner만 resolver를 사용할 수 있도록 함
+
+this.pubSub.asyncIterator()를 return 하고 안에 trigger를 작성함
+
+trigger는 string이여야함
+
+constants 파일 안에 trigger를 작성함
+
+app의 많은 곳에서 반복해서 씀
+
+pendingOrders는 NEW_PENDING_ORDERS를 listening함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 pendingOrders를 subscription함
+
+```javascript
+subscription {
+  pendingOrders {
+    id
+    items {
+      dish {
+        name
+      }
+      options {
+        name
+        choice
+      }
+    }
+  }
+}
+```
+
+subscription { pendingOrders }를 하면 선택할 수 있는게 나오는데 id, items를 선택하고 items에서 dish를 선택함
+
+options에서 name, choice도 선택함
+
+정보를 위해 order의 id가 필요하고 유저가 뭘 주문했는지 알려면 order의 items도 필요함
+
+dish에 subfield가 필요함
+
+dish의 name을 필요로 함
+
+NEW_PENDING_ORDER를 trigger할 수 있는건 createOrder service뿐이어야함
+
+Order resolver에서 했던 것처럼 order service에도 pubSub를 inject해주면 됨
+
+order를 save하고 나서 모든게 괜찮으면 await this.pubSub하고 NEW_PENDING_ORDER를 publish함
+
+payload를 줘야함
+
+payload는 resolver의 이름이어야하니까 pendingOrders로 하면 됨
+
+새로 생성된 order를 payload로 보냄
+
+resolver는 NEW_PENDING_ORDER라는 trigger의 asyncIterator를 return함
+
+trigger는 constants 파일에 작성함 
+
+string이라서 실수하는걸 방지하고 싶음
+
+trigger는 createOrder를 하면 발생함
+
+새로운 order를 만들면 NEW_PENDING_ORDER를 발생시킴
+
+filtering을 하지 않았음
+
+order를 filter 해야함
+
+restaurant에 생성된 새로운 order만을 보여주고 싶음
+
+payload를 추가하고 variables는 생략하고 User로 쓸 context는 추가함
+
+return은 true로 함
+
+filter는 true나 false를 return 해야함
+
+filter에서는 order가 만들어진 restaurant이 context.User의 restaurant인지 체크함
+
+asyncIterator와 publish가 작동하는지 테스트를 먼저 해봄
+
+pendingOrders를 listening하고 있음
+
+customer token으로 createOrder를 mutation함
+
+고객쪽에서 owner의 restaurant에 order를 만듦
+
+order를 만들었고 trigger가 작동하는지 확인함
+
+console을 보면 payload인 pendingOrders에 모든 relationship을 가진 Order도 있음
+
+customer, restaurant, items, customerId까지 필요한 모든 정보가 포함되어있음
+
+subscription을 trigger하고 잘 처리하고 있음
+
+restaurant owner쪽이 order를 잘 받고 있는걸 볼 수 있음
+
+filtering을 하지 않았음
+
+filtering을 해줘야함
+
+filter는 restaurant이 owner id를 가지고 있는지 확인하도록 만듦
+
+restaurant에 owner id가 없음
+
+restaurant의 owner가 context의 user와 같은지 확인해줌
+
+context에 token과 user가 있음
+
+누가 subscription을 listening하고 있는지 알 수 있음
+
+그래야 유저한테 restaurant을 보여줄지 말지 결정할 수 있음
