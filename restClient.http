@@ -1,3 +1,81 @@
+### 12.9
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+mutation {
+  editOrder(input: {
+    id: 3
+    status: Cooked
+  }) {
+    ok
+    error
+  }
+}
+
+### 12.9
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+### 12.9
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "delivery@delivery.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+### 12.9
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  verifyEmail(input: {
+    code: "createAccount를 mutation 할 때 생성된 code"
+  }) {
+    ok
+    error
+  }
+}
+
+### 12.9
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  createAccount(input: {
+    email: "delivery@delivery.com"
+    password: "123"
+    role: Delivery
+  }) {
+    ok
+    error
+  }
+}
+
 ### 12.8
 POST http://localhost:3000/graphql
 Content-Type: application/json

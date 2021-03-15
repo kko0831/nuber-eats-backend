@@ -5008,3 +5008,117 @@ listening을 시작한 뒤 order를 만들면 아무 것도 받지 않고 있음
 ownerId와 user.id가 다르기 때문임
 
 pending pickup order는 owner가 음식 준비를 완료하고 픽업할 준비가 되면 trigger되는 subscription임
+
+## 12.9 cookedOrders
+
+pending pickup order를 만듦
+
+driver만 볼 수 있는 기능임
+
+Order를 return함
+
+Role에 Delivery를 추가함
+
+this.pubSub.asyncInterator()를 return함 
+
+안에는 trigger를 써줌
+
+constants 파일에 trigger를 만듦
+
+NEW_COOKED_ORDER를 trigger함
+
+NEW_COOKED_ORDER는 editOrder에 의해 trigger됨
+
+editOrder는 restaurant owner가 order를 update할 때 씀
+
+trigger를 publish함
+
+newOrder resolver에서 this.orders.save()를 했고 payload로 order를 return함
+
+order를 subscription으로 곧장 보내도 문제 없었음
+
+이미 존재하는 entity를 save하고 create하는 것의 차이를 보여줌
+
+entity를 create할 때는 save method가 create된 entity를 return함
+
+entity를 save할 때는 entity 전체를 return하지 않음
+
+update를 하면 save가 뭘 return하는지 확인함
+
+id, status, updatedAt을 받았고 total은 null임
+
+pgAdmin을 refresh를 해보면 total이 12이고 status가 cooked인걸 볼 수 있음
+
+update된 내용을 못 받고 있음
+
+order에 정말 많은 relationship이 있는데도 내가 보낸 id, status와 가지고 있는 column만 받았음
+
+relationship을 전혀 받지 못하고 있음
+
+order가 가진 column을 가져오지만 값을 못 가져오고 있음
+
+order에 total이 없다는 말이 아님
+
+save method가 order 전체를 return 하지 않음
+
+delivery driver는 order 정보를 모두 필요로 함
+
+cookedOrders는 Order를 return함
+
+delivery driver를 위해 Order 전체를 return 받는게 정말 중요함
+
+newOrder를 payload로 보낼 수 없음
+
+NEW_COOKED_ORDER를 trigger함
+
+owner가 NEW_COOKED_ORDER를 trigger할 수 있음
+
+Order의 새로운 status가 OrderStatus.Cooked와 같은지 확인하고, new cooked order를 publish 해야함
+
+payload는 resolver의 이름으로 줘야함
+
+payload는 order가 되야함
+
+this.orders.save()는 완벽한 Order를 주지 않음
+
+이미 order가 존재하는지 체크를 했음
+
+찾은 order를 db에 보낼 수 있음
+
+order는 이전 status인 Cooking을 가지고 있음
+
+{ ...order, status }로 바꿔줘야함
+
+delivery driver에게 이전 order를 새로운 status와 보내주게 됨
+
+entity를 update했을 때 entity 전체를 return 받지 못하는데, delivery driver한테는 entity 전체가 필요하기 때문임
+
+subscription을 listening 할 준비가 됨
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 cookedOrders를 subscription하고, editOrder를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+```javascript
+subscription {
+  cookedOrders {
+    restaurant {
+      name
+    }
+    total
+    customer {
+      email
+    }
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "delivery로 login mutation 했을 때 생성된 token 값"
+}
+```
+
+customer가 null인데 order를 load 했을 때 restaurant만 load했기 때문임
+
+user를 load하지 않았음
