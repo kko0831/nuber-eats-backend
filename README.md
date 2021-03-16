@@ -47,6 +47,8 @@ The Backend of Nuber Eats Clone
   - Pending Pickup Order (Delivery)
   - Order Status (Customer, Delivery, Owner) (T: editOrder)  
 
+- Add Driver to Order
+
 - Payments (CRON)
 
 ## 0.6 Backend Setup
@@ -5262,3 +5264,161 @@ NEW_COOKED_ORDER는 driver에게만 갈거고 NEW_ORDER_UPDATE는 모두에게 �
 일치하는 id를 listening하는 유저에게만 update를 publish하면 됨
 
 필요한 id를 가진 potato의 update만 listening할 수 있었음
+
+## 12.11 orderUpdates
+
+orderUpdates subscription을 listening 할 수 있음
+
+subscription이 잘 작동하는지 테스트함
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 orderUpdates를 subscription하고, editOrder를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+```javascript
+subscription {
+  orderUpdates(input: {
+    id: 5
+  }) {
+    status
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "any role로 login mutation 했을 때 생성된 token 값"
+}
+```
+
+orderUpdate에 input으로 id가 5인 order를 listen함
+
+order말고 status를 받음
+
+NEW_ORDER_UPDATE를 publish하면 trigger됨
+
+payload가 어떻게 생겼는지 아니까 에러가 생기지는 않음
+
+editOrder를 하면 Cooked를 받음
+
+Cooking으로 해봄 
+
+Cooking이 잘 나오는걸 보니 잘 작동하고 있음
+
+어떤 update, order든 모두가 listening하고 있음
+
+filter function을 좀 바꿔볼 수도 있음
+
+cookedOrders에는 filter function을 쓰지 않았음
+
+driver가 배달 가능한 order를 모두 볼 수 있게 하고 싶었기 때문임
+
+filter function을 작성해줘야함
+
+filter에 payload를 줘야하기 때문에 variable을 만듦
+
+payload는 orderUpdates가 됨
+
+typescript에서 에러가 나오지 않게 일단 filter가 true를 return하도록 함
+
+variables를 console log함
+
+variables에 뭐가 오는지 확인할 수 있음
+
+정리하면 filter에는 payload, variables, context를 줘야함
+
+listening을 시작함
+
+Any가 listening하고 있으니까 잘 작동함
+
+status가 Cooking임
+
+variables에는 input으로 id: 5가 있음
+
+variable의 이름이 input임
+
+input을 console log함
+
+refresh하고 listening, update하면 id: 5가 나옴
+
+type을 추가할 수 있음
+
+object가 Order type을 가진다고 함
+
+input은 OrderUpdatesInput type을 가짐
+
+user의 type은 User가 됨
+
+variables에 해당하는 유저가 id: 5를 listening하고 있음
+
+orderUpdates를 order라고 이름을 바꿈
+
+order.id === input.id를 return함
+
+유저가 원하는 order의 update만 볼 수 있음
+
+전에는 유저가 모든 order의 update를 볼 수 있었는데 그렇게 하고 싶지 않음
+
+listening을 시작함
+
+order 5를 edit함
+
+Cooking으로 update됨
+
+order 4를 edit함
+
+update가 보이지 않음
+
+order 5를 Cooked로 update함 
+
+Cooked가 보임
+
+order에 관련된 유저들이 모두 subscription을 listening 할 수 있도록 만들어야함
+
+owner, customer, driver만 update를 보게 됨
+
+payload로 받고 있는 order를 console log 해봄
+
+payload로 받고 있는 order에는 모든 정보가 다 들어있음
+
+defensive programming이라는걸 해야함
+
+user는 subscription을 request하고 있음
+
+order에 관련된 사람들만 order의 update를 볼 수 있음
+
+filter function으로 구현함
+
+resolver에서 iterator를 return하지 않는 방법도 있음
+
+service에서 return함
+
+order를 찾고 canSeeOrder를 call하고나서 새 service에서 return하게 함
+
+누구나 listening 할 수 있음
+
+어떤 update도 받지 못할 수도 있지만 적어도 listening은 하고 있음
+
+user.id를 모두 1로 바꿈
+
+refresh하고 push하면 아무 update도 받지 못 함
+
+id가 1인 경우에는 order와 관련이 없기 때문임
+
+order가 eager relation과 같이 load되기 때문에 restaurant.ownerId를 쓸 수 있음
+
+누구나 order를 edit 할 수 있음
+
+우리가 request하는 order만 update를 보내고 있음
+
+그리고 update를 받아야 하는 유저를 authorize하고 있음
+
+filter function으로 구현함
+
+argument의 이름을 다시 짓는 방법을 배웠고, typescript를 사용해서 object type을 명시하는 방법도 배움
+
+payment로 넘어가기 전에 마지막으로 할 일은 order에 driver를 등록하는 것임
+
+아직 resolver를 만들지 않았지만 정말 간단한 mutation임
+
+driver가 order를 accept하면 order를 driver의 정보로 update함
