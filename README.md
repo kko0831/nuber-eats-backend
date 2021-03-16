@@ -5122,3 +5122,143 @@ subscription {
 customer가 null인데 order를 load 했을 때 restaurant만 load했기 때문임
 
 user를 load하지 않았음
+
+## 12.10 orderUpdates part One
+
+eager relationships에 대해 봄
+
+order status 부분도 마무리함
+
+graphql로 customer의 email을 받으려고 함
+
+실제로 받지는 못 함
+
+order를 load할 때 customer를 달라고 안 했기 때문임
+
+어떤 것을 같이 load 해야할지 생각해볼 필요가 있음
+
+order entity에서 order를 load했을 때 driver, customer, restaurant이 뭔지 알고 싶음
+
+driverId와 customerId가 있긴 하지만 대부분은 order를 가지고 driver, restaurant, customer를 보여줌
+
+order 정보를 받아올 때 customer, driver 정보도 같이 받아야됨
+
+graphql을 보면 어떤 relationship을 default로 load 해야하는지 알려줌
+
+restaurant owner의 email을 받고 있음
+
+frontend에서는 restaurants list와 owner의 email을 보여주는 query를 쓸 일이 없음
+
+restaurants 정보를 받아올 때 owner를 default로 load할 필요가 없음
+
+db에서 order를 받아올 때는 customer, driver를 같이 load할 필요가 있음
+
+restaurants를 load할 때는 불필요한 정보니까 owner의 email이 필요없음
+
+eager relation은 db에서 entity를 load할 때마다 자동으로 load되는 relationship을 말함
+
+Category에 questions가 있고 Question에 categories가 있는 것을 볼 수 있는데 eager:true라는 object가 있음
+
+Question을 load할 때마다 알아서 relationship을 load함
+
+lazy relation은 한 번 access하면 load되고 type이 promise임
+
+Category에 promise type인 questions가 있고, Question에도 promise type인 categories가 있음
+
+원하는 relationship을 await 해야함
+
+await order.customer 코드를 access해야 typeorm이 customer를 load하는데 이게 lazy relation임
+
+lazy relation은 promise type이 있어야함
+
+order에서 restaurant을 load하고 싶다면 await order.restaurant을 꼭 해줘야함
+
+필요한 곳에 갖다 쓰면 됨
+
+eager relation으로 만들건데 order를 받을 때마다 자동으로 relationship이 load됨
+
+data를 어떻게 access하고 싶은지에 따라 달라짐
+
+order를 받을 때마다 모든게 같이 load됨
+
+eager relation과 lazy relation을 알아봄
+
+access만 한다면 lazy relation을 쓰는 것도 나쁘지 않음
+
+await를 해줘야한다는 것만 기억하면 됨
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 cookedOrders를 subscription하고, editOrder를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+```javascript
+subscription {
+  cookedOrders {
+    restaurant {
+      name
+    }
+    total
+    customer {
+      email
+    }
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "delivery로 login mutation 했을 때 생성된 token 값"
+}
+```
+
+console을 보면 에러가 없고 모든게 잘 작동하고 있음
+
+listen을 시작함
+
+order를 listening하고 있음
+
+order를 update함
+
+customer가 같이 load됨
+
+eager relation을 쓸 때 너무 많은걸 load하면 안 됨
+
+customer email에 restaurants를 받고 거기에서 owner의 email, restaurants를 받고, restaurants의 owner를 받으려하면 서버가 폭파될 수 있음
+
+이런 문제를 graphql의 n+1 problem이라 하고 이걸 방지하는 방법이 있음
+
+owner를 restaurant의 eager relation으로 만들 필요는 없음
+
+order status를 만들기 시작함
+
+orderUpdates에는 argument가 필요함
+
+orderUpdates에 input이 필요함
+
+규칙을 따라서 order-updates.dto.ts 파일을 생성함
+
+orderUpdates에 output을 주지 않음
+
+InputType만 만들면 됨
+
+orderUpdates의 input은 id만 있으면 됨
+
+지금까지 지켜온 규칙에 따라 만들고 있음
+
+this.pubSub.asyncIterator()를 return함
+
+NEW_ORDER_UPDATE를 만듦
+
+editOrder가 NEW_ORDER_UPDATE를 trigger함
+
+order가 성공적으로 update되었다면 await this.pubSub.publish(NEW_ORDER_UPDATE, )를 함
+
+payload에는 orderUpdates로 새로운 order를 보냄
+
+newOrder를 만듦
+
+NEW_COOKED_ORDER는 driver에게만 갈거고 NEW_ORDER_UPDATE는 모두에게 감
+
+일치하는 id를 listening하는 유저에게만 update를 publish하면 됨
+
+필요한 id를 가진 potato의 update만 listening할 수 있었음
