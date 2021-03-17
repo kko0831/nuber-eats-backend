@@ -5422,3 +5422,162 @@ payment로 넘어가기 전에 마지막으로 할 일은 order에 driver를 등
 아직 resolver를 만들지 않았지만 정말 간단한 mutation임
 
 driver가 order를 accept하면 order를 driver의 정보로 update함
+
+## 12.12 takeOrder
+
+payment로 넘어가기 전에 마지막으로 만들 resolver는 takeOrder임
+
+acceptOrder라 해도 됨
+
+delivery driver를 order에 등록함
+
+@Mutation()이라 하고 먼저 dto를 만듦
+
+take-order.dto.ts 파일을 생성함
+
+Order를 import함
+
+output도 있어야함
+
+TakeOrderOutput이 올거고 Role을 작성할건데 Delivery guy만 takeOrder를 쓸 수 있음
+
+input이 필요함
+
+service를 만듦
+
+driver는 User type이 됨
+
+takeOrderOutput은 TakeOrderOutput type이 됨
+
+login한 유저가 필요한데 AuthUser로 가져옴
+
+this.ordersService.takeOrder()를 return함
+
+order를 가져옴
+
+id를 가져옴
+
+orderId로 이름을 바꿈
+
+order의 delivery guy를 driver로 update하면 됨
+
+id는 orderId로 하면 되고 driver는 User여야함
+
+save를 쓴 곳에 뭔가를 써도 typescript가 자동완성을 해주지 않음
+
+그렇다고 작동하지 않는다는게 아님
+
+object에 []를 추가하면 typescript가 자동완성을 지원함
+
+type이 달라서 생기는 문제임
+
+그렇다고 작동하지 않는건 아님
+
+자동완성을 보고 싶다면 array 안으로 옮기면 됨
+
+orderId와 driver를 update함
+
+driver는 User type임
+
+NEW_ORDER_UPDATE를 publish 해야함
+
+newOrder 대신에 order를 쓰면 됨
+
+그리고 driver를 포함시켜줌
+
+order를 load하면 order에 eager relationship이 있다는 것을 앎
+
+order에 모든 정보가 load됨
+
+orders.save를 await하면 됨
+
+좀 더 확실하게 하고 싶다면 order.driver가 있을 때 ok:false와 error: this order already has a driver를 return하면 됨
+
+publish가 끝나면 ok:true를 return하면 됨
+
+try~catch 안에 넣음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 orderUpdates를 subscription하고, takeOrder와 editOrder를 mutation 했을 때의 결과를 확인함(subscription은 웹 소켓 기반이라 playground, mutation은 http 기반이라 restClient.http 파일에서 진행함)
+
+```javascript
+subscription {
+  orderUpdates(input: {
+    id: 2
+  }) {
+    status
+    driver {
+      email
+    }
+  }
+}
+```
+
+왼쪽 아래 HTTP HEADERS에
+
+```javascript
+{
+  "X-JWT": "any role로 login mutation 했을 때 생성된 token 값"
+}
+```
+
+subscription을 테스트해봄
+
+owner의 token을 확인함
+
+order id 2를 listening함
+
+mutation은 takeOrder가 됨
+
+takeOrder, input, order의 id는 2가 됨
+
+listening을 시작함
+
+작동하는지 확인할 수 있도록 status와 driver의 email을 받아봄
+
+id는 2여야함
+
+db에서 customer를 delivery로 바꿈
+
+resolver가 작동하는지 확인함
+
+status는 그대로지만 driver가 추가됨
+
+보다시피 subscription이 잘 작동함
+
+유저가 order를 만들고 restaurant이 order를 accept하면 유저가 볼 수 있음
+
+restaurant이 요리를 완료해도 유저가 확인할 수 있음
+
+driver가 order를 take하면 유저가 driver를 확인할 수 있음
+
+driver로 editOrder를 해봄
+
+driver가 id 2인 order의 status를 PickedUp으로 바꾸면, driver가 준비된 음식을 픽업했다는 뜻임
+
+새로운 update를 받아 PickedUp이 생김
+
+driver가 status를 Delivered로 update하면 Delivered를 볼 수 있음
+
+보다시피 Cooking, PickedUp, Delivered를 모두 확인할 수 있음
+
+payment로 넘어갈건데 backend에서는 길게 다루지 않음
+
+어떤 restaurant이 우리한테 광고비를 주는지 알아야하고, 그런 restaurant들을 어떻게 promote할지 생각해봐야함
+
+cron은 chronological(시간순, 연대순)이라는 단어에서 옴
+
+시간을 뜻하는 고대 그리스어 cronos에서 왔을 수도 있음
+
+cron job, cronos job, time job은 서버에 5분마다 어떤 function을 실행시키도록 만들 수 있음
+
+이런게 바로 cron job임
+
+매주 월요일 7pm에 function을 실행시킬 수도 있음
+
+노마드코더 챌린지를 해봤다면 매일 아침 6시에 이메일을 받았을텐데, 그렇게 이메일을 보내는 일이 바로 cron job임
+
+챌린지가 시작하기 전 일요일에 보내는 이메일도 cron job에 해당됨
+
+5분마다, 5일마다, 1년에 한 번씩 function을 실행해주는 프로그램을 만들 수 있음
+
+nestjs에서만 쓸 수 있는건 아니지만 nestjs에서 cron job을 만들기 쉬움
