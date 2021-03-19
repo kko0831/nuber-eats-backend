@@ -4,7 +4,7 @@ import { Restaurant } from "src/restaurants/entities/restaurant.entity";
 import { User } from "src/users/entities/user.entity";
 import { Column, Entity, ManyToOne, RelationId } from "typeorm";
 
-@InputType("PaymentInputType", { isAbstract: true })
+@InputType("PaymentInputType")
 @ObjectType()
 @Entity()
 export class Payment extends CoreEntity {

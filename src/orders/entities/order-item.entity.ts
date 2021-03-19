@@ -3,7 +3,7 @@ import { CoreEntity } from "src/common/entities/core.entity";
 import { Dish } from "src/restaurants/entities/dish.entity";
 import { Column, Entity, ManyToOne } from "typeorm";
 
-@InputType("OrderItemOptionInputType", { isAbstract: true })
+@InputType("OrderItemOptionInputType")
 @ObjectType()
 export class OrderItemOption {
   @Field(() => String)
@@ -12,7 +12,7 @@ export class OrderItemOption {
   choice: string;
 }
 
-@InputType("OrderItemInputType", { isAbstract: true })
+@InputType("OrderItemInputType")
 @ObjectType()
 @Entity()
 export class OrderItem extends CoreEntity {

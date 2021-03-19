@@ -29,7 +29,7 @@ export enum OrderStatus {
 
 registerEnumType(OrderStatus, { name: "OrderStatus" });
 
-@InputType("OrderInputType", { isAbstract: true })
+@InputType("OrderInputType")
 @ObjectType()
 @Entity()
 export class Order extends CoreEntity {
