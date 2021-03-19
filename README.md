@@ -5687,3 +5687,69 @@ paddle은 프론트엔드 중심임
 홍보와 체크인 프로모션을 다루는 결제 부분을 함
 
 나머지는 프론트엔드에서 다룸
+
+## 13.1 Payment Module
+
+payments module을 만들기 위해 터미널에 nest g module payments를 실행함
+
+app.module.ts에도 추가됨
+
+payment.entity.ts를 만듦
+
+entity는 transaction id가 필요함
+
+paddle에서 transaction id를 받음
+
+paddle이 프론트엔드에서 주는 정보들에 대해 알게 되면, 나중에 이 모델을 바꿀 수도 있음
+
+payments에도 user가 있음
+
+payment는 user가 있고, user는 많은 payment가 있음
+
+onDelete는 SET NULL함
+
+user가 떠나면 그의 payment도 지우고 싶음
+
+user는 payments array를 가짐
+
+user는 payment도 갖게 됨
+
+Payment가 CoreEntity가 있다는 것을 꼭 기억해야함
+
+CoreEntity 안에 createAt이 있음
+
+createAt이 중요함
+
+user가 언제 결제했는지를 바탕으로 음식점을 홍보하기 때문임
+
+entity를 app module에 install함
+
+TypeOrm에 Payment를 넣음
+
+터미널에 npm run start:dev 입력하면 pgAdmin의 payment 테이블에 id, createdAt, updatedAt, transaction id, user id, restaurant id Column이 있음
+
+user가 음식점을 여러 개 소유할 수 있게 웹사이트를 디자인함
+
+코드가 길어지기 때문에 user가 음식점을 여러 개 소유할 수 있게 만들면 안 됨
+
+user가 돈을 내면 user가 어떤 음식점을 홍보하고 싶은지 선택할 수 있게 해줘야함
+
+user는 여러 음식점을 소유할 수 있음
+
+payment에 restaurant도 생김
+
+user가 여러 음식점 중 자기가 홍보하고 싶은 곳을 선택해야 하기 때문임
+
+restaurant은 order가 많음
+
+restaurant에서 payment에 접근할 필요가 없음
+
+restaurant도 있고, RelationId를 만듦
+
+RelationId는 payment를 받음
+
+라이선스류에도 paddle을 쓸 수 있음
+
+fast spring이라는 프로그램을 씀
+
+payments, entities를 마무리함
