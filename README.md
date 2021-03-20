@@ -5892,3 +5892,49 @@ user가 자기 payment를 가져올 수 있어야함
 payment를 수정할 수도, payment를 삭제할 수도 없음
 
 payment를 create하고, 만든 payments만 볼 수 있음
+
+## 13.4 getPayments Resolver
+
+get-payments 파일을 만듦
+
+input은 아무 것도 안 받음
+
+query는 GetPaymentsOutput을 return함
+
+me resolver는 end relationship을 로드하지 않음
+
+me는 로그인 되어있는 user를 return함
+
+me는 user object만 return함
+
+어떠한 relationship도 로드하지 않음
+
+eager relationship에서 주의해야 할 점은 pagination을 할 수 없음
+
+filter도 할 수 있음
+
+prototyping할 때 유용함
+
+한 model에서 다 가져올 수 있기 때문임
+
+eager: true인 이상 relationship을 다 가져올 수 있음
+
+문제는 덩치가 커졌을 때임
+
+덩치가 커져서 user가 payments 수천 개 있는데, paginate 못하고, eager relationship만 request하면 문제가 생김
+
+prototyping하는 중이라면 eager relationship을 쓰면 바로 실행됨
+
+try catch 블록에 넣음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 getPayments를 query 했을 때의 결과를 확인함(restClient.http 파일에서 진행함)
+
+eager relationship과 작업하면 가끔 test하기 힘듦
+
+한 가지 일을 처리하는 resolver를 갖는 게 중요함
+
+오직 user만 me resolver에 있는게 좋음
+
+하나의 resolver가 모든 것을 다 받는 구조면 무거워질 가능성이 큼
+
+createPayments와 getPayments를 할 수 있음
