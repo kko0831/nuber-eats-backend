@@ -5801,3 +5801,94 @@ restaurant id도 필요함
 restaurant id에 field를 주면 됨
 
 graphql에 뜸
+
+## 13.3 createPayment part Two
+
+Owner만 resolver에 접근할 수 있게 만듦
+
+AuthUser가 필요함
+
+홍보하고 싶은 음식점이 그 user의 음식점이 맞는지 확인하고 싶음
+
+promise를 return함
+
+payment를 create함
+
+payment input은 transaction id와 restaurant id가 포함되어있음
+
+restaurant를 find함
+
+restaurant repository를 inject함
+
+restaurant를 input으로 추가 안 했음
+
+항상 방어적인 프로그래밍을 해야함
+
+김 아무개가 해당 음식점 주인이 아닐 수 있음
+
+payments를 create함
+
+user는 restaurant의 owner(주인)임
+
+try catch 안에 집어넣음
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하면 playground가 실행되고 schema에서
+
+```javascript
+type Mutation {
+  createAccount(input: CreateAccountInput!): CreateAccountOutput!
+  login(input: LoginInput!): LoginOutput!
+  editProfile(input: EditProfileInput!): EditProfileOutput!
+  verifyEmail(input: VerifyEmailInput!): VerifyEmailOutput!
+  createRestaurant(input: CreateRestaurantInput!): CreateRestaurantOutput!
+  editRestaurant(input: EditRestaurantInput!): EditRestaurantOutput!
+  deleteRestaurant(input: DeleteRestaurantInput!): DeleteRestaurantOutput!
+  createDish(input: CreateDishInput!): CreateDishOutput!
+  editDish(input: EditDishInput!): EditDishOutput!
+  deleteDish(input: DeleteDishInput!): DeleteDishOutput!
+  createOrder(input: CreateOrderInput!): CreateOrderOutput!
+  editOrder(input: EditOrderInput!): EditOrderOutput!
+  takeOrder(input: TakeOrderInput!): TakeOrderOutput!
+  createPayment(input: CreatePaymentInput!): CreatePaymentOutput!
+}
+
+input CreatePaymentInput {
+  transactionId: String!
+  restaurantId: Int!
+}
+
+type CreatePaymentOutput {
+  error: String
+  ok: Boolean!
+}
+
+type Payment {
+  id: Int!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  transactionId: String!
+  user: User!
+  restaurant: Restaurant!
+  restaurantId: Int!
+}
+```
+
+볼 수 있음
+
+createPayment를 mutation함(restClient.http 파일에서 진행함)
+
+transactionId는 integer면 안 됨
+
+paddle이 숫자를 안 줄 수도 있음
+
+id가 10인 restaurant을 가지고 있음
+
+pgAdmin에서 payment record가 생성된 것을 확인함
+
+user가 자기 payment를 가져올 수 있어야함
+
+새로운 resolver를 payment resolver에 만듦
+
+payment를 수정할 수도, payment를 삭제할 수도 없음
+
+payment를 create하고, 만든 payments만 볼 수 있음
