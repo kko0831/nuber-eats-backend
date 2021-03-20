@@ -5753,3 +5753,51 @@ RelationId는 payment를 받음
 fast spring이라는 프로그램을 씀
 
 payments, entities를 마무리함
+
+## 13.2 createPayment part One
+
+resolver와 service를 만듦
+
+OneToMany가 다른 편에 없어도 ManyToOne을 생성할 수 있음
+
+restaurant에 OneToMany를 안 만듦
+
+restaurant이 갖고 있는 payments에 관심 없기 때문임
+
+OneToMany는 ManyToOne없이 존재할 수 없음
+
+ManyToOne 관계에만 집중하고 싶다면, 관련 entity에 OneToMany 없이 정의할 수 있음
+
+restaurant.payments에 관심이 없음
+
+user.payments는 신경 써야함
+
+user는 OneToMany가 있음
+
+payments resolver를 만듦
+
+Resolver of를 씀
+
+service도 import함
+
+payments.service.ts를 생성함
+
+서비스에 Injectable이 포함되어야함
+
+service는 아무 것도 extend 하지 않음
+
+Resolver를 만듦
+
+modules provider에 payment resolver를 넣음
+
+Mutation을 만듦
+
+payment를 만들 때 필요한 것은 transaction id임
+
+Payment에서 transaction id를 가져오고 싶음
+
+restaurant id도 필요함
+
+restaurant id에 field를 주면 됨
+
+graphql에 뜸
