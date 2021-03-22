@@ -5938,3 +5938,191 @@ eager relationship과 작업하면 가끔 test하기 힘듦
 하나의 resolver가 모든 것을 다 받는 구조면 무거워질 가능성이 큼
 
 createPayments와 getPayments를 할 수 있음
+
+## 13.5 Task Scheduling is Awesome
+
+많은 애플리케이션들이 프로덕션 때 Task scheduling이 필요하다는 것을 깨닫게 됨
+
+Task scheduling은 원하는 time interval, 또는 정해진 시간과 날짜에 function을 실행할 수 있게 만듦
+
+function을 매초마다 실행하고 싶음
+
+또는 function을 금요일 오전 10:30마다 실행하고 싶음
+
+nest.js/schedule은 node-cron이라는 패키지 위에서 나옴
+
+nest.js가 만든건 아니고 nest.js의 방식을 따름
+
+config를 쓰면 process.env를 가져올 수 있음
+
+dot.env라는 패키지 위에서 나옴
+
+task scheduling도 비슷함
+
+터미널에 npm install --save @nestjs/schedule@0.4.1 입력
+
+app.module.ts에 설치함
+
+service 안에 cron decorator를 쓰면 됨
+
+cron decorator를 cron pattern와 함께 call함
+
+매분 45초에 function이 실행이 됨
+
+별표시는 '매' 즉 '모든' 것을 포함한다는 의미고, Range는 1-3, 또는 예를 들자면 1과 5를 의미하고, 별표시/2는 step을 의미함 
+
+2씩 간격이라는 뜻임
+
+초(생략가능), 분, 시, 일자, 월, 요일 순서임
+
+매요일, 매월, 매일자, 매시, 매분 45초에 실행됨
+
+cron pattern을 보면, 매초 실행됨
+
+매분 45초에 실행됨
+
+매시 10분에 실행됨
+
+30분마다인데, 9-17시 사이의 매 30분마다 실행됨
+
+24시간으로 시간이 설정되어 있기 때문에, 9:00-5:00 p.m.라는 뜻임
+
+매 0초, 30분마다, 9:00-17:00, 매일자, 매월, 매요일 실행됨
+
+30분마다, 9:00-17:00 사이임
+
+0초, 30분, 11시, 매일, 매월, 1요일은 월요일, 5요일은 금요일임
+
+심지어 expression도 쓸 수 있음
+
+프로모션을 check함
+
+payments를 check함
+
+createPayment 부분은 restaurant에 아직 아무 영향도 주고 있지 않음
+
+얼른 액션을 넣어야함
+
+createPayment를 하면 restaurant는 promote되어야함
+
+checkForPayments를 매초마다 함
+
+Cron을 함
+
+매요일, 매월, 매일자, 매시, 매분 30초에 실행하고 싶음
+
+매분 30초에 실행됨
+
+'30초마다'가 아님
+
+매분 30초에 실행되는 것을 의미함
+
+매분, 초침이 30을 가리킬 때에 실행됨
+
+매 30초마다 하고 싶을 수도 있음
+
+Cron job과는 완전히 다름
+
+매분 30초, 매시 20분, 매일 5시라고 하는 것은 매시, 매일, 매초, 매 10초와는 완전히 다른 의미임
+
+이럴 때는 interval을 씀
+
+interval은 JavaScript의 interval과 비슷함(매 몇 초)
+
+interval을 만들어서, 매 30초라고 적음
+
+interval은 매 30초임
+
+매 5초로 바꿈
+
+Interval payment를 check함
+
+cron payment와는 다름
+
+예를 들면, 나는 월요일마다 웹사이트에 무슨 일을 함
+
+새벽 4:30분처럼 웹사이트 이용자가 적은, 아무도 없는 시간대에 cron jobs을 만들고 매일 4시 0분에 백업을 할 수 있음
+
+그게 cron job을 쓰는 경우임
+
+cron은 1번 일어났지만 interval은 여러 번 일어남
+
+timeout도 있음
+
+timeout은 interval이랑 비슷한 건데, 이건 나중에 발생함
+
+1번만 실행함
+
+1번, 딱 1번만 실행됨
+
+코드를 저장하고 application이 시작되면 바로 timeout이 실행됨
+
+application 시작하고 20초 뒤라고 함
+
+10초 지나갔고, 이제 곧 congrats가 보임
+
+timeout인 congrats가 나옴
+
+이렇게 decorator로 작업하는 것을 declarative식이라고 함
+
+또한 dynamic식이라는 것도 있음
+
+만약 intervals, cron jobs, timeout과 작업하고 싶다면 이름을 붙이면 됨
+
+예를 들어, job을 stop할 수 있음
+
+첫째로 schedulerRegistry로부터 import 해야하고 constructor안에 넣어야함
+
+이름을 붙이면, 나중에 job을 만들어서 job을 stop할 수 있음
+
+job을 stop하고 싶을 때도 있고, job의 last date를 check하고 싶을 때도 있음
+
+모든 cron job에서 job을 get함
+
+job에 이름을 붙임
+
+원한다면 addCronJob도 할 수 있음
+
+이게 그 dynamic API임
+
+declarative는 코드에서 cron job을 만듦
+
+가끔 addCronJob, addInterval, addTimeout할 수도 있음
+
+getCronJob을 쓰고 싶다면 name(이름)이 필요함
+
+이름을 myJob으로 함
+
+lastDate도 받을 수 있음
+
+또한 stop, start, setTime, lastDate, nextDate도 할 수 있음
+
+CronJob을 클래스로 만들 수 있음
+
+deleteCronJob도 할 수 있음
+
+interval을 만들거나 set할 수 있음
+
+delete할 수도 있음
+
+timeout을 get하고, scheduler에 add하거나, timeout을 set, delete할 수 있음
+
+getTimeout을 통해서 모든 timeout을 다 볼 수도 있음
+
+가끔 내가 가진 cron job, timeout, interval이 몇 개인지 보고 싶음
+
+초는 30초, 분, 시, 일자, 월, 요일 다 true로 나옴
+
+Timeout은 자바스크립트 timeout임
+
+stop하고 싶다면 stop해도 됨
+
+job.stop()을 씀
+
+timeout, interval, cron job이 있고, dynamic하게 할 수도 있음
+
+cron job을 get할 수도 있고 interval, timeouts도 get할 수 있음
+
+모두 dynamic하게 intervals, timeouts, cron jobs을 set하거나 add할 수 있음
+
+예를 들면, user가 register할 때, cron job, interval, timeout을 추가할 수 있음
