@@ -6278,3 +6278,31 @@ restaurant 10은 이제 promoted false고 promotedUntil null임
 몇 백개의 영상으로 payment를 끝냄
 
 터미널에 npm run start:dev 입력하여 2초 뒤 restaurant record가 변경되는지 확인함
+
+## 13.8 Backend Conclusions
+
+dynamic module도 만듦
+
+authentication도 실행해보고, guard가 무엇인지도 알아보고, middleware도 배움
+
+roles를 위해 우리만의 decorator도 만들어봄
+
+boss같은 map type도 사용함
+
+resolver도 있고, subscription authentication 안에 있는 subscriptions와 sending emails도 만듦
+
+email은 완벽하게 발송됨
+
+심지어 configuration object도 validate하고, users module도 end-to-end test를 했음
+
+module도 end-to-end test했고, mocking도 했음
+
+모든 type들이 있고, 어떻게 백엔드의 schema를 활용할건지 볼 수 있음
+
+react로 프론트엔드를 만들 때 도와줌
+
+data를 request할 때 정확히 무엇을 request 해야하는지도 알고, 다 dtos에서 나옴
+
+react js code조차 schema에 있는 dtos를 봄
+
+entities를 보면 한 파일 안에 graphql, validation, database도 하고 있음
