@@ -6126,3 +6126,99 @@ cron job을 get할 수도 있고 interval, timeouts도 get할 수 있음
 모두 dynamic하게 intervals, timeouts, cron jobs을 set하거나 add할 수 있음
 
 예를 들면, user가 register할 때, cron job, interval, timeout을 추가할 수 있음
+
+## 13.6 Promoting Restaurants
+
+payment를 create할 때, restaurant를 promote하고 싶음
+
+restaurant entity를 수정함
+
+type Date인 다른 column을 만듦
+
+null인 value가 column isPromoted에 포함되어있음
+
+이미 restaurants이 있기 때문임
+
+restaurants은 이미 존재하지만, 아직 isPromoted column이 없음
+
+default를 설정함
+
+데이터베이스 column에 false가 default라고 씀
+
+promotedUntil은 nullable이 true임
+
+payment를 create할 때(여기 create payment에서 지불할 때) restaurant.isPromoted = true임
+
+restaurant을 얼마동안 promote할지 계산해야함
+
+현재 날짜를 가져와야함
+
+date를 보면 지금 녹화하고 있는 시간이 나옴
+
+date.getDate()를 하면 일자가 나옴
+
+11월 16일에 녹화 중임
+
+date.setDate()는 milliseconds를 return함
+
+restaurant를 며칠동안 promote할지 더해야함
+
+promotedUntil의 type이 date고, date도 type date이기 때문에 pass함
+
+setDate는 시작 때 썼던 date를 바꿈
+
+방금 update한 restaurant을 save 해야함
+
+graphql로 가서 test함
+
+id 10번 restaurant은 promoted도 false, promotedUntil도 null임
+
+터미널에 npm run start:dev 입력하여 localhost:3000/graphql 접속하고 playground를 실행하여 createPayment를 mutation 했을 때의 결과를 확인함(restClient.http 파일에서 진행함)
+
+payment에 transaction id 아무거나 넣고, restaurant id 10번으로 다시 create함
+
+restaurant는 promoted도 됐고, promotedUntil도 있음
+
+그들의 돈을 받으면 7일 동안 restaurant을 promote 해줘야함
+
+원한다면 createPayment에 요소를 더 추가해서 더 복잡하게 만들 수도 있음
+
+30일동안 promote한다든지 마음대로 정할 수 있음
+
+웹사이트에 promotion을 반영해야함
+
+allRestaurants으로 가서 몇 가지 수정함
+
+promote한 restaurant이 먼저 뜨게 만들어야함
+
+category 안에 있는 restaurant들을 promote할 수도 있음
+
+promote하는 restaurant들을 category 피자에서 보여주는 것처럼 allRestaurants로 가면 promote하는 restaurant들을 다 볼 수 있음
+
+isPromoted된 친구가 처음으로 올라오길 원함
+
+restaurants를 query함
+
+restaurants를 find하는 곳으로 가서 allRestaurants를 클릭하고 order를 쓰면 됨
+
+옵션은 많음
+
+그 중 하나가 isPromoted임
+
+ascending(오름차순) 그리고 descending(내림차순) 옵션이 있음
+
+descending이 필요함
+
+isPromoted를 DESC로 설정하니까 BBQui는 promote가 되고 있음
+
+위에서부터 promoted된 식당을 보여줌
+
+descending, ascending이라는 옵션 두 개(또는 1, -1)가 있음
+
+1이 descending, -1이 ascending임
+
+payments service 안에 있는 restaurant를 check함
+
+promotedUntil이 오늘 날짜보다 적으면 promote를 끝내야함
+
+column에 있는 date가 현재 날짜보다 적으면, promote를 끝내야함

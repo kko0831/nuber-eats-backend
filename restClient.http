@@ -1,3 +1,49 @@
+### 13.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  restaurants(input: {}) {
+    results {
+      name
+      isPromoted
+    }
+  }
+}
+
+### 13.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+mutation {
+  createPayment(input: {
+    transactionId: "xxxxxxxx"
+    restaurantId: 10
+  }) {
+    ok
+    error
+  }
+}
+
+### 13.6
+POST http://localhost:3000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
 ### 13.4
 POST http://localhost:3000/graphql
 Content-Type: application/json
