@@ -6157,7 +6157,7 @@ date를 보면 지금 녹화하고 있는 시간이 나옴
 
 date.getDate()를 하면 일자가 나옴
 
-11월 16일에 녹화 중임
+3월 24일에 녹화 중임
 
 date.setDate()는 milliseconds를 return함
 
@@ -6222,3 +6222,59 @@ payments service 안에 있는 restaurant를 check함
 promotedUntil이 오늘 날짜보다 적으면 promote를 끝내야함
 
 column에 있는 date가 현재 날짜보다 적으면, promote를 끝내야함
+
+## 13.7 Promoting Restaurants part Two
+
+Cron job 또는 interval을 써서, 날짜가 만료되었음에도 여전히 promote되고 있는 restaurant들을 체크함
+
+isPromoted: true로 find함
+
+promote한 restaurant들을 가지고, restaurants.forEach를 통해, restaurant의 만료시점이 현재 날짜보다 더 적은지 확인함
+
+date도 숫자니까 오늘보다 숫자가 더 적으면 과거라는 의미임
+
+forEach를 하거나 typeORM의 operator를 활용할 수도 있음
+
+예를 들면 LessThan, LessThanOrEqual, MoreThan이 있음
+
+오늘의 날짜는 어제의 날짜보다 큼
+
+restaurants들 중 promotedUntil이 오늘보다 LessThan인 친구들을 찾으면 됨
+
+restaurants들 중 promotedUntil 날짜가 오늘보다 LessThan인 음식점들을 찾고 있음
+
+restaurant의 promotedUntil date가 오늘보다 LessThan이면, 더 이상 promote되면 안 됨
+
+내 서버였다면, 아마 24시 0분, 매일이라는 cron을 씀
+
+매우 정확하게 하고 싶다면 매분으로도 설정할 수 있음
+
+interval 또는 cron 중 하나를 택하면 됨
+
+내 서버였으면 cron을 씀
+
+하지만 interval이 더 test하기 빠르고 console에 바로 보이니까 interval을 씀
+
+매 2초로 함
+
+restaurants을 console.log함
+
+restaurant을 못 찾음
+
+restaurant 못 찾은게 당연함
+
+promotedUntil이 31일까지 진행됨
+
+pgAdmin restaurant table의 promotedUntil column을 어제까지라고 수정함
+
+3월 23일임
+
+restaurant 10은 이제 promoted false고 promotedUntil null임
+
+잘 실행됨
+
+23일까지 promotedUntil이고, 오늘은 24일임
+
+몇 백개의 영상으로 payment를 끝냄
+
+터미널에 npm run start:dev 입력하여 2초 뒤 restaurant record가 변경되는지 확인함
