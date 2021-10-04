@@ -1,3 +1,98 @@
+### 20.0
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+query {
+  myRestaurants {
+    ok
+    error
+    restaurants {
+      name
+      coverImg
+      address
+    }
+  }
+}
+
+### 20.0
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "itnico@gmail.com"
+    password: "121212"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+### 17.2
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  restaurants(input: {}) {
+    results {
+      id
+      category {
+        name
+      }
+    }
+  }
+}
+
+### 17.0
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
+  }
+}
+
+### 17.0
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: login하고 생성된 token
+
+mutation {
+  createRestaurant(input: {
+    name: "Nico's Place"
+    coverImg: "https://i.ibb.co/PYwbLrn/super.png"
+    address: "광장동"
+    categoryName: "Italian"
+  }) {
+    ok
+    error
+  }
+}
+
+### 15.5
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+query {
+  me {
+    email
+  }
+}
+
 ### 13.6
 POST http://localhost:3000/graphql
 Content-Type: application/json

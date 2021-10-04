@@ -6306,3 +6306,223 @@ data를 request할 때 정확히 무엇을 request 해야하는지도 알고, �
 react js code조차 schema에 있는 dtos를 봄
 
 entities를 보면 한 파일 안에 graphql, validation, database도 하고 있음
+
+## 20.0 Order Dashboard Routes
+
+방금 내 database의 Role을 owner로 바꿨음
+
+왜냐하면 지금부터는 식당 사장님 부분을 작업함
+
+식당 주인 부분에서 가장 중요한 route들을 작업함
+
+restaurant(식당)을 만들 거고, dish(메뉴)를 업로드하고, 음식점 dashboard를 만들거고, 음식점의 매출 수익을 보여주는 그래프도 만듦
+
+그래서 첫번째로 할 일은 Role을 owner로 만드는 것임
+
+아니면 새로운 사용자를 만들 수도 있음
+
+그렇게 해도 문제 없음
+
+웹사이트를 새로고침해보면 보이는대로 page not found라고 뜸
+
+당연한 일임
+
+왜냐하면 아직 owner에 route가 없음
+
+client에만 route가 있음
+
+그러니 owner에 route를 생성해봄
+
+data.me.role이 "Owner"와 일치한다면, 몇가지 routes를 지니게 됨
+
+이 route들은 ClientRoutes와 상당히 다름
+
+하지만 여기의 route 두개는 여기에 그대로 놔두고 싶음
+
+이 두 route는 고객(client)과 음식점 주인과 운전자(driver) 자기의 이메일을 confirm하고 프로필을 수정할 수 있도록 모두가 공유함
+
+다만 여기의 이 key 부분이 좀 신경쓰임
+
+이 부분도 좀 개선함
+
+이렇게 ClientRoutes처럼 쓰고 array를 보여주는 방식 대신에 client route들의 map을 만듦
+
+client route는 route들의 array가 됨
+
+하지만 route들은 이것과는 좀 달라짐
+
+이것은 array가 될거고 그 안에 object가 옴
+
+path라고 적고, 이것은 문자열이 됨
+
+그리고 component라고 적음
+
+이것은 component가 됨
+
+한번 해봄
+
+첫번째 path는 "/"고, component는 Restaurants임
+
+그리고 다른 것들도 똑같이 해줌
+
+ConfirmEmail은 아직 안 할 거고, EditProfile도 아직 안 함
+
+그리고 다음으로 /search가 있음
+
+component는 Category가 됨
+
+/restaurant/:id는 path고, component는 Restaurant임
+
+이것은 clientRoutes가 됨
+
+다음으로 commonRoutes라는 것을 만들건데, 여기에는 ConfirmEmail과 EditProfile route 두개가 옴
+
+하지만 이렇게 적는 대신에 일단 path를 적음
+
+이것을 object에 넣음
+
+그리고 /Router는 지움
+
+앞으로 이런 방식으로 할거고, 이렇게는 하지 않음
+
+이런 방식으로 route를 render함
+
+만약 role이 "Client"라면 ClientRoutes를 가져와서 map을 적음
+
+그리고 여기서 route.component를 render함
+
+그리고 key 부분은 index를 쓰거나, 아니면 이렇게 route.path를 적을 수 있음
+
+이것은 유니크한 거라고 확신할 수 있음
+
+그리고 여기 commonRoutes도 똑같이 써줌
+
+이 부분은 common route들을 render 해줌
+
+common route들은 /confirm과 /edit-profile 이 두개임
+
+이 부분은 지움
+
+왜냐하면 더 좋은 것을 만들었음
+
+여기는 여전히 먹통임
+
+하지만 /edit-profile로 들어가면 제대로 들어가짐
+
+왜냐하면 commonRoutes를 render 했었음
+
+하지만 아직 restaurant route는 없음
+
+그러니 restaurant route 부분을 작업해봄
+
+첫번째는 path: "/"이고, component는 아직 만들지 않았지만 MyRestaurants라고 적어줌
+
+restaurant routes를 render함
+
+client routes랑 owner routes랑 모두가 공유하는 common route를 작성했음
+
+여기 MyRestaurants는 보다시피 아직 정의되지 않았음
+
+그러니 빨리 만들어봄
+
+우선 pages 디렉토리로 가서 새로운 폴더를 생성함(폴더명: owner)
+
+그 안에 my-restaurants.tsx 파일을 생성함
+
+React부터 import함
+
+한번 가서 봄
+
+logged-in-router.tsx 파일의 코드를 확인함
+
+콘솔도 한번 보고, 에러가 없는지도 확인해봄
+
+client category에 있는 것들을 하나도 사용하지 않았다는 경고문만 뜸
+
+사용되지 않은 variables에 대한 내용들임
+
+이정도는 괜찮음
+
+사용되지 않은 변수들은 아직 신경 쓸 필요없음
+
+restaurant routes를 만들었음
+
+이제는 복붙이나 key 수정 같은 과정이 불필요한, 더 괜찮은 방법으로 route를 만들 수 있게 됐음
+
+그런데 더 멋지게 할 수도 있음
+
+renderer를 만들거나 다른 방법도 가능함
+
+하지만 문제는 이 Switch 부분임
+
+Switch의 자식들은 route여야만함
+
+다른 component를 사용할 수는 없음
+
+하지만 이대로 충분히 좋음
+
+다음 시간에 봄
+
+보면 알겠지만 이것은 my-restaurants라고 되어있음
+
+그러니까 여기는 음식점 주인 입장에서 나의 음식점을 보고 싶을 때 오는 곳임
+
+그런데 우리는 이런 기능을 아직 backend에 구현하지 않았음
+
+backend에 만든 것을 보여줌
+
+아주 짧지만 꼭 필요함
+
+이 부분을 backend에 만들었음
+
+다시 말하지만, 만들어놓고 그동안 까먹고 있었음
+
+하지만 기본적으로 이것은 myRestaurants이고, myRestaurant을 return해주는 기능을 함
+
+이 myRestaurant은 음식점 주인 본인이 소유한 음식점임
+
+이것은 dto를 return해주는 query임
+
+이것은 CoreOutput에서 extend하는 ObjectType임
+
+아무튼 보면 다 이해가 됨
+
+Role은 Owner니까 owner들만 이 resolver를 볼 수 있음
+
+그리고 이것은 restaurantService에 있는 myRestaurants를 호출하고, myRestaurants는 이렇게 생겼음
+
+myRestaurant는 인자로 owner를 받고, 이 owner를 가진 모든 음식점들을 찾음
+
+그리고 해당 음식점들을 모두 return 해줌
+
+그리고 다시 말하지만 이것은 한명의 owner가 복수의 음식점을 소유할 수 있도록 기획했기 때문에 일어난 일임
+
+만약 하나의 계정당 하나의 음식점만 등록 가능하도록 만든다면 이런 것은 필요 없음
+
+이런 query를 만들었으니까 backend 부분도 업데이트해줌
+
+코드가 4~5줄 밖에 안되니까 쓰는데 그렇게 시간이 오래 걸리지도 않음
+
+그저 해당 유저(Owner)의 음식점을 찾아주는 작업일뿐임
+
+원한다면 me resolver를 사용하는 것도 가능함
+
+왜냐하면 me에 음식점들이 있음
+
+이것들이 내가 소유하는 음식점들임
+
+이것을 사용할 수도 있음
+
+하지만 이 경우 entities 폴더의 user.entity.ts에 들어가서 user를 받을 때마다 음식점들도 함께 받아지도록 restaurants eager를 만들어야함
+
+하지만 이것은 별로라고 생각함
+
+왜냐하면 이렇게 하면 매번 user를 받게 됨
+
+use me라는 hook이 있음
+
+아무튼 그것도 하나의 방법임 
+
+이 relationship을 eager로 만들 수 있지만, database 입장에서 별로임
+
+그냥 이렇게 restaurant.service랑 restaurants.resolvers를 만듦
