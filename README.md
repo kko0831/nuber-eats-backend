@@ -6526,3 +6526,131 @@ use me라는 hook이 있음
 이 relationship을 eager로 만들 수 있지만, database 입장에서 별로임
 
 그냥 이렇게 restaurant.service랑 restaurants.resolvers를 만듦
+
+## 20.2 File Upload part One
+
+이번 영상에서 할 일은 바로 user들이 그들의 레스토랑 사진을 업로드할 수 있도록 만드는 것임
+
+알다시피 CreateRestaurantInput의 coverImg는 지금 file이 아니라 string으로 되어있음
+
+나는 일부러 string으로 사용했음
+
+왜냐하면 이렇게 함으로써 NestJS가 가지고 있는 진짜 멋진 파일 업로드 기능을 보여줄 수가 있음
+
+이 기능은 바로 NestJS를 사용해서 파일 업로드 작업을 무척이나 쉽게 만들어줌
+
+이것 그대로 쓰면 됨
+
+그냥 decorators임
+
+원래는 다른 방법들과 함께 사용되어야하는게 맞지만, 문제는 없음
+
+원래 보통은 이미지를 업로드하며 해당 URL을 string으로 반환하는 upload 모듈을 생성해야함
+
+일반적으로는 그럼
+
+하지만 지금은 이렇게 함
+
+왜냐하면 NestJS를 사용하면 file upload를 진짜 쉽게 만들 수 있다는 것을 보여주고 싶음
+
+이것은 진짜 좋음
+
+또한 이 기능은 상단에 multer를 두고 작업해야함
+
+multer에 대해 알고 있다면, Express에서 어떤 것을 사용하든 upload 기능을 만들려고 할 때, 최고라는 것을 알고 있음
+
+사실 필수임
+
+multer말고는 해결책이 없음
+
+나는 맨 위에 multer를 두고 작업함
+
+왜냐하면 그래야 더 수월하게 작업할 수 있기 때문임
+
+이렇게 해야 외부 파일이나 library를 덜 사용하게 되고, 결과적으로 충돌을 방지할 수 있음
+
+주간 다운로드가 100만명이나 됨
+
+전문가들과 함께 협업함
+
+나는 이것을 실행하기 위해 새 모듈을 생성함
+
+백엔드 터미널에 nest g mo uploads를 입력함
+
+금방 됨
+
+uploads 파일과 모듈을 다운 받았으니까, 진짜 빠르게 업로드 컨트롤러를 만들어봄
+
+여기에는 class를 export함
+
+Controller로 하고, 그리고 url을 씀
+
+Post에 ('upload')가 있음
+
+원래는 여기 모든 decorators들을 import 해야하는데 이미 다 되어있음
+
+봤다시피 진짜 쉽게 컨트롤러가 만들어졌음
+
+엄청나게 멋진 NestJS 덕분임
+
+끝내는데 5분도 안 걸림
+
+업로드 모듈은 이미 모두 users/app.module.ts에 있음
+
+콘솔을 한번 봄
+
+에러가 없음
+
+그럼 Insomnia client를 엶(https://insomnia.rest/download에서 설치함)
+
+혹은 현재 사용하는 http rest api client를 어떤 것을 사용해도 괜찮음
+
+그러면 http://localhost:4000/uploads로 POST로 함
+
+시험해보기 위해, Multipart Form data를 만듦
+
+이름은 file로 함
+
+"file"은 진짜 매우 중요함
+
+이름을 꼭 "file"이라고 해야함
+
+왜냐하면 여기가 "file"로 되어있는 것을 볼 수 있음
+
+이 "file"이 이름이 됨
+
+그 다음에 value는 파일로 함
+
+파일을 선택함
+
+내 사진으로 고름
+
+body와 header를 확인함
+
+다시 한번 또 말하지만 진짜 중요함
+
+header는 반드시 "Content-Type"이며 "multipart/form-data"로 구성되어야만 하고, body에는 "file"이라는 이름(key)이어야 하고 파일이 선택되어 있어야함
+
+Send를 하면 "201 Created"됨
+
+콘솔을 한번 봄
+
+이것이 우리가 올린 파일임
+
+물론 아직 어디에도 저장되지는 않았음
+
+보다시피 어디에도 저장되어 있지 않음
+
+하지만 지금은 이것으로도 충분함
+
+여기 파일이 있다면, 예를 들어 원한다면 아마 AWS에 업로드할 수도 있을 거고, cloud에 올리거나 혹은 원하는 어디에든 파일 업로드가 가능함
+
+잘 되었음
+
+우리가 파일을 올렸음
+
+여기까지 파일 업로드의 첫 단계였고, 이후 다음 단계는 파일 시스템에 저장해봄
+
+서버에 저장하려면, URL이 필요함
+
+다음 영상에서 봄
