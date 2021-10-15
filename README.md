@@ -6654,3 +6654,274 @@ Send를 하면 "201 Created"됨
 서버에 저장하려면, URL이 필요함
 
 다음 영상에서 봄
+
+## 20.3 File Upload part Two
+
+파일을 AWS에 업로드해봄
+
+원래는 우리 서버에 파일을 저장할까 했는데, 지금 이것은 고급 강의니까 AWS를 써봄
+
+해야 할 일은 aws-sdk를 설치하는 것임
+
+터미널에 npm install aws-sdk@2.802.0를 입력함
+
+이것이 설치되고 있는 동안에 S3를 import함
+
+S3는 AWS의 storage service임
+
+자체적으로 typescript definition이 함께 제공되니까 그것은 신경 쓸 필요 없음
+
+이제 AWS에 계정을 만들어야함
+
+그러니 알아서 AWS에 계정을 만들고 끝나면 다시 돌아옴
+
+로그인 됐으면 그냥 여기 Users를 클릭함
+
+console.aws.amazon.com/iam에 들어와서 Add user를 클릭함
+
+user name은 nestUpload라고 함
+
+그리고 programmatic access를 선택함
+
+이것은 뭐냐면 AWS와 통신하는 서버라는 의미임
+
+next를 클릭함
+
+여기서 S3라고 검색해서 찾을 수 있음
+
+여기도 안나오면, 여기 Attach existing policies directly를 누름
+
+이것을 누르면 사실상 Amazon의 모든 것에 access 할 수 있도록 해줌
+
+절대로 모든 것에 key를 만들면 안 됨
+
+진짜로 필요한 것들에만 key를 설정함
+
+지금 보면 Alexa에 access 할 수 있는데, 아무도 원하지 않는 상황임
+
+그러니 S3를 검색해보고, 그리고 AmazonS3FullAccess를 선택함
+
+Set permissions boundaries를 누르고, Create user without a permission boundary를 선택함
+
+다만 policy 하나만 선택해야함
+
+사용자를 tag한다는건데 이것은 상관없음
+
+여기 Create user를 누름
+
+Create user를 누르면 nestUpload라는 이름 옆에 Access key ID 정보가 나와있음
+
+이것을 복사해서, 일단은 잠깐 여기에 놔둠
+
+그리고 Secret access key를 누르면 딱 한번만 보여줌
+
+꼭 복사해서 어디인가에 저장해놔야함
+
+지금만 딱 보여줄 것이고, 이 순간이 지나면 다시는 볼 수 없음
+
+만약 까먹으면 다시 처음부터 key를 하나 새로 만들어야함
+
+그러니 이 Secret access key를 복사해서 여기에 붙여넣음
+
+그리고 이것을 .env에 저장하는 것을 권함
+
+지금부터는 좀 빠르게 가봄
+
+이미 S3가 있음
+
+authenticate 해야하니까 AWS.config.update()함
+
+그리고 accessKeyId에는 이것을 붙여넣고, 그리고 secretAccessKey에는 이것을 붙여넣음
+
+만약 이 값들을 .env에 넣을거면, configuration(설정)은 이 안에서 해야함
+
+왜냐하면 이 값들은 configuration service에서 가져옴
+
+이미 많이 해봤으니까 다들 할 줄 앎
+
+이러면 됐음
+
+한번 request를 보내서 에러가 없는지만 확인해봄
+
+send request하면 amazon쪽에서는 에러가 없음
+
+잘 됐음
+
+여기서 해야 할 일은 bucket에 업로드하는 것임
+
+그리고 Amazon에서는 upload를 put이라고 부름
+
+try-catch 구문을 만듦
+
+여기 async가 있음
+
+bucket을 먼저 생성해야함
+
+```javascript
+new AWS.S3()
+  .createBucket({
+    Bucket: "버켓 이름",
+  })
+```
+
+createBucket()을 함
+
+그리고 bucket은 이름이 필요함
+
+이때 엄청 이상한 이름으로 만들어야함
+
+그러니까 kkonubereats123라고 함
+
+꼭 엄청나게 unique한 이름이어야함
+
+나의 계정 내에서만이 아니라 Amazon 전체에서 같은 이름의 bucket이 존재하면 안 됨
+
+그러니 끝에 숫자를 좀 추가함
+
+이미 충분한 것 같음
+
+그리고 async await를 사용하기 위해 이렇게 promise라고 함
+
+한번 파일을 업로드해봄
+
+그리고 에러는 없음
+
+저기 있음
+
+location: 'kkonubereats123'임
+
+bucket이 있는 것임
+
+이 bucket을 저장하고, 목숨을 걸고 이것을 기억함
+
+이것이 bucket의 이름임
+
+const BUCKET_NAME은 한번만 함
+
+왜냐하면 bucket이 없었음
+
+지금은 bucket이 있으니 걱정하지마
+
+이전에는 bucket이 없었는데, 지금은 있음
+
+이 코드는 지움 
+
+왜냐하면 bucket을 만들 필요가 이제 없음
+
+bucket을 만드는 대신에 업로드를 다시 함
+
+putObject라고 함
+
+여기에는 bucket의 이름을 넣음
+
+그리고 Body를 보내는데, 이것은 파일이고, 파일은 이렇게 생겼고, buffer가 필요함
+
+그러니 file.buffer라고 함
+
+그리고 Key가 필요한데, 이것은 파일의 이름임
+
+이게 unique한 이름이라고 확신할 수 있음
+
+이것을 더 세련되게 만드는 방법들은 다들 앎
+
+이것은 방금 생성한 bucket에 object를 put(업로드)함
+
+bucket은 이렇게 한번만 만들면 됨
+
+그리고 이 buffer는 byte 형식의 파일이고, 이것이 bucket 이름, key는 파일의 이름임
+
+그러니 엄청 긴, unique한 이름을 사용하기를 권함
+
+에러가 있나 확인해봄
+
+console.log(e)를 하고, 이제 파일을 console.log할 필요는 없음
+
+한번 테스트해봄
+
+한번 upload를 console.log해보고 어떻게 되나 봄
+
+console을 깨끗하게 함
+
+제대로 된 거 같음
+
+Amazon에 가서 한번 봄
+
+여기 있음
+
+보면 Amazon S3 안에 있음
+
+만약 S3를 찾고 싶으면, Services로 가서 S3라고 검색하면 scalable storage에 있다고 나옴
+
+scalable storage service라서 S가 3개임
+
+우리의 아름다운 파일임
+
+한번 열어보면, 파일에 permission이 없어서 내용을 볼 수가 없음
+
+그러면 여기서 할 일은 파일이 업로드되는 순간에 즉시 permission을 바꾸는 것임
+
+여기에서 ACL이라는 것을 사용해봄
+
+"public-read"로 써줌
+
+이미지를 다시 한번 업로드해봄
+
+곧 업로드됨 
+
+bucket으로 다시 가보면, 저기에 있음
+
+그리고 클릭해보면, 저 링크가 이미지가 있는 장소임
+
+이것을 클릭하면 이미지를 다운로드 할 수 있게 됨
+
+그러니 다운로드하고, 클릭함
+
+다 돌아감
+
+여기를 보면 object URL이 여기에 있고, 이것이 우리가 만든 이름임
+
+그러니 이것을 복사해서 우리의 backend에 저장함
+
+그리고 이름을 여기에서 만듦
+
+원하면 더 좋은 방식으로 이름을 만들어낼 수 있음
+
+만들어진 이름은 여기 objectName에 오게 됨
+
+그 다음에는 fileURL을 만듦
+
+fileURL은 우리가 만든 bucket 이름으로 시작함
+
+마지막으로 fileURL을 return하면 됨
+
+에러가 발생한 경우 null을 return하도록 함
+
+upload는 불필요하니까 지움
+
+access key들도 있음
+
+다시 말하지만 이 값들은 .env 파일에 넣을 수도 있음
+
+이것을 복사하고 붙여넣으면, 우리의 사진이 나오게 됨
+
+json을 return하도록 함
+
+이것이 더 보기 좋은 거 같음
+
+확실히 더 보기 좋음
+
+어떻게 보일까
+
+이것이 우리의 frontend가 받을 내용임
+
+frontend에서 이 url을 받게 됨
+
+마지막으로 테스트해봄
+
+object가 여기에 뜸
+
+잘 돌아감
+
+파일 업로드 작업은 끝났음
+
+거의 다 왔음
