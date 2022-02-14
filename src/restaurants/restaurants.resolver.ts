@@ -28,6 +28,7 @@ import {
   EditRestaurantInput,
   EditRestaurantOutput,
 } from "./dtos/edit-restaurant.dto";
+import { MyRestaurantInput, MyRestaurantOutput } from "./dtos/my-restaurant";
 import { MyRestaurantsOutput } from "./dtos/my-restaurants.dto";
 import { RestaurantInput, RestaurantOutput } from "./dtos/restaurant.dto";
 import { RestaurantsInput, RestaurantsOutput } from "./dtos/restaurants.dto";
@@ -42,7 +43,7 @@ import { RestaurantService } from "./restaurants.service";
 
 @Resolver(() => Restaurant)
 export class RestaurantResolver {
-  constructor(private readonly restaurantService: RestaurantService) { }
+  constructor(private readonly restaurantService: RestaurantService) {}
 
   @Mutation(() => CreateRestaurantOutput)
   @Role(["Owner"])
@@ -60,6 +61,15 @@ export class RestaurantResolver {
   @Role(["Owner"])
   myRestaurants(@AuthUser() owner: User): Promise<MyRestaurantsOutput> {
     return this.restaurantService.myRestaurants(owner);
+  }
+
+  @Query(() => MyRestaurantOutput)
+  @Role(["Owner"])
+  myRestaurant(
+    @AuthUser() owner: User,
+    @Args("input") myRestaurantInput: MyRestaurantInput,
+  ): Promise<MyRestaurantOutput> {
+    return this.restaurantService.myRestaurant(owner, myRestaurantInput);
   }
 
   @Mutation(() => EditRestaurantOutput)
@@ -107,7 +117,7 @@ export class RestaurantResolver {
 
 @Resolver(() => Category)
 export class CategoryResolver {
-  constructor(private readonly restaurantService: RestaurantService) { }
+  constructor(private readonly restaurantService: RestaurantService) {}
 
   @ResolveField(() => Int)
   restaurantCount(@Parent() category: Category): Promise<number> {
@@ -129,7 +139,7 @@ export class CategoryResolver {
 
 @Resolver(() => Dish)
 export class DishResolver {
-  constructor(private readonly restaurantService: RestaurantService) { }
+  constructor(private readonly restaurantService: RestaurantService) {}
 
   @Mutation(() => CreateDishOutput)
   @Role(["Owner"])

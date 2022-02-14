@@ -6925,3 +6925,273 @@ object가 여기에 뜸
 파일 업로드 작업은 끝났음
 
 거의 다 왔음
+
+## 23.1 Subscription Setup
+
+우리는 이 코스의 subscription 파트에 도달했음
+
+가장 재미있는 파트고 이것은 react application에 real time이 가능하게 해줌
+
+또한 Apollo덕에 subscription을 하는 것은 정말 놀랍게도 쉬움
+
+어려운 부분이 있다면, 이제 해줘야 할 transport 셋업임
+
+몇몇 라이브러리를 import하고 설치도 해야함
+
+그럼 subscriptions-transport-ws를 설치해봄
+
+backend가 아니라 frontend에 설치함
+
+그럼 여기에 npm i subscriptions-transport-ws@0.9.18를 해줌
+
+그리고 이것을 보여줌
+
+order를 이렇게 만들어봤음
+
+order id가 있고, 주문의 총 금액이랑 restaurant, Deliver To는 나고, driver가 있음
+
+driver가 나타나면 여기서 driver를 볼 수 있음
+
+이런 식으로 진행됨
+
+helmet을 추가하는 것을 깜빡했음
+
+이것을 하고 시작해봄
+
+아까 말했듯이 여기 description을 해주고 나서, backend에 가짜 user를 만들어봄
+
+이 가짜 user는 여기 pending인 주문을 수락함
+
+pending인 order를 여기 있는 GraphQL로 업데이트한 다음 response를 확인해봄
+
+그럼 여기에 Order detail이라 함
+
+Order #으로 할까
+
+설치가 끝났음
+
+그럼 여기 있는 apollo로 가봄
+
+설명을 보면서 어떻게 사용하는지 알아봄
+
+우선 WebSocketLink를 만들어야함
+
+그럼 여기에 만들어줌
+
+다 됐고 다음으로 link를 만들어야함
+
+httpLink 옆에 둠
+
+이것은 websocket localhost이고, 똑같이 4000/grapql로 만들어줌
+
+“서로 다른 작업에서는 별개의 transport를 사용하세요.”
+
+우리는 splitLink라는 함수를 만들어야함
+
+splitLink에는 function 하나가 필요한데, 이 function이 true를 return하면 wsLink를 얻게 되고, false를 return하면 httpLink를 받음
+
+다시 말하면 splitLink는 split이라는 함수를 사용하는데, split 함수는 3개의 인자를 가짐
+
+하나는 함수이고, 나머지는 어떤 값들임
+
+그래서 함수가 true를 return하게 되면, 우리는 wsLink를 사용하는거고 만약 함수가 false를 return하면, 우리는 httpLink를 사용함
+
+이 함수는 OperationDefinition을 얻은 다음에 definition.operation이 'subscription'이면 true를 return함
+
+우리는 mutation, query, subscription 같이 각각 다른 operation definition을 가지고 있음
+
+이렇게 동작하고 나중에 이것이 우리를 편하게 해줌
+
+그럼 여기로 와서 splitLink를 사용함
+
+httpLink 대신 예전에 만들어뒀던 authLink를 사용함
+
+이렇게 해주고 @apollo/client로부터 split을 import 해줌
+
+그런 다음 getMainDefinition도 @apollo/client/utilities로부터 import 해줌
+
+이제 link를 사용해야함
+
+link를 위해서 이 부분을 여기에 넣어줌
+
+여기에 넣어주고 splitLink는 link를 return 해줌
+
+매우 간단함
+
+여기 있는 함수는 true나 false를 return 해줌
+
+만약 true를 return한다면, 우리는 wsLink를 사용하게 될거고 만약 false를 return하게 된다면, authLink를 사용하게 됨
+
+이제 어떤 것도 실패하면 안 됨
+
+새로고침 해보면 보다시피 아무 문제 없이 모든 것이 똑같이 유지되고 있음
+
+우리는 아직 authLink를 사용하고 있고, 인증도 받았기 때문에 모든 것이 예전이랑 똑같이 동작하고 있음
+
+모든 것이 예전이랑 똑같이 동작하고 있음
+
+잘 동작함
+
+망가진 부분이 전혀 없음
+
+이제 wsLink에 설정을 해야하는데, wsLink는 우리가 인증을 할 수 있게 해줌
+
+이것은 connectionParams로 구현함
+
+그럼 wsLink로 가서 connectionParams를 해줌
+
+backend에 가보면 여기 connection.context가 있고, TOKEN_KEY는 이거였음
+
+그럼 이것을 가져와서 여기에 넣어줌
+
+그리고 authTokenVar가 필요함
+
+이렇게 우리는 websocket link를 만들어줬음
+
+이제 connection parameter에 token인 authTokenVar가 있음
+
+우리가 query를 사용해 연결할 때는 request header를 갖고, subscription을 이용해 연결할 때는 connection context를 갖는다는 것을 기억해야함
+
+여기 context가 있나
+
+그럼 subscription을 어떻게 사용하냐면 매우 간단함
+
+이 부분은 끝났음
+
+다 했고 subscription을 어떻게 실행하냐면 매우 간단함
+
+subscription type에 다른 부분은 동일함
+
+그리고 useSubscription이 있음
+
+어려운 부분은 이 부분인데 우리는 다 했음
+
+그럼 order로 가서 우선 useSubscription hook을 사용함
+
+나중에 subscription을 사용하는 다른 방법을 보여줌
+
+우선 hook을 사용한 다음 subscription이 잘 동작하는지 테스트를 해봄
+
+그리고 우리가 선택할 방법을 다른 방법으로 어떻게 하는지 보여줌
+
+왜인지 곧 알게 됨
+
+subscription을 만들어줌
+
+전부 가깝게 여기에다 해줌
+
+이 버튼은 뭐지
+
+query의 이름으로 subscription을 씀
+
+playground로 가봄
+
+여기에 subscription이 있음
+
+orderUpdates는 input을 가지고 있고 order를 return 해줌
+
+그럼 orderUpdates는 input을 가짐
+
+orderUpdates는 변수를 가짐
+
+그리고 이것은 order를 받음
+
+내 생각에는 order fragment를 만들어주는 것이 더 좋을 것 같음
+
+order fragment를 만들기 좋은 시점임
+
+그럼 fragments로 가서 우리는 이미 order의 일부를 가지고 있음
+
+테스트 해봄
+
+여기도 똑같이 해줌
+
+우리는 order를 바로 받을 수 있음
+
+아직 동작하지 않으니 fragment를 추가해줌
+
+FULL_ORDER_FRAGMENT가 맞음
+
+이것이 subscription을 만드는 방법임
+
+매우 간단함
+
+잘 되는지 확인해봄
+
+터미널에 npm run apollo:codegen을 입력하면 subscription의 type을 제공해줌
+
+이제 여기에 useSubscription을 씀
+
+subscription이 우리에게 주는 것을 확인해보면 기본적으로 data를 줌
+
+보통 query처럼 data를 줌
+
+이름이 중복됨
+
+subscriptionData로 이름을 바꿔줌
+
+type은 orderUpdates랑 orderUpdatesVariables임
+
+그리고 여기 ORDER_SUBSCRIPTION을 해줌
+
+그리고 이것은 variables, input을 가지고, id는 query랑 똑같음
+
+여기 보면 우리의 관점에서 약간 흥미로운 것이 있는데, 우리는 query를 하고 나서 subscribe를 해줬음
+
+만약 내가 useSubscription없이 query의 결과를 subscription 할 수 있다고 하면 어떨까
+
+무슨 말인지 나중에 알게 됨
+
+지금은 test를 해봄
+
+subscriptionData를 console.log 해봄
+
+server를 보면 에러는 없고 여기로 돌아와서 새로고침을 하면 에러가 없어 보이고, console을 보면 undefined라 되어있음
+
+subscriptionData에서 아무 일도 일어나지 않았기 때문임
+
+하지만 에러가 없으니 우리의 GraphQL에 잘 연결이 되었다는거니까 좋은 소식임
+
+ws를 보면 잘 동작함
+
+그럼 실제로 update를 발생시켜봄
+
+그리고나서 이 부분에 나타나는 것을 봄
+
+물론 여기에는 undefined가 있음
+
+다음 영상에서 보기 전에 우리는 client를 셋업 해줬고, subscription을 사용했음
+
+여기 보면 error가 없음
+
+link쪽만 조심해주면 됨
+
+복사 붙여넣기만 잘 해주고, authLink에 httpLink만 잘 기억해 준다면 전부 괜찮음
+
+나머지는 복사 붙여넣기고 connectionParams가 있는 것도 잊지마
+
+궁금하니까 connection?.context[TOKEN_KEY]를 출력해봄
+
+작동하는지 봐봄
+
+error가 발생하기 전에 정말 인증을 하고 있는지 확인해봄
+
+여기를 보면 새로고침 해줌
+
+order를 받았음
+
+여기서 connection을 찾아 위로 올라가보면 있음
+
+잘 동작하고 connecting도 잘 동작함
+
+인증을 잘하고 있다는 거고 모든 것이 완벽함
+
+망가진 부분은 전혀 없으니 다음 강의에서 봄
+
+playground를 이용해서 user를 만들어봄
+
+그리고 restaurant으로 가서 restaurant의 owner를 바꿔줌
+
+왜냐하면 지금 이 restaurant의 order가 내 데이터베이스에 한명뿐인 user로 되어있음
+
+그래서 가짜 owner를 만들어줄거고 이 부분을 바꿔준 다음, query를 실행해주고 주문을 수락함
