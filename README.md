@@ -45,7 +45,7 @@ The Backend of Nuber Eats Clone
 
   - Pending Orders (Owner) (T: createOrder)
   - Pending Pickup Order (Delivery)
-  - Order Status (Customer, Delivery, Owner) (T: editOrder)  
+  - Order Status (Customer, Delivery, Owner) (T: editOrder)
 
 - Add Driver to Order
 
@@ -1219,7 +1219,7 @@ request object는 user key를 가진 http에 해당됨
 
 먼저 JwtMiddleware를 거치고 graphql context에 request user를 보냄
 
-users resolver를 보면 guard가 있음 
+users resolver를 보면 guard가 있음
 
 guard는 canActivate function의 기능을 보충함
 
@@ -2003,8 +2003,8 @@ Click Here To Confirm 버튼을 클릭하면 확인코드가 나옴
 ## 7.0 Setting Up Tests
 
 REST Client extension을 설치함
- 
-Send Request를 클릭하면 mutation이 되고 response를 볼 수 있도록 restClient.http 파일을 작성함 
+
+Send Request를 클릭하면 mutation이 되고 response를 볼 수 있도록 restClient.http 파일을 작성함
 
 유저 서비스에는 많은 로직이 있기 때문에 테스트 해야 함
 
@@ -3358,11 +3358,11 @@ LIKE '200%'라 하면 '200'으로 시작하는 값을 찾아줌
 
 LIKE '%200%'라 하면 어떤 곳에라도 '200'이 포함된 값을 찾아줌
 
-_를 써서 LIKE '_00%'라 하면 두번째, 세번째 자리에 '0'이 들어간 값을 찾아줌
+\_를 써서 LIKE '\_00%'라 하면 두번째, 세번째 자리에 '0'이 들어간 값을 찾아줌
 
 '%2'는 '2'로 끝나는 값을 찾아줌
 
-'2___3'는 2로 시작하고 3으로 끝나는 다섯자리 숫자를 찾아줌
+'2\_\_\_3'는 2로 시작하고 3으로 끝나는 다섯자리 숫자를 찾아줌
 
 ## 10.18 Search part Two
 
@@ -4033,7 +4033,7 @@ pgAdmin에서 order record가 생성된 것을 확인함
 
 주문 읽는 것을 함
 
-기본적으로 ID로 주문을 찾아야함 
+기본적으로 ID로 주문을 찾아야함
 
 주문 목록을 받고 ID로 주문을 찾음
 
@@ -4245,7 +4245,7 @@ real time 처리를 할 수 있게 만들어줌
 
 터미널에 npm i graphql-subscriptions@1.1.0 입력
 
-PubSub은 publish and subscribe를 말함 
+PubSub은 publish and subscribe를 말함
 
 app 내부에서 메시지를 교환할 수 있음
 
@@ -4301,7 +4301,7 @@ HTTP에서는 매번 request할 때마다 토큰을 보냄
 
 모든 Request때마다 같이 보냄
 
-웹 소켓은, 딱 한 번만 토큰을 보냄 
+웹 소켓은, 딱 한 번만 토큰을 보냄
 
 연결을 시작할 때 토큰을 보내는데 연결이 끝나지는 않음
 
@@ -4448,12 +4448,12 @@ context: ({ req, connection }) => {
   return {
     token: req ? req.headers[TOKEN_KEY1] : connection.context[TOKEN_KEY2],
   };
-}
+};
 ```
 
 ## 12.3 Subscription Authentication part Two
 
-jwtService를 constructor 에 넣음 
+jwtService를 constructor 에 넣음
 
 토큰을 decode함
 
@@ -4691,7 +4691,7 @@ type을 보면 resolve가 payload, args, context, info를 받고 있음
 
 readyPotato를 payload로 줌
 
-Your potato with the id ${readyPotato} is ready!를 return함
+Your potato with the id \${readyPotato} is ready!를 return함
 
 order를 update하면 order 내용 전체를 보낼 필요 없고 바뀐 부분만 보내면 됨
 
@@ -4858,7 +4858,7 @@ payload는 resolver의 이름이어야하니까 pendingOrders로 하면 됨
 
 resolver는 NEW_PENDING_ORDER라는 trigger의 asyncIterator를 return함
 
-trigger는 constants 파일에 작성함 
+trigger는 constants 파일에 작성함
 
 string이라서 실수하는걸 방지하고 싶음
 
@@ -4999,7 +4999,7 @@ subscription {
 
 ownerId가 user.id와 같고 user.id는 subscription을 listening하고 있음
 
-args를 쓰는대신 _를 써서 variables는 신경쓰지 않는다는걸 나타냄
+args를 쓰는대신 \_를 써서 variables는 신경쓰지 않는다는걸 나타냄
 
 user.id가 1이라 하고 order를 받지 않게 함
 
@@ -5021,7 +5021,7 @@ Order를 return함
 
 Role에 Delivery를 추가함
 
-this.pubSub.asyncInterator()를 return함 
+this.pubSub.asyncInterator()를 return함
 
 안에는 trigger를 써줌
 
@@ -5301,7 +5301,7 @@ payload가 어떻게 생겼는지 아니까 에러가 생기지는 않음
 
 editOrder를 하면 Cooked를 받음
 
-Cooking으로 해봄 
+Cooking으로 해봄
 
 Cooking이 잘 나오는걸 보니 잘 작동하고 있음
 
@@ -5369,7 +5369,7 @@ order 4를 edit함
 
 update가 보이지 않음
 
-order 5를 Cooked로 update함 
+order 5를 Cooked로 update함
 
 Cooked가 보임
 
@@ -5620,11 +5620,11 @@ paddle은 소프트웨어와 디지털 내용물만 거래 가능함
 
 온라인 ebook 서점을 운영하고, 사람들이 온라인으로 책을 구매하고 온라인으로만 책을 볼 수 있다면 그런 경우에도 paddle을 쓸 수 있음
 
-웹사이트를 만들었고 멤버십을 판매하는데, 프로나 프리미엄 멤버십 같은게 있고 한 달에 20$면 paddle을 쓸 수 있음
+웹사이트를 만들었고 멤버십을 판매하는데, 프로나 프리미엄 멤버십 같은게 있고 한 달에 20\$면 paddle을 쓸 수 있음
 
 소프트웨어 서비스 종사자고 API를 만들었음
 
-사람들에게 API를 쓸 때마다 10$를 청구하려고 하면 paddle을 쓸 수 있음
+사람들에게 API를 쓸 때마다 10\$를 청구하려고 하면 paddle을 쓸 수 있음
 
 비디오 게임을 운영하고 사람들에게 코인을 팔고 싶으면, paddle을 쓰면 됨
 
@@ -5969,7 +5969,7 @@ cron decorator를 cron pattern와 함께 call함
 
 매분 45초에 function이 실행이 됨
 
-별표시는 '매' 즉 '모든' 것을 포함한다는 의미고, Range는 1-3, 또는 예를 들자면 1과 5를 의미하고, 별표시/2는 step을 의미함 
+별표시는 '매' 즉 '모든' 것을 포함한다는 의미고, Range는 1-3, 또는 예를 들자면 1과 5를 의미하고, 별표시/2는 step을 의미함
 
 2씩 간격이라는 뜻임
 
@@ -6521,7 +6521,7 @@ myRestaurant는 인자로 owner를 받고, 이 owner를 가진 모든 음식점�
 
 use me라는 hook이 있음
 
-아무튼 그것도 하나의 방법임 
+아무튼 그것도 하나의 방법임
 
 이 relationship을 eager로 만들 수 있지만, database 입장에서 별로임
 
@@ -6758,10 +6758,9 @@ try-catch 구문을 만듦
 bucket을 먼저 생성해야함
 
 ```javascript
-new AWS.S3()
-  .createBucket({
-    Bucket: "버켓 이름",
-  })
+new AWS.S3().createBucket({
+  Bucket: "버켓 이름",
+});
 ```
 
 createBucket()을 함
@@ -6804,7 +6803,7 @@ const BUCKET_NAME은 한번만 함
 
 이전에는 bucket이 없었는데, 지금은 있음
 
-이 코드는 지움 
+이 코드는 지움
 
 왜냐하면 bucket을 만들 필요가 이제 없음
 
@@ -6866,7 +6865,7 @@ scalable storage service라서 S가 3개임
 
 이미지를 다시 한번 업로드해봄
 
-곧 업로드됨 
+곧 업로드됨
 
 bucket으로 다시 가보면, 저기에 있음
 
@@ -7195,3 +7194,441 @@ playground를 이용해서 user를 만들어봄
 왜냐하면 지금 이 restaurant의 order가 내 데이터베이스에 한명뿐인 user로 되어있음
 
 그래서 가짜 owner를 만들어줄거고 이 부분을 바꿔준 다음, query를 실행해주고 주문을 수락함
+
+## 24.0 Heroku Setup
+
+이번 영상에서 우리는 Heroku와 Netlify에 deploy를 해봄
+
+그래서 백엔드 부분은 Heroku에, 프론트엔드 부분은 Netlify에 함
+
+netlify.com과 heroku.com에 계정이 있는지 꼭 확인해줌
+
+두가지 모두 중요하고 이제 시작함
+
+netlify에 deploy하는 것은 정말 간단함
+
+그래서 Heroku에 deploy하는데 시간을 조금 더 많이 할애함
+
+Heroku에 deploy하는 것은 NestJS덕분에 정말 하기 쉬움
+
+여기에서 볼 수 있듯이 여기 이미 production start가 존재하고 있음
+
+여기 또한 build 명령어가 있음
+
+prebuild 명령어도 이미 있음
+
+우리를 위해 모든 것이 준비되어 있음
+
+여기서 볼 수 있듯이 우리가 start production을 실행시킬때, dist/main에 있는 node를 호출함
+
+이 의미는 우리가 작성한 모든 Typescript 코드를 평범한 Javascript 코드로 변경시켜 주는 것임
+
+하지만 그 전에 production이 일어나기 전에 build를 해줘야함
+
+우리가 "nest build"를 호출하면 이 명령어를 통해 dist 폴더가 생성됨
+
+여기보면 dist 폴더가 있음
+
+이 dist 폴더에는 우리가 작업한 것들이 들어있는데, Typescript가 아니라 Javascript로 변환되어 있음
+
+이런 식으로 Javascript로 바뀌어 있음
+
+더 이상 typescript가 아님
+
+그냥 JavaScript임
+
+보고 있는 것은 이제 모두 Javascript임
+
+user.entity.js는 나의 Entity 예제임
+
+이것이 바로 entity임
+
+이것은 기본적으로 꾸며주는 것임(\_\_decorate)
+
+여기 있음
+
+dist에 있는 것이 이제 서버에서 구동됨
+
+물론 우리는 typescript를 실행하지 않음
+
+우리는 node.js와 기본적인 Javascript를 동작시킴
+
+거의 다 왔음
+
+Heroku에서 해야하는 configuration 외에는 어떤 configuration도 할 필요가 없음
+
+그래서 이제 할 것은 heroku에 로그인 후 new로 들어가서 Create new app을 생성하는 것임
+
+이름을 정해줌
+
+nuber-eats-backend-kko라고 해줌
+
+그리고 각자의 이메일을 선택함
+
+그리고 지역도 선택해줌
+
+우리는 미국과 유럽을 옵션으로 가지고 있음
+
+그리고 나서 create app을 클릭함
+
+Heroku에 deploy하는 것은 정말 쉬움
+
+이제 Heroku CLI를 설치함
+
+설치가 안 된 사람을 위해 설치하는 것을 좀 살펴봄
+
+Mac OS를 사용하고 있다면 brew tap heroku/brew && brew install heroku를 씀
+
+windows를 이용 중이라면 이것을 설치하면 됨
+
+Ubuntu를 사용 중이거나 debian기반 운영체제를 사용 중이라면 이렇게 해서 설치하면 됨
+
+또한 curl을 이용해서 수동으로 설치할 수 있음
+
+진짜 설치하기 쉬움
+
+진짜 간단함
+
+이제 Heroku가 잘 설치됐는지 한번 체크해봄
+
+그냥 console창에서 heroku를 입력하면 됨
+
+보다시피 여기 있음
+
+이제 Heroku에 로그인을 해야함
+
+이제 터미널에 heroku login을 입력하면 됨
+
+그리고 여기서 말하길 "아무 키나 눌러 브라우저 창을 열고 로그인 하세요"라고 함
+
+enter키를 누르면 브라우저 창이 뜸
+
+그리고 로그인 페이지를 열어줌
+
+login 버튼을 클릭하면 됨
+
+그리고 나서 다시 console창으로 돌아감
+
+여기서 "이 페이지를 닫고 당신의 CLI 창으로 돌아가세요."를 볼 수 있음
+
+그럼 이 페이지를 닫아도 됨
+
+우리는 CLI창으로 돌아감
+
+여기 보면 로그인에 성공했음
+
+여기까지 1단계였음
+
+2단계는 Heroku의 deploy를 하기 위해 git을 씀
+
+내가 생각하기에는 이것이 가장 좋은 방법임
+
+우리는 이미 git 저장소를 가지고 있음
+
+혹시 git 저장소를 가지고 있지 않다면 하나 생성한 다음 만든 프로젝트로 들어가서(cd my-project/) git init을 해줌
+
+그리고 이제 터미널에 heroku git:remote -a nuber-eats-backend-kko를 입력하면 됨
+
+command를 보면 여기 있는 것이 프로젝트 이름임
+
+여러분의 폴더 이름이 아님
+
+이것은 내가 만든 프로젝트의 이름임
+
+이제 Heroku라 불리는 remote를 가지게 됐음
+
+이제 git push origin master를 쓸 수 있게 됐고, git push heroku master도 쓸 수 있음
+
+이제 application을 deploy 할 준비가 됐음
+
+아무 것도 없음
+
+git push heroku master를 입력하면, 내가 commit한 모든 파일들은 heroku에 push됨
+
+이제 해봄
+
+어떻게 보이나 봄
+
+git push origin master 대신에 터미널에 git push heroku master를 입력함
+
+우리는 git을 이용함
+
+그리고 여기 정말 중요한 것이 있음
+
+만약 git에 파일을 가지고 있지 않으면 Heroku는 어떤 것도 찾지 못함
+
+그래서 무엇인가를 수정할 때마다 git commit과 git push heroku master를 꼭 해야함
+
+console창에서 무슨 일이 벌어지고 있냐면 보다시피 Heroku는 node.js application을 감지하고 또한 package.json을 가지고 있는지를 확인함
+
+heroku는 package.json에 있는 모든 것을 설치해줌
+
+말 그대로 전부 설치해줌
+
+package.json에 있는 것을 전부 설치해주는데 devDependencies는 아마 설치하지 않음
+
+잘은 모르지만 그럴 것 같음
+
+여기서 볼 수 있듯이 이것은 자동으로 build 명령어를 실행시킴
+
+이렇게 보면 node.js가 동작하는 방식으로 인해서 build 명령어를 자동으로 실행하고 있음
+
+prebuild 또한 build 명령어가 실행되기 전에 먼저 실행됨
+
+여기 보면 prebuild를 실행했고 이제 nest build를 실행하고 있음
+
+모든 것을 실행시켰음
+
+그럼 이제 우리는 build가 끝날 때까지 기다림
+
+그리고 에러가 발생할건데 같이 살펴봄
+
+configuration도 할 것이 좀 있음
+
+지금 environment variables를 안 만들었는데, 여기 app.module.ts를 기억한다면 우리는 전에 많은 environment variables를 작성했음
+
+아직 이것들을 설정하지 않았기 때문에 여기서 에러가 발생하게 됨
+
+nest build 했고 devDependencies를 지우는 중임
+
+그리고 node_modules 폴더가 생겼음
+
+모든 것이 서버에서 이뤄지고 있음
+
+모든 것이 Heroku에서 발생하고 있음
+
+그리고 이 모든 것이 자동으로 발생함
+
+개인적으로 내가 경험한 최고의 deployment 하는 법은 Heroku를 쓰는 것임
+
+내 생각에는 그냥 기다리면 됨
+
+push하고 싶은데 끝났음
+
+build를 성공함
+
+그리고 이제 내가 실수하지 않았다면 start를 실행함
+
+하지만 이것은 우리가 실행하길 원하는 것이 아님
+
+우리가 원하는 것은 "start:prod"를 실행시키는 것임
+
+이것을 조금 바꿔줘야함
+
+여기 있음
+
+npm start를 실행하면 Heroku에 deploy 할 수 있음
+
+이것이 기본적인 configuration임
+
+자동으로 build를 실행한 후에 start를 실행함
+
+이번 것은 아마 deploy에 실패할 것임
+
+에러가 보이면 이유를 설명해줌
+
+이제 nuber-eats-backend-kko로 감
+
+바로 여기 링크가 있음
+
+이것을 클릭함
+
+이제 뭐가 보일거냐면 우리는 application 에러를 보게 됨
+
+app은 heroku에 들어가 있음
+
+그런데 Heroku에서 실행시키니까 app에 문제가 생겼음
+
+감사하게도 heroku logs를 통해서 에러를 볼 수 있음
+
+그래서 heroku logs --tail을 복사해가지고 붙여넣기함
+
+그리고 이것은 우리 머신을 통해 logs를 보여줌
+
+여기 보면 에러가 나와 있음
+
+여기 보면 application 명령어를 실행하려고 시도했는데 실행하지 못했음
+
+그냥 명령어를 실행시키지 못함
+
+"Child.Process, spawn ENOENT"로 작동이 안 됐음
+
+그러면 어떻게 고칠 수 있을까
+
+먼저 이것을 production으로 변경해야함
+
+여기 dist 폴더를 가지고 있기 때문에, 이것을 production으로 변경해야함
+
+그럼 이제 우리는 어떻게 Heroku deployment를 configure 할 수 있을까
+
+왜냐하면 손댈 수가 없음
+
+직접 Heroku 서버에 들어가서 무엇인가를 바꿀 수는 없음
+
+그렇게 디자인 되어 있음
+
+Heroku는 서버를 실제 연결할 필요 없도록 디자인되었음
+
+그저 deploy하기 전에 configure만 해주면 됨
+
+이런 방식이 아무래도 더 효율적임
+
+우리가 새로운 서버에 deploy 할 때마다 어차피 필요한 configuration은 같음
+
+직접 서버에 접속해서 무엇인가를 할 필요가 없어짐
+
+이제 새로운 파일을 만들어줌
+
+이 파일을 Procfile이라고 이름 지음
+
+이것처럼 그냥 Procfile이고 확장자는 없음
+
+그리고 여기서 Heroku를 configure함
+
+Heroku는 Procfile에 자동으로 보여질 예정임
+
+그리고 우리는 그것을 configure함
+
+여기는 다했고 Procfile을 봄
+
+documentation을 가봄
+
+Procfile로 가서 Procfile에 우리는 한 줄을 추가함
+
+그러면 알아서 Heroku에 우리가 어떤 명령어를 사용할건지 알려줌
+
+우리는 start 명령어를 사용하고 싶지 않음
+
+우리는 "start:prod"를 사용하고 싶음
+
+Procfile을 사용하는 것 말고 그 외에 또 다른 방법은 그냥 start와 start:prod를 바꾸는 것임
+
+이것도 방법임
+
+하지만 Procfile을 어떻게 사용하는지 알아보도록 함
+
+보면 Procfile 형식은 이렇게 되어있음
+
+우리의 <process type>은 web이 됨
+
+그래서 우리는 web이라고 함
+
+web이라고 하고나서 실행시키고 싶은 명령어를 실행시키면 됨
+
+아주 간단함
+
+그래서 우리의 경우에는 node.js를 쓰기 때문에 예제를 봄
+
+여기 node.js 예제가 없음
+
+node.js에서 Procfile을 쓰면 우리가 원하는 명령어를 쓸 수 있음
+
+어떤 명령어를 전송하고 싶다면 그것도 가능함
+
+그런데 그것은 선택사항임
+
+먼저 web: npm run을 쓸건데 우리 같은 경우는 web: npm run start:prod라고 씀
+
+그래서 지금 우리는 Heroku에 web: npm run start:prod 명령어를 실행시키고 싶다고 이야기함
+
+전에도 말했지만 일일이 git push heroku master라고 쓰고 싶지 않음
+
+먼저 이 파일을 commit 해봄
+
+Procfile이 업데이트 됐음
+
+그냥 tracked 상태임
+
+아직 git에 있지는 않았다는 뜻임
+
+먼저 터미널에 git add . 해주고 git commit -m "Procfile" 입력함
+
+아니면 원하는 메세지 아무거나 넣고 터미널에 git push heroku master를 입력함
+
+이것이 진행 방법임
+
+여러분이 무엇인가를 수정한다면 git에 add하고 Heroku로 push 해야함
+
+많은 사람들이 항상 댓글로 제대로 작동하지 않는다고 이야기하는데, 코드를 변경하면 Heroku가 그 코드를 볼 수 없음
+
+Heroku가 변경된 코드를 보지 못한 이유는 git에 commit을 하지 않았기 때문임
+
+그래서 우리는 꼭 git에 코드를 commit 해야함
+
+나도 까먹을 때가 있음
+
+어떤 것을 저장하고 나서 push를 하지만 무슨 일인지 알 수 없을 때가 있음
+
+방금 말했듯이 코드를 commit하지 않은 경우가 대부분임
+
+이제 이것은 다시 node_modules를 설치함
+
+그리고 나서 build를 실행하면 npm run start:prod가 실행되는지 볼 수 있음
+
+여기서 볼 수 있듯이 application이 작동하는데까지 15분 안쪽으로 시간이 걸림
+
+이것이 가능한 이유는 우리가 NestJS를 사용해서임
+
+NestJS가 알아서 다 해줌
+
+그래서 우리는 여기 있는 어떤 것도 걱정할 필요없음
+
+이제 build가 실행되고 application이 열리는지 봄
+
+사실 열리지는 않음
+
+다른 종류의 에러가 나옴
+
+그리고 그 에러는 아마 port나 environments 에러임
+
+내 생각에는 port가 문제가 될 거 같음
+
+왜냐하면 여기 위에 있는 main.ts를 생각해봤을때 앱을 port:4000에서 실행시키고 있음
+
+하지만 Heroku에 있는 port는 사실 port:4000이 아님
+
+그래서 우리는 몇 가지를 변경해야함
+
+Heroku가 원하는 port에서 실행하도록 만듦
+
+거의 다왔음
+
+build 진행 중임
+
+여기 보면 "process types를 발견했다"와 "Procfile은 types를 web으로 선언한다"라고 나옴
+
+이제 우리는 어떤 것을 알 수 있음
+
+우리가 다른 것을 원한다는 것을 Heroku가 알 수 있음
+
+다시 한번 배포됐음
+
+Heroku에 deploy됐음
+
+클릭하면 다른 에러를 보게 됨
+
+하지만 거의 다 왔음
+
+Application 에러가 있음
+
+터미널에서 heroku logs --tail을 실행해봄
+
+tail은 실시간 Logs들을 말함
+
+지금 보이는 에러는 ELIFECYCLE임
+
+이것은 다른 종류의 에러임
+
+그리고 여기도 있음
+
+"configuration validation error: "와 "NODE_ENV must be one of [dev, prod, test]." 에러임
+
+무엇인가 일어나려다가 에러가 남
+
+우리의 configuration module에서 문제가 일어남
+
+다음 영상에서 이 부분을 수정해봄
+
+여기까지 실행되서 나는 만족함
+
+start:prod 명령어까지는 실행이 됨

@@ -1,18 +1,62 @@
-### 20.0
+### 23.3
 POST http://localhost:4000/graphql
 Content-Type: application/json
 X-REQUEST-TYPE: GraphQL
 X-JWT: owner로 login하고 생성된 token
 
-query {
-  myRestaurants {
+mutation {
+  editOrder(input: {
+    status: Cooked
+    id: 15
+  }) {
+    ok
+  }
+}
+
+### 23.3
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
     ok
     error
-    restaurants {
-      name
-      coverImg
-      address
-    }
+    token
+  }
+}
+
+### 23.2
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+X-JWT: owner로 login하고 생성된 token
+
+mutation {
+  editOrder(input: {
+    status: Cooking
+    id: 15
+  }) {
+    ok
+  }
+}
+
+### 23.2
+POST http://localhost:4000/graphql
+Content-Type: application/json
+X-REQUEST-TYPE: GraphQL
+
+mutation {
+  login(input: {
+    email: "admin@admin.com"
+    password: "123"
+  }) {
+    ok
+    error
+    token
   }
 }
 
