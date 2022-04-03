@@ -7632,3 +7632,379 @@ tail은 실시간 Logs들을 말함
 여기까지 실행되서 나는 만족함
 
 start:prod 명령어까지는 실행이 됨
+
+## 24.1 Heroku Databases
+
+이제 environment variables에 대해서 이야기 해봄
+
+Heroku에는 environment variables를 세팅할 많은 방법들이 존재함
+
+만약 궁금하다면 console창에서 해볼 수 있음
+
+터미널에 heroku라고 치면 config라는 옵션 하나를 볼 수 있음
+
+여기 있는 이것임
+
+기본적으로 application에 environment variables를 나열함
+
+터미널에 heroku config라고 치면 됨
+
+보다시피 어떤 configuration variables도 가지고 있지 않음
+
+이제 configuration의 도움말을 좀 봄
+
+터미널에 heroku config --help 입력함
+
+config:edit으로 configuration variables를 수정할 수 있음
+
+configuration variable을 가져올 수도 있고, 설정 할 수도 있고 설정을 풀 수도 있음
+
+Heroku에서 environment variables를 pull하거나 push 할 수도 있음
+
+우리는 많은 것을 할 수 있음
+
+에러가 뭐였는지 아직 기억해
+
+첫번째는 "NODE_ENV"를 [dev, prod, test] 중 한 가지로 설정 해야한다'였음
+
+그래서 우리는 NODE_ENV를 production으로 설정함
+
+일단 prod를 복사함
+
+터미널로 가서 heroku config:set --help라고 입력함
+
+도움말을 살펴봄
+
+이렇게 보임
+
+heroku config:set [environment variable의 이름]=[vaule(값)]임
+
+동시에 많은 것들을 설정할 수 있음
+
+그래서 터미널에 heroku config:set NODE_ENV=prod 입력함
+
+이제 백엔드를 다시 시작함
+
+그리고 이제는 logs를 다시 볼 수 있음
+
+보다시피 여전히 logs ---tail로 동작하고 있는 것을 볼 수 있음
+
+이 log는 실시간으로 보여짐
+
+여기는 이제 우리가 구동하는 서버임
+
+보다시피 environment variable을 설정한 것을 볼 수 있음
+
+NODE_ENV를 설정해주었음
+
+여기 보면 에러 수가 전보다 적어진 것을 확인할 수 있음
+
+NODE_ENV variable에 관한 에러는 이제 사라졌음
+
+여기까지 console창에서 Heroku를 써서 NODE_ENV를 configure하는 법을 보여줬음
+
+여기보면 바로 적용이 된 것을 볼 수 있음
+
+그런 다음 서버를 다시 시작했음
+
+그리고 node dist/main을 실행시켰음
+
+start:prod를 읽었음
+
+여기까지는 잘 되고 있음
+
+하지만 여전히 에러가 있음
+
+DB_HOST 에러도 있고 DB_PORT도 있고, DB_USERNAME도 있고 DB_PASSWORD도 있음
+
+많은 variables들이 남았음
+
+내가 방금 했듯이 한 가지 방법은 이것들을 하나씩 console창에서 설정을 해주거나 아니면 우리가 아까 생성한 Heroku application에 가서 새로고침을 한 다음 settings로 들어가서 할 수 있음
+
+이 settings창을 다시 새로고침 해봄
+
+settings 페이지에서 environment variables를 설정할 수 있음
+
+먼저 Reveal Config Vars 버튼을 클릭해야함
+
+이것은 내가 아까 console 창에서 생성한 variable임
+
+잘 적용되었음
+
+하지만 여기서 variables를 바로 추가할 수 있음
+
+console을 이용해서 variable을 추가하고 싶지 않다면 GUI를 통해서 추가하면 됨
+
+지금 문제가 하나 있는데 그 문제는 바로 DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_NAME이 필요하다는 것임
+
+우리는 아직 데이터베이스를 가지고 있지 않음
+
+같이 데이터베이스를 추가해봄
+
+nuber-eats-backend-kko application의 overview로 이동함
+
+여기 우리의 Procfile이 있음
+
+npm run start:prod함
+
+여기서 dynos를 볼 수 있음
+
+dynos는 Heroku에서 application을 의미함
+
+dynos를 Configure 할 수 있는데 지금 우리는 무료 Dynos를 이용하고 있음
+
+free dynos 같은 경우 application을 sleep 모드로 갈 수가 있음
+
+application이 삭제된다는 의미가 아니라 잠자기로 들어간다는 것임
+
+예를 들면 어떤 사람이 application에 오전 10시에 방문했다고 했을때 application은 재시작하는데 시간이 조금 걸림
+
+왜냐하면 잠자고 있었음
+
+만약 이용자들이 언제든지 방문할 수 있게 하고 싶다면, application을 상시로 이용할 수 있게 켜놓을 수도 있음
+
+아니면 dynos 타입을 변경해줄 수도 있음
+
+예를 보면 Hobby가 있는데 이 application의 경우 재시작하는 시간이 들지 않고 항상 동작하고 있음
+
+dynos의 타입을 변경할 수 있을뿐만 아니라 add-ons도 이용할 수 있음
+
+예를 들어 add-on 중에 Postgres sql이라고 있는데, Postgres sql을 Heroku에서 관리할 수 있게 해줌
+
+우리는 이제 Postgres sql을 Heroku에 추가함
+
+여기 보면 정말 많은 add-ons이 있음
+
+예를 들면 Redis cloud가 있음
+
+예를 들어서 이것으로 Redis cloud를 추가할 수 있고, Redis cloud에서 pop up창을 이용할 수 있음
+
+여기 Postgres가 있음
+
+Heroku Postgres를 클릭해서 Heroku Postgres 설치 버튼을 눌러줌
+
+Heroku는 개발자에게 정말 좋은 경험이라고 생각함
+
+개인적인 의견임
+
+Heroku Postgres는 plan(플랜)을 가지고 있음
+
+원한다면 한달에 \$12,000 플랜을 선택할 수도 있음
+
+선택하면 안됨
+
+무료로 이용하는 것을 선택하거나 basic을 선택해도 됨
+
+나는 basic에서 많은 application들을 구동시키고 있는데 용량이 꽤 큼
+
+우리는 free 무료를 선택함
+
+추가하고 싶은 application을 여기 적으면 됨
+
+나는 이것을 씀
+
+이제 Postgres를 nuber eats backend kko에 설치함
+
+두 개 모두 무료임
+
+그리고 Submit Order Form(주문 요청하기) 버튼을 누름
+
+이제 기다리면 됨
+
+그리고 "add-on Heroku Postgres가 설치되었습니다" 메시지가 떴음
+
+그리고 이제 여기 보면 데이터베이스를 변경할 수 있음
+
+원한다면 add-on을 삭제할 수도 있고, 업그레이드도 할 수 있고 많은 것을 할 수 있음
+
+Heroku Postgres의 여기를 클릭함
+
+여기 보이지
+
+새 탭에서 열리게 됨
+
+이제 Postgres를 사용할 수 있음
+
+데이터베이스로 이동할 수 있음
+
+Heroku 대신에 데이터베이스로 감
+
+조금 기다려야함
+
+여기 보면 10,000행이 주어졌음
+
+10,000행의 공간을 가지게 되었음
+
+한달에 \$9를 지불하면 아마 1,000,000행을 쓸 수 있음
+
+우리는 이제 settings로 들어가서 database credentials를 살펴봄
+
+View Credentials를 클릭하면 여기 원하는 모든 것이 들어 있음
+
+environment variables가 이런 식으로 보이는데 에러에서 필요하다고 불평한 것들임
+
+그래서 나는 DB_HOST를 복사해서 settings로 들어간 다음 nuber-eats-backend-kko -> Reveal Config Vars를 클릭해줌
+
+여기 보면 Heroku에 의해 데이터베이스 URL이 자동으로 추가되었음
+
+우리는 이것을 사용함
+
+그런데 딱 한개의 데이터베이스 URL에 연결할 수 있음
+
+이제 우리는 DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD 그리고 DB_NAME을 설정함
+
+이제 데이터베이스로 돌아감
+
+host에 있는 것을 넣어줌
+
+보다시피 Heroku는 Amazon AWS에서 동작되고 있음
+
+이것이 Amazon AWS보다 비용이 더 나가는 이유임
+
+왜 여기 붙여넣기가 안되는지 모르겠음
+
+DB_HOST를 했고 저장함
+
+Database를 복사해서 DB_NAME에 넣어줌
+
+이제 DB_PORT, DB_USERNAME, DB_PASSWORD가 필요함
+
+PORT는 여기 있음
+
+이렇게 해주면 됨
+
+Heroku는 AWS에서 동작하고 있음
+
+그래서 heroku는 AWS보다 비용이 비쌈
+
+PASSWORD를 해주고 USERNAME 차례임
+
+Heroku 유료 플랜은 서버에 대한 비용이 아니라 user experience에 대한 비용이 적용됨
+
+AWS에서는 이런 경험을 할 수 없음
+
+그냥 git에 git push heroku master를 침
+
+app을 가지게 되는데 이것은 AWS를 쓴다면 일어나지 않는 일임
+
+HOST를 설정해줬고, PORT와 USERNAME도 설정해줬음
+
+PASSWORD, DB_NAME도 해줬음
+
+지금 모든 것에 괜찮아보이는데 여기 보면 URI가 있는데 아주 URL이 긺
+
+이 URL은 모든 정보를 담고 있음
+
+DATABASE NAME도 있고, PORT와 HOST도 가지고 있음
+
+PASSWORD도 보이고 USERNAME도 가지고 있음
+
+모든 것을 담고 있음
+
+하지만 typeorm을 configure할 때 이렇게 하지 않음
+
+typeorm을 설정해줄 때는 따로 따로 해줌
+
+이제 저장하면 되는데 내 생각에는 이미 저장한 거 같음
+
+이미 저장된 것처럼 보임
+
+자동으로 저장됐는지 새로고침한 다음에 살펴봄
+
+Reveal Config Vars로 가면 자동으로 저장되었음
+
+이제 다시 돌아가서 여기 보면 아직도 에러가 보임
+
+실시간 logs를 보고 있는데 다른 에러가 나왔음
+
+이제 private key에 대해 알아봄
+
+private key를 같이 설정해봄
+
+우리 JWT를 암호화(encrypting)하기 위한 것임
+
+자동 키 생성기(random key generator)를 이용해봄(https://randomkeygen.com/)
+
+CodeIgniter Encryption Keys중 하나를 선택하여 private key를 설정함
+
+목숨을 걸고 private key를 잘 보관해 두어야함
+
+만약 다른 사람이 나의 private key를 가지게 된다면, 그 사람은 나의 token을 확인할 수 있고 그러면 그 사람은 나의 서버를 속일 수 있음
+
+우리는 MAILGUN_API_KEY가 필요함
+
+MAILGUN_DOMAIN_NAME도 필요함
+
+또 뭐가 필요하지
+
+MAILGUN_FROM_EMAIL도 있어야함
+
+그리고 AWS_KEY가 필요함
+
+AWS_SECRET도 필요함
+
+이것들을 추가해줌(.env.dev에 있는 것으로 추가함)
+
+그리고 모든 것이 끝나면 다시 돌아옴
+
+곧 있다가 봄
+
+나는 Configuration Variables를 추가했음
+
+이제 스크롤을 내려서 다른 에러가 있는지 확인해봄
+
+no pg_hba.conf entry for host "xxx.xxx.xxx.xxx", user "xxxxxxxx", database "xxxxxxxx", no encryption 에러가 나옴
+
+터미널에 heroku config:set PGSSLMODE=no-verify 입력하여 해결함(heroku Config Vars에 PGSSLMODE를 no-verify로 설정함)
+
+보이는 바로는 에러가 없음
+
+잘 작동하고 있음
+
+다른 에러를 예상했었는데 내가 예상한 에러는 바로 이거였음
+
+port 4000 때문에 에러가 날 줄 알았음
+
+일반적으로 여기다 process.env.PORT라고 써줌
+
+왜냐하면 Heroku는 가끔 다른 port를 사용함
+
+port 4000을 열지 않고 다른 port를 열 수도 있음
+
+이런 식으로 전에 써준 적이 있었는데, 에러가 발생하지 않았으니 일단 좋음
+
+여기 에러가 있음
+
+내 생각이 맞았음
+
+"web은 60초 내에 port로 연결하는데 진행을 실패했다"라고 함
+
+만약 web이 제공된 port로 연결하지 않으면 연결에 실패함
+
+내 예상이 맞았음
+
+에러가 여기 있었음
+
+이제 해야할 것은 Heroku에 있는 Port를 listen하면 됨
+
+만약 process.env.PORT가 없으면 4000으로 listen함
+
+즉 application을 컴퓨터에서 시작했을 때 이것을 찾는데 없음
+
+우리 기기에서는 port 4000에 연결하지만, Heroku에서는 PORT 환경 변수를 가져옴
+
+그래서 main.ts를 변경해봤음
+
+이제 다시 git add . 입력함
+
+git commit -m "Port" 아니면 원하는 거 쓰면 됨
+
+에러 될 뻔 했음
+
+터미널에 git push heroku master를 입력 해줘야함
+
+그리고 log를 다시 봄
+
+여기서 볼 수 있듯이 "빌드가 user, 즉 나에 의해 다시 시작되었다"라고 적혀있음
+
+즉 다시 한 번 빌드 시작할 거란 뜻임
