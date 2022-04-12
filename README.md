@@ -8008,3 +8008,277 @@ git commit -m "Port" 아니면 원하는 거 쓰면 됨
 여기서 볼 수 있듯이 "빌드가 user, 즉 나에 의해 다시 시작되었다"라고 적혀있음
 
 즉 다시 한 번 빌드 시작할 거란 뜻임
+
+## 24.2 Heroku Conclusion
+
+여기 무엇인가 발생했는데 내 생각에는 실수로 버그가 발생한 것 같음
+
+"NODE_ENV 값이 production이 아니라 이 단계를 생략한다"라고 나옴
+
+prod말고 production이라고 여기는 되어있는데 내 생각에 Heroku는 production이라는 단어를 찾는데 내가 prod라고 이야기해서 문제가 발생한 거 같음
+
+그러면 app.module.ts를 변경해야겠지
+
+그리고 이것처럼 production으로 변경해주고 deploy를 다시 하면 됨
+
+environment variable을 production으로 변경함
+
+production으로 바꿔줌
+
+작동하는 것처럼 보이는데 log를 봄
+
+여기 보면 "상태가 starting에서 up으로 변경되었다"라고 함
+
+모든 것이 잘 작동하고 있음
+
+NestJS가 잘 구동되고 있음
+
+작동하고 있음
+
+nest application이라고 보이지
+
+잘 작동하고 있음
+
+UploadController가 매핑 되었고 PaymentController {/payments, POST}도 매핑 되었음
+
+다시 여기로 돌아와서 새로고침 하면 우리의 아름다운 cannot get/을 볼 수 있음
+
+true라는 의미임(제대로 작동했다는 의미임)
+
+이제 우리는 여기로 가서 playground로 갈 수 있음
+
+graphql을 여기다가 추가해줌(https://nuber-eats-backend-kko.herokuapp.com/graphql로 이동함)
+
+playground로 접근할 수 있음
+
+이제 Heroku로 만든 모든 것을 여기서 확인할 수 있음
+
+그래서 이제 우리는 frontend를 할 준비가 됨
+
+deploy할때 playground를 사용 가능하게 하지 않는 것이 좋음
+
+여기서 좀 설정을 바꿔줌
+
+graphql module로 가서 playground 설정을 바꿔주도록 함
+
+playground: process.env.NODE_ENV !== "production"로 해줌
+
+그래서 만약 process.env.NODE_ENV가 production이라면 playground는 false가 되서 이용하지 못함
+
+이제 우리는 2가지를 변경했음
+
+production으로 변경했고 방금 playground도 변경했음
+
+이 주소로 playground에 접근하고 싶지 않음
+
+playground는 개발을 위한 것임
+
+이 때 필요한 것이 아님
+
+보통 배포에서 쓰지는 않음
+
+그렇게 되면 playground에 접근해서 query를 실행할 수 있잖아
+
+그래서 한번만 git add .을 더 함
+
+git commit -m "playground + production"함
+
+그리고 터미널에 git push heroku master 입력함
+
+그리고 우리는 git push도 할 수 있음
+
+Heroku Environment variable을 configure 할 수 있음
+
+여기로 와서 터미널에 heroku config:set NODE_ENV=production이라고 치면 됨
+
+그러면 이제 NODE_ENV: production이 됨
+
+이제 빌드를 할거고 잠시 기다림
+
+여기서는 이것을 죽이고 다시 시작하는 것을 볼 수 있음
+
+environment variable을 설정했고 작동하고 있음
+
+이제 production 환경 변수로 서버를 재시작하는데 내 코드가 아직 업데이트 되지 않아서 여기 보면 "NODE_ENV는 dev, prod, test 중 하나여야 한다" 고 나옴
+
+서버를 다시 빌드를 하고 있어서 그럼
+
+다시 재시작하고 새로운 configuration이 적용되었는지 확인해야함
+
+Heroku는 아주 쉬움
+
+정말 간단함
+
+이제 원한다면 deploy를 쓰면 deploy방법을 선택해서 생성할 수 있음
+
+Heroku CLI를 사용하는 대신에 GitHub을 이용해서 deploy 할 수도 있음
+
+예시를 보여줌
+
+nuber-eats로 해서 검색되는지 봄
+
+nuber-eats-backend가 있음
+
+그런데 이것은 내 개인 계정임
+
+Nomad coder organization으로 해줌
+
+GitHub으로 로그인한 다음에 여기서 GitHub username을 선택해주면 됨
+
+그리고 여기다 저장소(repository) 이름을 적음
+
+이렇게 하면 저장소가 연결되면 연결된 저장소에 git push origin master를 하게 되면 Heroku는 자동으로 빌드 프로세스를 시작함
+
+그러면 git push heroku master를 다시 입력할 필요가 없음
+
+매번 해줄 필요가 없음
+
+git push origin master만 해주면 되고, Heroku는 그것을 감지하고 빌드 프로세스를 시작함
+
+수동으로 해줄 필요가 없음
+
+제대로 작동하는 것처럼 보임
+
+모든 mutations들이 아름답게 동작하고 있음
+
+다 됐음
+
+상태가 starting에서 up으로 변했음
+
+이제 playground를 살펴봄
+
+이제 playground를 볼 수 없음
+
+우리가 원했던 것임
+
+그런데 문제가 있음
+
+database credentials 문제임
+
+여기 보면 "영구적인 것이 아니다."라고 되어 있음
+
+Heroku는 이 credentials를 변경함
+
+Heroku는 데이터베이스가 연동된 application을 업데이트함
+
+그러면 문제가 발생함
+
+모든 environment variables를 복사 붙여넣기 했기 때문임
+
+이렇게 되면 좋지 않음
+
+아까 말했듯이 영구적인 것들이 아님
+
+어느날 보니까 host가 변경되어 있을 수도 있음
+
+해결책은 하나의 환경변수를 감지하도록 만들어 주면 됨
+
+Heroku에 의해 생성된 URI를 쓰면 됨
+
+이것을 보면 username, password, host 등 모든 것을 가지고 있음
+
+데이터베이스는 이것만 listen하고 있으면 됨
+
+그래도 문제가 있는데 app module이 configuration variables로 가득함
+
+URI를 쓸 것이기 때문에 이제 이것들을 삭제해주도록 함
+
+URI를 씀
+
+process.env를 사용하지 않고 URL을 이용해서 연결함
+
+process.env를 만들어줌
+
+nuber-eats-backend-kko로 돌아가서 Resources로 들어가면 데이터베이스가 있음
+
+데이터베이스 환경 변수를 만들어줌
+
+그런데 여기 보면 우리의 모든 활동을 볼 수 있음
+
+DATABASE_URL이 우리가 감지하고자 하는 환경 변수의 이름값이 됨
+
+process.env.DATABASE_URL이라고 입력하면 됨
+
+그런데 또 문제가 있음
+
+Heroku에서 제공하는 URL이 없을 경우 다른 환경 변수도 필요함
+
+그래서 우리가 해야하는 것은 기본적으로 이것임
+
+... 해주고 (process.env.DATABASE_URL)이라고 적으면 됨
+
+이것이 true면 이렇게 함
+
+이런 식으로 URL을 return함
+
+false라면 이것을 포함하는 object를 return함
+
+이제 ',' 를 하고 DATABASE_URL 환경 변수가 있는지 확인하고 그곳으로 연결을 함
+
+복습하자면 이것은 Heroku가 우리에게 제공하는 URL임
+
+credentials가 영구적이지 않기 때문에 이것을 사용함
+
+그리고 여기 있는 환경 변수들은 로컬 환경에서 써줌
+
+기본적으로 우리는 다 끝냈음
+
+결국은 여기 있는 환경 변수들은 Configuration에 필요하지 않음
+
+이것도 바꿔줌
+
+HOST, PORT, USERNAME, PASSWORD, NAME은 더 이상 required가 아님
+
+Heroku에서 더 이상 찾아볼 수 없음
+
+이것들을 Heroku에서 지울거고 이것은 로컬 환경에서만 사용함
+
+이렇게 해주는 이유는 우리가 믿을 수 있는 단 하나의 환경 변수는 Heroku가 제공해주고 있기 때문임
+
+Heroku는 자동으로 DATABASE_URL을 제공함
+
+우리는 아무것도 할 필요가 없음
+
+HOST, PORT, USERNAME, PASSWORD등을 가지고 있을 필요 없음
+
+이제 다시 한번 git add .과 git commit을 칠 시간임
+
+git commit -. "database connect URL" 입력함
+
+터미널에 git push origin master && git push heroku master 입력함
+
+git push heroku master로 업데이트함
+
+Heroku를 업데이트하는 것임
+
+언제나처럼 기다려주고 여기 빌드가 시작되었다고 나옴
+
+이런 것들이 빌드가 됨
+
+이제 Heroku가 DATABASE_URL을 제공해줌
+
+연결과 모든 것들이 정상적으로 작동하는 것을 볼 수 있음
+
+어떤 문제도 없음
+
+이제 환경 변수로 돌아감
+
+그리고 HOST, PORT, USERNAME등을 지움
+
+이제 더 이상 필요 없음
+
+이제 다 됐음
+
+Heroku는 여기까지면 됐고 이제 비디오를 멈춤
+
+일단 여기까지 영상을 찍음
+
+에러가 없다면 다시 영상을 재개함
+
+URL을 이용해서 연결했고 에러도 없음
+
+모든 것이 잘 작동하고 있음
+
+Netlify를 준비함
+
+Netlify에서 계정을 만듦
