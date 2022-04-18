@@ -8288,3 +8288,7 @@ Netlify에서 계정을 만듦
 Heroku에 배포후 https://nuber-eats-backend-kko.herokuapp.com/graphql으로 들어가면 GET query missing이 뜸
 
 GET query missing이 아닌 Playground를 확인하고 싶으면 app.module.ts의 GraphQLModule.forRoot에서 introspection과 playground를 true로 설정해주면 됨
+
+## 24.2-2 Heroku Conclusion에서 변경사항2
+
+app.module.ts의 TypeOrmModule.forRoot에서 synchronize를 true로 변경함
